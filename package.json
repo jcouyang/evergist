@@ -1,0 +1,20 @@
+{
+  "name": "evergist",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "react": "^0.12.1",
+    "material-ui": "^0.3.3"
+  },
+  "devDependencies": {
+    "jest-cli": "^0.2.0",
+    "gulp-watchify": "^0.2.0",
+    "gulp-react": "^2.0.0",
+    "gulp": "^3.8.10",
+    "gulp-download-atom-shell": "0.0.4",
+    "gulp-browserify": "^0.5.0",
+    "reactify": "^0.17.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-less": "^2.0.1"
+  }
+}
