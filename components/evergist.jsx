@@ -1,16 +1,15 @@
 var React = require('react'),
-  mui = require('material-ui'),
-  RaisedButton = mui.RaisedButton;
+NavMenu = require('./left-nav');
 
-var SomeAwesomeComponent = React.createClass({
+var EverGist = React.createClass({
 
   render: function() {
     return (
-        <RaisedButton label="Default" />
+        <NavMenu/>
     );
   }
 
 });
 React.renderComponent(
-	<SomeAwesomeComponent/>, document.querySelector('#raisebutton')
+	<EverGist/>, document.querySelector('#evergist')
 )

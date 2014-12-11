@@ -4,6 +4,8 @@ var reactify = require('reactify');
 var downloadatomshell = require('gulp-download-atom-shell');
 var rename = require('gulp-rename');
 var less = require('gulp-less');
+var livereload = require('gulp-livereload');
+
 var paths = {
   source: ['components/evergist.jsx'],
   less: ['less/*.less'],
@@ -20,7 +22,13 @@ gulp.task('browserify', function() {
       extensions: ['.jsx']
     }))
     .pipe(rename('evergist.js'))
-	  .pipe(gulp.dest(paths.javascripts));
+	  .pipe(gulp.dest(paths.javascripts))
+    .pipe(livereload({auto: false}));
+});
+
+gulp.task('watch', function() {
+  livereload.listen();
+  gulp.watch('components/**', ['browserify']);
 });
 
 gulp.task('less', function() {

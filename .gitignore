@@ -32,3 +32,4 @@ node_modules
 
 Atom.app/
 bin
+bower_components
