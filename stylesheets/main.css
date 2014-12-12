@@ -6480,3 +6480,23 @@ margin-top:calc(-50% + 18px);
 .fa-meanpath:before {
   content: "\f20c";
 }
+.hidden {
+  display: none;
+}
+.gist-card {
+  margin: 10px auto;
+  width: 500px;
+}
+.gist-card .gist-digest {
+  padding: 15px;
+}
+.gist-card .action-button {
+  float: right;
+  margin: 5px;
+}
+.gist-card .star .mui-floating-action-button-container {
+  background-color: #ffeb3b;
+}
+.mui-paper {
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}

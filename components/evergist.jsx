@@ -1,15 +1,21 @@
 var React = require('react'),
-NavMenu = require('./left-nav');
+NavMenu = require('./left-nav'),
+GistCard = require('./gist-card')
 
 var EverGist = React.createClass({
 
   render: function() {
     return (
-        <NavMenu/>
+      <div>
+        <NavMenu />
+        
+        <GistCard />
+        <GistCard />
+      </div>
     );
   }
 
 });
-React.renderComponent(
+React.render(
 	<EverGist/>, document.querySelector('#evergist')
 )

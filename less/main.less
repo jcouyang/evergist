@@ -4,3 +4,27 @@
 @import "node_modules/material-ui/src/less/components.less";
 /* font awesomee */
 @import "bower_components/fontawesome/less/font-awesome.less";
+
+.hidden {
+    display: none;
+}
+.gist-card {
+    margin: 10px auto;
+    width: 500px;
+    
+    .gist-digest {
+        padding: 15px;
+    }
+    .action-button {
+        float: right;
+        margin: 5px;
+    }
+    .star .mui-floating-action-button-container {
+        background-color: @yellow-500;
+    }
+}
+
+.mui-paper {
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+

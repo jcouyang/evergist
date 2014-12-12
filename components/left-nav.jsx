@@ -15,6 +15,7 @@ var NavMenu = React.createClass({
   render: function() {
     return (
       <LeftNav menuItems={menuItems} />
+      
     );
   }
 

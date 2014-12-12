@@ -29,6 +29,7 @@ gulp.task('browserify', function() {
 gulp.task('watch', function() {
   livereload.listen();
   gulp.watch('components/**', ['browserify']);
+  gulp.watch('less/**', ['less']);
 });
 
 gulp.task('less', function() {
