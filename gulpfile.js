@@ -7,6 +7,9 @@ var livereload = require('gulp-livereload');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
+
 var paths = {
   source: ['./components/evergist.jsx'],
   less: ['less/*.less'],
@@ -34,6 +37,9 @@ gulp.task('browserify', function() {
       .bundle()
       .pipe(source('evergist.js'))
       .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(uglify())
+      .pipe(sourcemaps.write(paths.javascripts))
 	    .pipe(gulp.dest(paths.javascripts))
       .pipe(livereload({auto: false}));
   };
