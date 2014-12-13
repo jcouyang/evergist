@@ -6,7 +6,7 @@ FloatingActionButton = mui.FloatingActionButton
 var GistCard = React.createClass({
   getInitialState: function() {
 		return {
-			zdepth: 1,
+			zdepth: 0,
       displayActions: false
 		}
 	},
@@ -36,7 +36,7 @@ var GistCard = React.createClass({
   },
   _onMouseOut: function(){
     this.setState({
-      zdepth: 1,
+      zdepth: 0,
       displayActions: false
     })
   },

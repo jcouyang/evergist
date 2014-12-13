@@ -1,6 +1,6 @@
 var React = require('react'),
 NavMenu = require('./left-nav'),
-GistCard = require('./gist-card')
+GistList = require('./gist-list')
 
 var EverGist = React.createClass({
 
@@ -8,9 +8,7 @@ var EverGist = React.createClass({
     return (
       <div>
         <NavMenu />
-        
-        <GistCard />
-        <GistCard />
+        <GistList />
       </div>
     );
   }

@@ -6483,9 +6483,12 @@ margin-top:calc(-50% + 18px);
 .hidden {
   display: none;
 }
+.gist-list {
+  max-width: 600px;
+  margin: auto;
+}
 .gist-card {
-  margin: 10px auto;
-  width: 500px;
+  border-bottom: 1px solid #ececec;
 }
 .gist-card .gist-digest {
   padding: 15px;
