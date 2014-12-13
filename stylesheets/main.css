@@ -6486,9 +6486,22 @@ margin-top:calc(-50% + 18px);
 .gist-list {
   max-width: 600px;
   margin: auto;
+  transition: opacity 0.3s ease-in-out 0s;
 }
 .gist-list .toolbar {
   background-color: transparent;
+}
+.gist-detail {
+  margin-left: 663px;
+  max-width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  border-left: 1px solid #ececec;
+  transition: opacity 0.3s ease-in-out 0.3s, margin 0.3s ease-in-out 0s;
 }
 .gist-card {
   border-bottom: 1px solid #ececec;
@@ -6505,6 +6518,16 @@ margin-top:calc(-50% + 18px);
 }
 .gist-card .delete .mui-floating-action-button-container {
   background-color: #e64a19;
+}
+.stage.detail {
+  margin-left: 256px;
+}
+.stage.detail .gist-list {
+  margin: 0;
+  max-width: 407px;
+}
+.stage.detail .gist-detail {
+  max-width: 100%;
 }
 .mui-paper {
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
