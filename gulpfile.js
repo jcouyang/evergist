@@ -3,7 +3,6 @@ var browserify = require('browserify');
 var reactify = require('reactify');
 var downloadatomshell = require('gulp-download-atom-shell');
 var less = require('gulp-less');
-var livereload = require('gulp-livereload');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
@@ -13,7 +12,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var paths = {
   source: ['./components/evergist.jsx'],
   less: ['less/*.less'],
-	jsx: ['components/**/*.jsx', 'components/*.jsx'],
+	jsx: ['components/*.jsx'],
   javascripts: 'javascripts',
   stylesheets: 'stylesheets',
 	tests: ['__tests__/**/*.jsx']
@@ -26,31 +25,24 @@ var getBundleName = function () {
 };
 
 gulp.task('browserify', function() {
-  var bundler = browserify({
+  return browserify({
     entries: paths.source[0],
     debug: true,
     extensions: '.jsx'
-  });
-  bundler.transform(['reactify',{'es6':true}]);
-  var bundle = function() {
-    return bundler
-      .bundle()
-      .pipe(source('evergist.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(uglify())
-      .pipe(sourcemaps.write(paths.javascripts))
-	    .pipe(gulp.dest(paths.javascripts))
-      .pipe(livereload({auto: false}));
-  };
-
-  return bundle();
+  })
+    .transform(['reactify',{'es6':true}])
+    .bundle()
+    .pipe(source('evergist.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(uglify())
+    .pipe(sourcemaps.write(paths.javascripts))
+	  .pipe(gulp.dest(paths.javascripts));
 });
 
 gulp.task('watch', function() {
-  livereload.listen();
-  gulp.watch('components/**', ['browserify']);
-  gulp.watch('less/**', ['less']);
+  gulp.watch(paths.jsx, ['browserify']);
+  gulp.watch(paths.less, ['less']);
 });
 
 gulp.task('less', function() {
