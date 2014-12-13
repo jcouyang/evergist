@@ -21,7 +21,7 @@
 
 .gist-detail{
     margin-left:663px;
-    max-width:0;
+    display:none;
     height: 100%;
     top: 0;
     left: 0;
@@ -30,6 +30,8 @@
     position: absolute;
     border-left: 1px solid #ececec;
     transition: opacity 0.3s ease-in-out 0.3s, margin 0.3s ease-in-out 0s;
+    overflow: auto;
+    padding: 10px;
 }
 
 .gist-card {
@@ -56,6 +58,7 @@
         max-width: 407px;
     }
     .gist-detail{
+        display:block;
         max-width: 100%;
     }
 }

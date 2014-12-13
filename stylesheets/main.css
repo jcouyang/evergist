@@ -6493,7 +6493,7 @@ margin-top:calc(-50% + 18px);
 }
 .gist-detail {
   margin-left: 663px;
-  max-width: 0;
+  display: none;
   height: 100%;
   top: 0;
   left: 0;
@@ -6527,6 +6527,7 @@ margin-top:calc(-50% + 18px);
   max-width: 407px;
 }
 .stage.detail .gist-detail {
+  display: block;
   max-width: 100%;
 }
 .mui-paper {

@@ -7,12 +7,14 @@ var GistList = React.createClass({
     return (
       <div className="gist-list">
         <ToolbarMenu/>
-        <GistCard/>
+        <a onClick={this._showDetail}> <GistCard/></a>
         <GistCard/>
       </div>
     )
   },
-
+  _showDetail: function(){
+    this.props.showDetail(true)
+  }
 });
 
 module.exports = GistList;
