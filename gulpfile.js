@@ -1,13 +1,14 @@
 var gulp = require('gulp');
-var browserify = require('gulp-browserify');
+var browserify = require('browserify');
 var reactify = require('reactify');
 var downloadatomshell = require('gulp-download-atom-shell');
-var rename = require('gulp-rename');
 var less = require('gulp-less');
 var livereload = require('gulp-livereload');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 var paths = {
-  source: ['components/evergist.jsx'],
+  source: ['./components/evergist.jsx'],
   less: ['less/*.less'],
 	jsx: ['components/**/*.jsx', 'components/*.jsx'],
   javascripts: 'javascripts',
@@ -15,15 +16,29 @@ var paths = {
 	tests: ['__tests__/**/*.jsx']
 };
 
+var getBundleName = function () {
+  var version = require('./package.json').version;
+  var name = require('./package.json').name;
+  return version + '.' + name + '.' + 'min';
+};
+
 gulp.task('browserify', function() {
-  return gulp.src(paths.source)
-		.pipe(browserify({
-      transform: ['reactify'],
-      extensions: ['.jsx']
-    }))
-    .pipe(rename('evergist.js'))
-	  .pipe(gulp.dest(paths.javascripts))
-    .pipe(livereload({auto: false}));
+  var bundler = browserify({
+    entries: paths.source[0],
+    debug: true,
+    extensions: '.jsx'
+  });
+  bundler.transform(['reactify',{'es6':true}]);
+  var bundle = function() {
+    return bundler
+      .bundle()
+      .pipe(source('evergist.js'))
+      .pipe(buffer())
+	    .pipe(gulp.dest(paths.javascripts))
+      .pipe(livereload({auto: false}));
+  };
+
+  return bundle();
 });
 
 gulp.task('watch', function() {

@@ -4,23 +4,27 @@ var React = require('react');
 var {Toolbar, ToolbarGroup, DropDownMenu} = mui;
 var ToolbarMenu = React.createClass({
   render: function() {
-
     var filterOptions = [
       { payload: '1', text: 'All Gists' },
       { payload: '2', text: 'All Stared' },
       { payload: '3', text: 'All Forks' },
     ],
-    iconMenuItems = [
-      { payload: '1', text: 'Last Modified' },
-      { payload: '2', text: 'More Info' }
+    orderOptions = [
+      { payload: '1', text: 'Recently updated' },
+      { payload: '2', text: 'Least recently updated' },
+      { payload: '3', text: 'Recently created' },
+      { payload: '4', text: 'least recently created' },
     ];
     
     return (
       <div>
-        <h3>400 gists</h3>
-        <Toolbar>
+        <Toolbar className="toolbar">
           <ToolbarGroup key="0" float="left">
             <DropDownMenu menuItems={filterOptions}>
+            </DropDownMenu>
+          </ToolbarGroup>
+          <ToolbarGroup key="1" float="right">
+            <DropDownMenu menuItems={orderOptions}>
             </DropDownMenu>
           </ToolbarGroup>
         </Toolbar>

@@ -1,7 +1,7 @@
 var React = require('react'),
 NavMenu = require('./left-nav'),
 GistList = require('./gist-list')
-ToolbarMenu = require('./toolbar')
+
 var EverGist = React.createClass({
 
   render: function() {
@@ -9,12 +9,12 @@ var EverGist = React.createClass({
       <div>
         <NavMenu />
         <GistList />
-      <ToolbarMenu/>
       </div>
     );
   }
 
 });
+
 React.render(
 	<EverGist/>, document.querySelector('#evergist')
 )
