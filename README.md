@@ -1,30 +1,13 @@
-# atom-shell example app
+# Evergist
 
-This is an example atom-shell app based off these instructions:
-- https://github.com/atom/atom-shell/blob/master/docs/tutorial/quick-start.md
+<a href="https://assembly.com/evergist/bounties"><img src="https://asm-badger.herokuapp.com/evergist/badges/tasks.svg" height="24px" alt="Open Tasks" /></a>
 
-To run you should be able to do the following:
+## ev*rnote but with version control
 
-`./run.sh`
+This is a product being built by the Assembly community. You can help push this idea forward by visiting [https://assembly.com/evergist](https://assembly.com/evergist).
 
-OR manually:
+### How Assembly Works
 
-Install grunt if you haven't already
+Assembly products are like open-source and made with contributions from the community. Assembly handles the boring stuff like hosting, support, financing, legal, etc. Once the product launches we collect the revenue and split the profits amongst the contributors.
 
-```
-npm install -g grunt-cli
-```
-
-Then run the following to download version 0.12.2 of atom-shell
-```
-cd ./build
-npm install
-grunt download-atom-shell
-```
-
-Then you should be able to run the app:
-
-```
-./build/atom-shell/Atom.app/Contents/MacOS/Atom ./hello-app
-```
-
+Visit [https://assembly.com](https://assembly.com) to learn more.
