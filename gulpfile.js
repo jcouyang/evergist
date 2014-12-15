@@ -10,7 +10,7 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
 var paths = {
-  source: ['./components/evergist.jsx'],
+  source: './components/evergist.jsx',
   less: ['less/*.less'],
 	jsx: ['components/*.jsx'],
   javascripts: 'javascripts',
@@ -26,7 +26,7 @@ var getBundleName = function () {
 
 gulp.task('browserify', function() {
   return browserify({
-    entries: paths.source[0],
+    entries: paths.source,
     debug: true,
     extensions: '.jsx'
   })
@@ -36,7 +36,7 @@ gulp.task('browserify', function() {
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(uglify())
-    .pipe(sourcemaps.write(paths.javascripts))
+    .pipe(sourcemaps.write('./'))
 	  .pipe(gulp.dest(paths.javascripts));
 });
 
