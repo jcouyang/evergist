@@ -11,6 +11,7 @@ var Stage = React.createClass({
       </div>      
     )
   },
+  
   _displayGistDetail: function(show){
     var stage = document.querySelector('.stage')
     if(!stage) return

@@ -6483,13 +6483,13 @@ margin-top:calc(-50% + 18px);
 .hidden {
   display: none;
 }
+.toolbar {
+  background-color: transparent;
+}
 .gist-list {
   max-width: 600px;
   margin: auto;
   transition: opacity 0.3s ease-in-out 0s;
-}
-.gist-list .toolbar {
-  background-color: transparent;
 }
 .gist-detail {
   margin-left: 663px;
@@ -6502,6 +6502,8 @@ margin-top:calc(-50% + 18px);
   position: absolute;
   border-left: 1px solid #ececec;
   transition: opacity 0.3s ease-in-out 0.3s, margin 0.3s ease-in-out 0s;
+  padding: 10px;
+  overflow: auto;
 }
 .gist-card {
   border-bottom: 1px solid #ececec;
