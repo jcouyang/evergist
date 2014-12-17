@@ -5,9 +5,11 @@ ToolbarMenu = require('./toolbar')
 var GistList = React.createClass({
   render: function(){
     return (
-      <div className="gist-list">
+      <div className={this.props.layout + "gist-list columns"}>
         <ToolbarMenu/>
-        <a onClick={this._showDetail}> <GistCard/></a>
+        <a onClick={this._showDetail}><GistCard/></a>
+        <GistCard/>
+        <GistCard/>
         <GistCard/>
       </div>
     )

@@ -5,9 +5,10 @@ var dummy_gist = "<div id=\"gist16803614\" class=\"gist\">\n <div class=\"gist-f
 
 var EditorToolbar = require('./edit-toolbar')
 var GistDetail = React.createClass({
+
   render: function(){
     return (
-      <div className="gist-detail">
+      <div className={this.props.layout + "gist-detail columns"}>
         <EditorToolbar/>
         <div id="gist"></div>
       </div>

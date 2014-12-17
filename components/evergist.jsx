@@ -1,15 +1,15 @@
 var React = require('react'),
 NavMenu = require('./left-nav'),
-Stage = require('./stage')
+Stage = require('./stage');
 
 var EverGist = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <NavMenu />
-        <Stage />
-      </div>
+        <div>
+            <NavMenu />
+            <Stage />
+        </div>
     );
   }
 

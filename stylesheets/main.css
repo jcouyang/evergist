@@ -6491,12 +6491,12 @@ margin-top:calc(-50% + 18px);
   margin: auto;
   transition: opacity 0.3s ease-in-out 0s;
 }
+.left-nav {
+  overflow: hidden;
+}
 .gist-detail {
-  margin-left: 663px;
-  display: none;
   height: 100%;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
   position: absolute;
