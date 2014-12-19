@@ -1,23 +1,32 @@
 var React = require('react'),
+im = require('immutable'),
 mui = require('material-ui'),
 Paper = mui.Paper
-var dummy_gist = "<div id=\"gist16803614\" class=\"gist\">\n <div class=\"gist-file\">\n <div class=\"gist-data gist-syntax\">\n \n\n <div class=\"readme context-loader-container context-loader-overlay\">\n <article class=\"markdown-body js-file \"\n data-task-list-update-url=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e/file/README.md\">\n <ol class=\"task-list\">\n<li><code>sudo pip install onetimepass</code></li>\n<li>需要okta绑定 google authenticator 时 QR code里面的16位的 secret, android 用 barcode scaner 一扫就知道了</li>\n<li>填到 auth.py 里</li>\n<li>填用户名密码到 inputs.txt</li>\n<li>以后每次运行 ./vpn connect (用 zsh or fish) 就登上了</li>\n<li>\n<code>vpn diconnect</code> 下线</li>\n</ol>\n\n </article>\n </div>\n\n\n\n </div>\n <div class=\"gist-meta\">\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e/raw/README.md\" style=\"float:right\">view raw</a>\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e#file-readme-md\">README.md</a>\n hosted with &#10084; by <a href=\"https://github.com\">GitHub</a>\n </div>\n </div>\n <div class=\"gist-file\">\n <div class=\"gist-data gist-syntax\">\n \n\n\n\n <div class=\"file-data\">\n <table cellpadding=\"0\" cellspacing=\"0\" class=\"lines highlight\">\n <tr>\n <td class=\"line-numbers\">\n <span class=\"line-number\" id=\"file-auth-py-L1\" rel=\"file-auth-py-L1\">1</span>\n <span class=\"line-number\" id=\"file-auth-py-L2\" rel=\"file-auth-py-L2\">2</span>\n <span class=\"line-number\" id=\"file-auth-py-L3\" rel=\"file-auth-py-L3\">3</span>\n <span class=\"line-number\" id=\"file-auth-py-L4\" rel=\"file-auth-py-L4\">4</span>\n </td>\n <td class=\"line-data\">\n <pre class=\"line-pre\"><div class=\"line\" id=\"file-auth-py-LC1\"><span class=\"pl-k\">import</span> os\n</div><div class=\"line\" id=\"file-auth-py-LC2\"><span class=\"pl-k\">import</span> onetimepass <span class=\"pl-k\">as</span> otp\n</div><div class=\"line\" id=\"file-auth-py-LC3\">my_secret <span class=\"pl-k\">=</span> <span class=\"pl-s1\"><span class=\"pl-pds\">&#39;</span>SECRET_FROM_QRCODE<span class=\"pl-pds\">&#39;</span></span>\n</div><div class=\"line\" id=\"file-auth-py-LC4\"><span class=\"pl-k\">print</span> otp.get_totp(my_secret)\n</div></pre>\n </td>\n </tr>\n </table>\n </div>\n\n </div>\n <div class=\"gist-meta\">\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e/raw/auth.py\" style=\"float:right\">view raw</a>\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e#file-auth-py\">auth.py</a>\n hosted with &#10084; by <a href=\"https://github.com\">GitHub</a>\n </div>\n </div>\n <div class=\"gist-file\">\n <div class=\"gist-data gist-syntax\">\n \n\n\n\n <div class=\"file-data\">\n <table cellpadding=\"0\" cellspacing=\"0\" class=\"lines highlight\">\n <tr>\n <td class=\"line-numbers\">\n <span class=\"line-number\" id=\"file-inputs-txt-L1\" rel=\"file-inputs-txt-L1\">1</span>\n <span class=\"line-number\" id=\"file-inputs-txt-L2\" rel=\"file-inputs-txt-L2\">2</span>\n <span class=\"line-number\" id=\"file-inputs-txt-L3\" rel=\"file-inputs-txt-L3\">3</span>\n <span class=\"line-number\" id=\"file-inputs-txt-L4\" rel=\"file-inputs-txt-L4\">4</span>\n <span class=\"line-number\" id=\"file-inputs-txt-L5\" rel=\"file-inputs-txt-L5\">5</span>\n <span class=\"line-number\" id=\"file-inputs-txt-L6\" rel=\"file-inputs-txt-L6\">6</span>\n </td>\n <td class=\"line-data\">\n <pre class=\"line-pre\"><div class=\"line\" id=\"file-inputs-txt-LC1\">y\n</div><div class=\"line\" id=\"file-inputs-txt-LC2\">USENAME\n</div><div class=\"line\" id=\"file-inputs-txt-LC3\">PASSWORD\n</div><div class=\"line\" id=\"file-inputs-txt-LC4\">3\n</div><div class=\"line\" id=\"file-inputs-txt-LC5\">AUTHENTICATOR_CODE\n</div><div class=\"line\" id=\"file-inputs-txt-LC6\">exit\n</div></pre>\n </td>\n </tr>\n </table>\n </div>\n\n </div>\n <div class=\"gist-meta\">\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e/raw/inputs.txt\" style=\"float:right\">view raw</a>\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e#file-inputs-txt\">inputs.txt</a>\n hosted with &#10084; by <a href=\"https://github.com\">GitHub</a>\n </div>\n </div>\n <div class=\"gist-file\">\n <div class=\"gist-data gist-syntax\">\n \n\n\n\n <div class=\"file-data\">\n <table cellpadding=\"0\" cellspacing=\"0\" class=\"lines highlight\">\n <tr>\n <td class=\"line-numbers\">\n <span class=\"line-number\" id=\"file-vpn-L1\" rel=\"file-vpn-L1\">1</span>\n <span class=\"line-number\" id=\"file-vpn-L2\" rel=\"file-vpn-L2\">2</span>\n <span class=\"line-number\" id=\"file-vpn-L3\" rel=\"file-vpn-L3\">3</span>\n </td>\n <td class=\"line-data\">\n <pre class=\"line-pre\"><div class=\"line\" id=\"file-vpn-LC1\">#!/bin/zsh\n</div><div class=\"line\" id=\"file-vpn-LC2\">answers=$(sed &#39;s/AUTHENTICATOR_CODE/&#39;$(python auth.py)&#39;/g&#39; inputs.txt)\n</div><div class=\"line\" id=\"file-vpn-LC3\">echo $answers | /opt/cisco/anyconnect/bin/vpn -s $1 bjvpn.thoughtworks.com\n</div></pre>\n </td>\n </tr>\n </table>\n </div>\n\n </div>\n <div class=\"gist-meta\">\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e/raw/vpn\" style=\"float:right\">view raw</a>\n <a href=\"https://gist.github.com/jcouyang/68f487656bacb6535c7e#file-vpn\">vpn</a>\n hosted with &#10084; by <a href=\"https://github.com\">GitHub</a>\n </div>\n </div>\n</div>\n"
-
+var Map = im.Map;
+var gist = require('../stores/gist')
 var EditorToolbar = require('./edit-toolbar')
 var GistDetail = React.createClass({
-
+  getInitialState: function() {
+		return {
+			gist: Map()
+		}
+	},
+  componentDidMount: function(){
+    gist('6365feec88bf86a4ae59').then((data)=>{
+      this.setState({
+        gist: data
+      })
+    })
+  },
   render: function(){
     return (
       <div className={this.props.layout + "gist-detail columns"}>
         <EditorToolbar/>
-        <div id="gist"></div>
+        <div id="gist">
+          {this.state.gist.get('files')}
+        </div>
       </div>
     )
-  },
-	componentDidMount: function(){
-		if (this.isMounted()) {
-      document.querySelector('#gist').innerHTML=dummy_gist
-    }
   }
 });
 
