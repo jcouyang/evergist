@@ -3,10 +3,10 @@ jest.dontMock('../api')
 
 describe('dispather', function(){
   var api = require('../api');
-  var rest = require('rest');
+  var client = require('../client');
   it('return', function(){
-    var gist = api('ouyang','token')('gists')('gistid')('end');
-    expect(rest).toBeCalledWith('https://api.github.com/gists/gistid');
+    var gist = api('gists')('gistid')('end');
+    expect(client).toBeCalledWith('/gists/gistid');
   });
 });
 

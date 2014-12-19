@@ -1,6 +1,6 @@
 var im = require('immutable');
 var api = require('./api');
-var endpoint = api('jcouyang', 'token')('gists');
+var endpoint = api('gists');
 
 gist = function(id){
   return endpoint(id)('end').then((data)=>{

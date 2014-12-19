@@ -11,7 +11,7 @@ var API = function(user, token){
   return (path)=>urlcat("",path);
 };
 
-module.exports = API;
+module.exports = API();
 
 
 
