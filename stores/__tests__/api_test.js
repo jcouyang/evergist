@@ -5,8 +5,8 @@ describe('dispather', function(){
   var api = require('../api');
   var client = require('../client');
   it('return', function(){
-    var gist = api('gists')('gistid')('end');
-    expect(client).toBeCalledWith('/gists/gistid');
+    var gist = api('gists')('gistid')();
+    expect(client).toBeCalledWith({url:'/gists/gistid',method:'GET'});
   });
 });
 
