@@ -12,7 +12,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var paths = {
   source: './components/evergist.jsx',
   less: ['less/*.less'],
-	jsx: ['components/*.jsx'],
+	jsx: ['components/*.jsx', "stores/*"],
   javascripts: 'javascripts',
   stylesheets: 'stylesheets',
 	tests: ['__tests__/**/*.jsx']
@@ -28,7 +28,7 @@ gulp.task('browserify', function() {
   return browserify({
     entries: paths.source,
     debug: true,
-    extensions: '.jsx'
+    extensions: ['.jsx','.js']
   })
     .transform(['reactify',{'es6':true}])
     .bundle()

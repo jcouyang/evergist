@@ -1,4 +1,5 @@
 var React = require('react'),
+gist = require('../stores/gist'),
 mui = require('material-ui'),
 Paper = mui.Paper,
 FlatButton = mui.FlatButton,
@@ -10,7 +11,6 @@ var GistCard = React.createClass({
       displayActions: false
 		}
 	},
-
   render: function(){
     var content = (
       <div className="gist-digest">
