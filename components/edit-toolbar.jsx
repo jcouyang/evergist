@@ -12,7 +12,7 @@ var EditorToolbar = React.createClass({
     return (
       <div>
         <Toolbar className="toolbar">
-          <h2>Title</h2>
+          <h2>{this.props.title}</h2>
           <ToolbarGroup float="right">
             <FlatButton label="EDIT"/>
           </ToolbarGroup>

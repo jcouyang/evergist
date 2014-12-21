@@ -4,7 +4,7 @@ var endpoint = api('gists');
 
 gist = function(id){
   return endpoint(id)('GET').then((data)=>{
-    return im.Map(data.entity);
+    return im.fromJS(data.entity);
   });
 };
 
