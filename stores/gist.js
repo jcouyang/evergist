@@ -3,9 +3,8 @@ var api = require('./api');
 var endpoint = api('gists');
 
 gist = function(id){
-  return endpoint(id)('end').then((data)=>{
-    console.log(data)
-    return im.Map(data.entity);
+  return endpoint(id)('GET').then((data)=>{
+    return im.fromJS(data.entity);
   });
 };
 

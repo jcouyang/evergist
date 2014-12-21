@@ -1,7 +1,6 @@
 var mui = require('material-ui');
-var PaperButton = mui.PaperButton;
 var React = require('react');
-var {PaperButton, Toolbar, ToolbarGroup, DropDownMenu, Icon} = mui;
+var {FlatButton, Toolbar, ToolbarGroup, DropDownMenu, Icon} = mui;
 var EditorToolbar = React.createClass({
   render: function() {
     var filterOptions = [
@@ -13,9 +12,9 @@ var EditorToolbar = React.createClass({
     return (
       <div>
         <Toolbar className="toolbar">
-          <h2>Title</h2>
+          <h2>{this.props.title}</h2>
           <ToolbarGroup float="right">
-            <PaperButton label="EDIT"/>
+            <FlatButton label="EDIT"/>
           </ToolbarGroup>
         </Toolbar>
       </div>

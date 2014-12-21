@@ -6,7 +6,7 @@ var rest = require('rest'),
 client =
   rest.wrap(mime)
   .wrap(errorCode, { code: 500 })
-  .wrap(pathPrefix, { prefix: 'https://api.github.com' })
+  .wrap(pathPrefix, { prefix: 'https://api.github.com' });
 //TODO token header
 // .wrap(defaultRequest, { headers: { 'token': 'rest.js' } });
 module.exports = client

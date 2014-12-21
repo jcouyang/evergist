@@ -23,13 +23,18 @@ var Stage = React.createClass({
     return (
       <div className="stage">
         <GistList showDetail={this._displayGistDetail} layout={this.state.layout.list}/>
-        <GistDetail layout={this.state.layout.detail}/>
+        <div id="gist-detail"></div>
+    
       </div>      
     )
   },
   
-  _displayGistDetail: function(show){
+  _displayGistDetail: function(show, id){
     this.setState({layout:layout.editView})
+    React.render(
+      <GistDetail layout={layout.editView.detail} gistId={id}/>,
+      document.querySelector('#gist-detail')
+    )
   }
 })
 
