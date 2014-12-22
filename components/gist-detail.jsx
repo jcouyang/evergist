@@ -22,16 +22,17 @@ var GistDetail = React.createClass({
     this._fetchGist(this.props.gistId)
   },
   render: function(){
+    var detail = this.state.gist.get('div')
     return (
       <div className={this.props.layout + "gist-detail columns"}>
         <EditorToolbar title={this.state.gist.get('description')}/>
         <div id="gist">
-          {this.state.gist.get('files').map((file)=>{
-            return file.get('content')
-           }).toArray()}
         </div>
       </div>
     )
+  },
+  componentDidUpdate: function(prevProps, prevState){
+    this.getDOMNode().querySelector('#gist').innerHTML = this.state.gist.get('div');
   },
   componentWillReceiveProps: function(nextProps){
     this.setState(loadingState)
@@ -39,7 +40,7 @@ var GistDetail = React.createClass({
     this._fetchGist(nextProps.gistId)
   },
   _fetchGist: function(id){
-    return gist(id).then((data)=>{
+    return gist.view(id).then((data)=>{
       this.setState({
         gist: data
       })
