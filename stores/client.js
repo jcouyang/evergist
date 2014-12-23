@@ -3,10 +3,12 @@ var rest = require('rest'),
     errorCode = require('rest/interceptor/errorCode'),
     mime = require('rest/interceptor/mime');
 
+var api_remote = 'api_mocks/';
+if (process.env.NODE_ENV == "prod") api_remote = 'https://api.github.com';
 client =
   rest.wrap(mime)
   .wrap(errorCode, { code: 500 })
-  .wrap(pathPrefix, { prefix: 'https://api.github.com' });
+  .wrap(pathPrefix, { prefix: api_remote });
 //TODO token header
 // .wrap(defaultRequest, { headers: { 'token': 'rest.js' } });
 module.exports = client
