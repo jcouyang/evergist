@@ -8,7 +8,7 @@ describe('dispather', function(){
     var gist = api('gists')('gistid')();
     expect(client).toBeCalledWith({path:'/gists/gistid.json',method:'GET'});
     gist = api('users')('jcouyang')('gists')();
-    expect(client).toBeCalledWith({path:'/users/jcouyang/gists.json',method:'GET'});
+    expect(client).toBeCalledWith({path:'/users/jcouyang/gists.jso',method:'GET'});
   });
 });
 
