@@ -1,6 +1,8 @@
 sudo: false
 language: node_js
 before_install:
+- openssl aes-256-cbc -K $encrypted_e315ce541c15_key -iv $encrypted_e315ce541c15_iv
+  -in .travis/deploy_key.pem.enc -out .travis/deploy_key.pem -d
 - npm install -g gulp
 branches:
   only:
@@ -10,3 +12,11 @@ node_js:
 script:
 - gulp build
 - npm test
+after_success:
+- chmod 600 .travis/deploy_key.pem
+- ssh-add .travis/deploy_key.pem
+- git remote add deploy git@github.com:evergist/evergist.github.com.git
+- git add javascripts stylesheets
+- git rm less components api_mocks stores package.json gulpfile.js --cached
+- git commit -m ":ship:"
+- git push deploy

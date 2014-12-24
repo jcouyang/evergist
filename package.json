@@ -7,9 +7,7 @@
     "material-ui": "^0.3.3",
     "immutable": "^3.4.1",
     "rest": "^1.2.0",
-    "react-tools": "^0.12.2",
-    "missmatch": "^0.1.2",
-    "pun": "^0.1.1"
+    "react-tools": "^0.12.2"
   },
   "devDependencies": {
     "jest-cli": "^0.2.0",
@@ -21,10 +19,12 @@
     "vinyl-source-stream": "^1.0.0",
     "vinyl-buffer": "^1.0.0",
     "gulp-uglify": "^1.0.2",
-    "gulp-sourcemaps": "^1.2.8"
+    "gulp-sourcemaps": "^1.2.8",
+    "envify": "^3.2.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "gulp build && python -m SimpleHTTPServer"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",

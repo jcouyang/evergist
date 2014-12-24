@@ -1,11 +1,9 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
-var reactify = require('reactify');
 var downloadatomshell = require('gulp-download-atom-shell');
 var less = require('gulp-less');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
@@ -30,7 +28,7 @@ gulp.task('browserify', function() {
     debug: true,
     extensions: ['.jsx','.js']
   })
-    .transform(['reactify',{'es6':true}])
+    .transform(['reactify',{es6:true},'envify'])
     .bundle()
     .pipe(source('evergist.js'))
     .pipe(buffer())

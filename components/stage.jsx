@@ -4,12 +4,12 @@ GistDetail = require('./gist-detail')
 
 var layout = {
   browseView: {
-    list: "small-12 medium-6 large-4 large-offset-2 ",
+    list: "small-12 medium-6 medium-offset-1 large-4 large-offset-2 ",
     detail: "medium-2 large-4 hidden "
   },
   editView: {
-    list: "smail-12 medium-3 large-4 ",
-    detail: "medium-2 large-6 "
+    list: "smail-12 medium-4 large-4 ",
+    detail: "hide-for-small-only medium-7 large-6 "
   }
 }
 
@@ -24,7 +24,6 @@ var Stage = React.createClass({
       <div className="stage">
         <GistList showDetail={this._displayGistDetail} layout={this.state.layout.list}/>
         <div id="gist-detail"></div>
-    
       </div>      
     )
   },
