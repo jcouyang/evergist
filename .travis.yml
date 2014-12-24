@@ -1,7 +1,9 @@
-sudo: false
 language: node_js
 before_install:
+- openssl aes-256-cbc -K $encrypted_e315ce541c15_key -iv $encrypted_e315ce541c15_iv
+  -in deploy_key.pem.enc -out deploy_key.pem -d
 - npm install -g gulp
+- gem install hub
 branches:
   only:
   - master
@@ -10,3 +12,20 @@ node_js:
 script:
 - gulp build
 - npm test
+after_success:
+- '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && exit'
+- echo $TRAVIS_PULL_REQUEST
+- eval $(ssh-agent)
+- chmod 600 deploy_key.pem
+- ssh-add ./deploy_key.pem
+- git config --global user.name "Jichao Ouyang"
+- git config --global user.email "oyanglulu@gmail.com"
+- git remote add deploy git@github.com:evergist/evergist.github.com.git
+- git status
+- git checkout master
+- gulp build
+- git add javascripts stylesheet
+- git rm .travis.yml package.json gulpfile.js deploy_key.perm.enc -f
+- git rm -r less components api_mocks stores -f
+- git commit -m ":ship:"
+- git push deploy master -f -q
