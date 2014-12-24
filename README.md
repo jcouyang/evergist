@@ -1,5 +1,7 @@
 # Evergist
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jcouyang/evergist?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 <a href="https://assembly.com/evergist/bounties"><img src="https://asm-badger.herokuapp.com/evergist/badges/tasks.svg" height="24px" alt="Open Tasks" /></a>
 
 ## ev*rnote but with version control
