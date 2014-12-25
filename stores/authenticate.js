@@ -6,7 +6,7 @@ var store = require('./store');
 var auth = function(){
   if (window.location.search && HAS_CODE.test(window.location.search)) {
     var m = HAS_CODE.exec(location.search);
-    rest(QUERY_TOKEN_URL.replace('OAUTH_CODE',m.pop()))
+    return rest(QUERY_TOKEN_URL.replace('OAUTH_CODE',m.pop()))
       .then((data) => {
         var token = data.entity.query.results.token.OAuth.access_token;
         store.set({"access_token": token}, ()=>window.location.reload());
@@ -14,14 +14,15 @@ var auth = function(){
         console.log("invalid code", error);
       });
   }else{
+    var token_got = false;
     store.get('access_token', (data)=>{
-      if(typeof(data) != 'undefined' && data.access_token){
+      token_got = typeof(data) != 'undefined' && data.access_token
+      if(token_got){
         this.access_token = data.access_token;
         this.token_got.resolve("yay");       
-      }else{
-        window.location.href="https://github.com/login/oauth/authorize?client_id=005a3ed2cec4cb179828&scope=public_repo,gist";
       }
-    });  
+    });
+    return token_got;  
   }
 };
 

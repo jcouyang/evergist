@@ -23,7 +23,7 @@ after_success:
 - ssh-add ./deploy_key.pem
 - git config --global user.name "Jichao Ouyang"
 - git config --global user.email "oyanglulu@gmail.com"
-- git remote add deploy git@github.com:evergist/evergist.github.com.git
+- git remote add deploy git@github.com:jcouyang/evergist.git
 - git status
 - git checkout master
 - gulp build
@@ -31,4 +31,5 @@ after_success:
 - git rm .travis.yml package.json gulpfile.js deploy_key.pem.enc -f
 - git rm -r less components api_mocks stores -f
 - git commit -m ":ship:"
-- git push deploy master -f -q
+- git checkout -b gh-pages
+- git push deploy gh-pages -f -q

@@ -2,15 +2,20 @@ var React = require('react'),
 mui = require('material-ui'),
 Dialog = mui.Dialog
 var dialogActions = [
-  { text: 'CANCEL' },
-  { text: 'SUBMIT', onClick: this._onDialogSubmit }
+  { text: 'LOGIN WITH GITHUB', payload: "https://github.com/login/oauth/authorize?client_id=005a3ed2cec4"},
+  { text: 'ABOUT', payload: 'https://github.com/callemall/material-ui'}
 ];
 var LoginDialog = React.createClass({
   render: function(){
     return (
-      <Dialog title="Title" actions={dialogActions} dangerouslySetInnerHTML={{__html: '<div>heheda</div><iframe src="http://google.com"></iframe>'}}>
-      </Dialog>      
-    )
+    	<Dialog ref="dialog" actions={dialogActions}>
+    	 igist is designed for managing Github gists.
+		</Dialog>
+	)
+  },
+  componentDidMount: function(){
+    if (process.env.NODE_ENV === "prod" && !auth())
+	  this.refs.dialog.show();
   }
 })
 

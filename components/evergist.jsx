@@ -14,12 +14,15 @@ var EverGist = React.createClass({
             <LoginDialog/>
         </div>
     );
-  }
+  },
 
+  componentDidMount: function(){
+    if (process.env.NODE_ENV == "prod")
+	auth();
+  }
 });
 
-if (process.env.NODE_ENV == "prod")
-	auth();
+
 
 React.render(
 	<EverGist/>, document.querySelector('#evergist')
