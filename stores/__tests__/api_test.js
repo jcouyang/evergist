@@ -6,9 +6,9 @@ describe('dispather', function(){
   var client = require('../client');
   it('return', function(){
     var gist = api('gists')('gistid')();
-    expect(client).toBeCalledWith({path:'/gists/gistid.json',method:'GET'});
+    expect(client).toBeCalledWith({path:'/gists/gistid',method:'GET'});
     gist = api('users')('jcouyang')('gists')();
-    expect(client).toBeCalledWith({path:'/users/jcouyang/gists.json',method:'GET'});
+    expect(client).toBeCalledWith({path:'/users/jcouyang/gists',method:'GET'});
   });
 });
 

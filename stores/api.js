@@ -1,10 +1,8 @@
 var client = require('./client');
 
-var suffix = '.json';
-if (process.env.NODE_ENV === "prod") suffix = ''
 var urlcat = function(paths, path){
   if(typeof path == 'undefined' || path =='GET')
-    return clientFactory({path:paths+suffix,method:'GET'});
+    return clientFactory({path:paths,method:'GET'});
   return (newpath)=>{return urlcat(paths+"/"+path, newpath);};
 };
 

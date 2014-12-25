@@ -3,8 +3,8 @@ var rest = require('rest'),
     errorCode = require('rest/interceptor/errorCode'),
     mime = require('rest/interceptor/mime');
 
-var api_remote = 'api_mocks/';
-if (process.env.NODE_ENV == "prod") api_remote = 'https://api.github.com';
+var api_remote = 'http://private-4d99c-igist.apiary-mock.com';
+if (process.env.NODE_ENV === "prod") api_remote = 'https://api.github.com';
 client =
   rest.wrap(mime)
   .wrap(errorCode, { code: 500 })
