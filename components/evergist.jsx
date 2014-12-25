@@ -1,7 +1,9 @@
 var React = require('react'),
 NavMenu = require('./left-nav'),
+LoginDialog = require('./login'),
 Stage = require('./stage');
 var auth = require('../stores/authenticate')
+
 var EverGist = React.createClass({
 
   render: function() {
@@ -9,6 +11,7 @@ var EverGist = React.createClass({
         <div>
             <NavMenu />
             <Stage />
+            <LoginDialog/>
         </div>
     );
   }
