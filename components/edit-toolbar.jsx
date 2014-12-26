@@ -1,6 +1,6 @@
 var mui = require('material-ui');
 var React = require('react');
-var {FlatButton, Toolbar, ToolbarGroup, DropDownMenu, Icon} = mui;
+var {RaisedButton, Toolbar, ToolbarGroup, DropDownMenu, Icon} = mui;
 var EditorToolbar = React.createClass({
   render: function() {
     var filterOptions = [
@@ -14,7 +14,7 @@ var EditorToolbar = React.createClass({
         <Toolbar className="toolbar">
           <h2>{this.props.title}</h2>
           <ToolbarGroup float="right">
-            <FlatButton label="EDIT"/>
+            <RaisedButton label="EDIT"/>
           </ToolbarGroup>
         </Toolbar>
       </div>

@@ -22,7 +22,9 @@ var EverGist = React.createClass({
   }
 });
 
+var injectTapEventPlugin = require("react-tap-event-plugin");
 
+injectTapEventPlugin();
 
 React.render(
 	<EverGist/>, document.querySelector('#evergist')
