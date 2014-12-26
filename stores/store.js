@@ -8,7 +8,7 @@ store.get = function(key, callback){
 
 store.set = function(keyval, callback){
 	console.log('set to ls')
-	callback(sessionStorage.setItem(keyval.key,keyval.val));
+	callback(sessionStorage.setItem("access_token",keyval.access_token));
 }
 
 module.exports = store
