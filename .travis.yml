@@ -15,9 +15,9 @@ after_success:
 - git log --graph --decorate | head -1
 - git log --graph --decorate | head -1 | grep tag || exit 0
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] || exit 0'
+- echo $TRAVIS_PULL_REQUEST
 - openssl aes-256-cbc -K $encrypted_e315ce541c15_key -iv $encrypted_e315ce541c15_iv
   -in deploy_key.pem.enc -out deploy_key.pem -d
-- echo $TRAVIS_PULL_REQUEST
 - eval $(ssh-agent)
 - chmod 600 deploy_key.pem
 - ssh-add ./deploy_key.pem
