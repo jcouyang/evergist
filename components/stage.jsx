@@ -4,7 +4,7 @@ React = require('react')
 
 var layout = {
   browseView: {
-    list: "small-12 medium-7 medium-offset-1 large-8 large-offset-1 ",
+    list: "small-12 medium-7 medium-offset-1 large-12",
     detail: "medium-1 large-3 hidden "
   },
   editView: {

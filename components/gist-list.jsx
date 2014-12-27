@@ -9,7 +9,8 @@ var GistList = React.createClass({
   getInitialState: function() {
 		return {
       loading:true,
-      gists: List()
+      gists: List(),
+      selected: null
     }
 	},
   componentDidMount: function(){
@@ -22,8 +23,8 @@ var GistList = React.createClass({
   render: function(){
     var cards = this.state.gists.map((gist)=>{
       return (
-        <a onClick={this._showDetail.bind(this, gist.get('id'))}>
-          <GistCard gist={gist}/>
+        <a onClick={this._toggleDisplay.bind(this,gist.get('id'))}>
+          <GistCard gist={gist} selected={this.state.selected===gist.get('id')} setSelect={this._toggleDisplay}/>
         </a> 
       )
     })
@@ -36,8 +37,11 @@ var GistList = React.createClass({
       </div>
     )
   },
-  _showDetail: function(id){
-    this.props.showDetail(true, id)
+  _toggleDisplay: function(id){
+    if(this.state.selected!=id)
+      this.setState({selected: id})
+    else
+      this.setState({selected: null})
   }
 });
 

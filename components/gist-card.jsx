@@ -9,14 +9,12 @@ var GistCard = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {
 		return {
-			zdepth: 0,
-      displayActions: false,
-      selected: false
+			zdepth: 0
 		}
 	},
   render: function(){
     return (
-      <Paper id={"gist-"+this.props.gist.get('id')} className="gist-card" zDepth={this.state.zdepth} onClick={this._onClick} onMouseOver={this._onMouseOver} onMouseOut={this._onMouseOut}>
+      <Paper id={"gist-"+this.props.gist.get('id')} className={(this.props.selected?"selected":'')+" gist-card"} zDepth={this.props.selected?2:this.state.zdepth} onClick={this._onClick} onMouseOver={this._onMouseOver} onMouseOut={this._onMouseOut}>
         <div className="gist-digest">
           <FloatingActionButton icon="action-delete" className={this._actionButtonClass() + "action-button delete"} mini={true}/>
           <FloatingActionButton icon="action-grade" className={this._actionButtonClass() + "action-button star"} mini={true}/>
@@ -24,37 +22,34 @@ var GistCard = React.createClass({
           <time className="mui-font-style-caption">{this.props.gist.get('updated_at')}</time>
           <h3>{this.props.gist.get('description')}</h3>
         </div>
-        <div className="gist-detail"></div>
+        <div className={'gist-detail ' + (this.props.selected?"":"hidden")}></div>
       </Paper>
     )
   },
 
   _onClick: function(){
-    this.setState({
-      selected: true,
-      zdepth:2
-    })
-    React.render(
-      <GistDetail gistId={this.props.gist.get('id')}/>,
-      document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
-    )
+      this.setState({
+        zdepth:2
+      })
+      React.render(
+        <GistDetail gistId={this.props.gist.get('id')}/>,
+        document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
+      )
   },
   _onMouseOver: function(){
     this.setState({
-      zdepth: 2,
-      displayActions: true
+      zdepth: 2
     })
   },
   _onMouseOut: function(){
-    if(!this.state.selected){
+    if(!this.props.selected){
       this.setState({
-        zdepth: 0,
-        displayActions: false
+        zdepth: 0
       })
     }
   },
   _actionButtonClass: function(){
-    return (this.state.displayActions?'':'hidden ')
+    return (this.state.zdepth?'':'hidden ')
   }
 })
 
