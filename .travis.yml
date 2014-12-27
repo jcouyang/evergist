@@ -27,7 +27,8 @@ after_success:
 - git status
 - git checkout master
 - gulp build
-- git add javascripts stylesheets -f
+- echo igist.io > CNAME
+- git add javascripts stylesheets CNAME -f
 - git rm .travis.yml package.json gulpfile.js deploy_key.pem.enc -f
 - git rm -r less components api_mocks stores -f
 - git commit -m ":ship:"
