@@ -1,11 +1,11 @@
 var GistList = require('./gist-list'),
-React = require('react'),
-GistDetail = require('./gist-detail')
+React = require('react')
+
 
 var layout = {
   browseView: {
-    list: "small-12 medium-6 medium-offset-1 large-4 large-offset-2 ",
-    detail: "medium-2 large-4 hidden "
+    list: "small-12 medium-7 medium-offset-1 large-8 large-offset-1 ",
+    detail: "medium-1 large-3 hidden "
   },
   editView: {
     list: "smail-12 medium-4 large-4 ",
@@ -21,19 +21,19 @@ var Stage = React.createClass({
   },
   render: function(){
     return (
-      <div className="stage">
+      <div className="stage" onClick={this._displayGistDetail.bind(this,false)}>
         <GistList showDetail={this._displayGistDetail} layout={this.state.layout.list}/>
-        <div id="gist-detail"></div>
       </div>      
     )
   },
   
   _displayGistDetail: function(show, id){
-    this.setState({layout:layout.editView})
-    React.render(
-      <GistDetail layout={layout.editView.detail} gistId={id}/>,
-      document.querySelector('#gist-detail')
-    )
+    if(show){
+      this.setState({layout:layout.editView})   
+    }
+    else{
+      this.setState({layout:layout.browseView})
+    }
   }
 })
 

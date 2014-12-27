@@ -20,11 +20,11 @@ var ToolbarMenu = React.createClass({
       <div>
         <Toolbar className="toolbar">
           <ToolbarGroup key="0" float="left">
-            <DropDownMenu menuItems={filterOptions}>
+            <DropDownMenu className="filterOptions" menuItems={filterOptions} autoWidth={false}>
             </DropDownMenu>
           </ToolbarGroup>
           <ToolbarGroup key="1" float="right">
-            <DropDownMenu menuItems={orderOptions}>
+            <DropDownMenu className="orderOptions" menuItems={orderOptions} autoWidth={false}>
             </DropDownMenu>
           </ToolbarGroup>
         </Toolbar>

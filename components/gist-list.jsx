@@ -22,7 +22,7 @@ var GistList = React.createClass({
   render: function(){
     var cards = this.state.gists.map((gist)=>{
       return (
-        <a onClick={this._showDetail.bind(this,gist.get('id'))}>
+        <a onClick={this._showDetail.bind(this, gist.get('id'))}>
           <GistCard gist={gist}/>
         </a> 
       )
