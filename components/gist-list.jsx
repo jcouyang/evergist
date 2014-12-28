@@ -21,10 +21,10 @@ var GistList = React.createClass({
     })
   },
   render: function(){
-    var cards = this.state.gists.map((gist)=>{
+    var cards = this.state.gists.map((gist, index)=>{
       return (
         <a onClick={this._toggleDisplay.bind(this,gist.get('id'))}>
-          <GistCard gist={gist} selected={this.state.selected===gist.get('id')} setSelect={this._toggleDisplay}/>
+          <GistCard scrollTop={index*111} key={gist.get('id')} gist={gist} selected={this.state.selected===gist.get('id')} setSelect={this._toggleDisplay}/>
         </a> 
       )
     })
@@ -38,10 +38,16 @@ var GistList = React.createClass({
     )
   },
   _toggleDisplay: function(id){
-    if(this.state.selected!=id)
-      this.setState({selected: id})
-    else
+    if(this.state.selected!=id){
+      this.setState({
+      selected: id
+      })
+    }
+    else{
       this.setState({selected: null})
+    }
+      
+
   }
 });
 

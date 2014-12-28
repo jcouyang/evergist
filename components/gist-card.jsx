@@ -26,15 +26,18 @@ var GistCard = React.createClass({
       </Paper>
     )
   },
-
+  componentWillReceiveProps: function(nextProps){
+    this.setState({zdepth:nextProps.selected?2:0})
+  },
   _onClick: function(){
-      this.setState({
-        zdepth:2
-      })
-      React.render(
-        <GistDetail gistId={this.props.gist.get('id')}/>,
-        document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
-      )
+    this.setState({
+      zdepth:2
+    })
+    document.querySelector('body').scrollTop = this.props.scrollTop
+    React.render(
+      <GistDetail gistId={this.props.gist.get('id')}/>,
+      document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
+    )
   },
   _onMouseOver: function(){
     this.setState({
