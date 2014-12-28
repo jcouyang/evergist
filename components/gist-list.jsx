@@ -29,7 +29,7 @@ var GistList = React.createClass({
       )
     })
     return (
-      <div className={this.props.layout + "gist-list columns"}>
+      <div className="gist-list">
         <div className="list-container">
         <ToolbarMenu/>
         {cards.toArray()}
