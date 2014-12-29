@@ -1,9 +1,6 @@
 var React = require('react'),
 gist = require('../stores/gist'),
-mui = require('material-ui'),
-Paper = mui.Paper,
-FlatButton = mui.FlatButton,
-FloatingActionButton = mui.FloatingActionButton,
+{FloatingActionButton,Paper, FlatButton} = require('material-ui'),
 GistDetail = require('./gist-detail')
 var GistCard = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -16,9 +13,8 @@ var GistCard = React.createClass({
     return (
       <Paper id={"gist-"+this.props.gist.get('id')} className={(this.props.selected?"selected":'')+" gist-card"} zDepth={this.props.selected?2:this.state.zdepth} onClick={this._onClick} onMouseOver={this._onMouseOver} onMouseOut={this._onMouseOut}>
         <div className="gist-digest">
-          <FloatingActionButton icon="action-delete" className={this._actionButtonClass() + "action-button delete"} mini={true}/>
+          <FloatingActionButton onClick={this._onDeleteGist.bind(this,this.props.gist.get('id'))} icon="action-delete" className={this._actionButtonClass() + "action-button delete"} mini={true}/>
           <FloatingActionButton icon="action-grade" className={this._actionButtonClass() + "action-button star"} mini={true}/>
-
           <time className="mui-font-style-caption">{this.props.gist.get('updated_at')}</time>
           <h3>{this.props.gist.get('description')}</h3>
         </div>
@@ -43,6 +39,10 @@ var GistCard = React.createClass({
     this.setState({
       zdepth: 2
     })
+  },
+  _onDeleteGist: function(id,e){
+    e.stopPropagation()
+    console.log(e, 'delete gist'+id)
   },
   _onMouseOut: function(){
     if(!this.props.selected){
