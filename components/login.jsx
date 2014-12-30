@@ -1,8 +1,14 @@
 var React = require('react'),
 mui = require('material-ui'),
 Dialog = mui.Dialog,
-auth = require('../stores/authenticate')
+auth = require('../stores/authenticate'),
+Stage = require('./stage');
 var LoginDialog = React.createClass({
+  getInitialState: function(){
+    return {
+      title: "!gist"
+    }
+  },
   render: function(){
     var dialogActions = [
       { text: 'LOGIN WITH GITHUB', onClick: this._onRedirectToAuth },
@@ -10,13 +16,18 @@ var LoginDialog = React.createClass({
     ];
 
     return (
-    	<Dialog ref="dialog" actions={dialogActions}>
+    	<Dialog ref="dialog" actions={dialogActions} title={this.state.title}>
     	  igist is designed for managing Github gists.
 		  </Dialog>
 	  )
   },
   componentDidMount: function(){
-	  auth().then(()=>console.log('token got')).catch((data)=>this.refs.dialog.show())
+	  auth()
+      .then(()=>React.render(<Stage/>, document.querySelector('#stage')))
+      .catch((data)=>{
+        this.setState({title: data})
+        this.refs.dialog.show();
+      })
   },
   _onRedirectToAbout: function(){
     window.location.href = "/about";

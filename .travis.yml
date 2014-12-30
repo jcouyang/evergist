@@ -26,6 +26,7 @@ after_success:
 - git remote add deploy git@github.com:jcouyang/evergist.git
 - git status
 - git checkout master
+- export NODE_ENV=production
 - gulp build
 - echo igist.io > CNAME
 - git add javascripts stylesheets CNAME -f

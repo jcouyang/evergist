@@ -28,7 +28,8 @@ gulp.task('browserify', function() {
     debug: true,
     extensions: ['.jsx','.js']
   })
-    .transform(['reactify',{es6:true},'envify'])
+    .transform(['reactify',{es6:true}])
+    .transform(['envify'])
     .bundle()
     .pipe(source('evergist.js'))
     .pipe(buffer())

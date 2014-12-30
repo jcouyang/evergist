@@ -1,6 +1,6 @@
 var React = require('react'),
-LoginDialog = require('./login'),
-Stage = require('./stage');
+LoginDialog = require('./login')
+
 var auth = require('../stores/authenticate')
 
 var EverGist = React.createClass({
@@ -8,7 +8,7 @@ var EverGist = React.createClass({
   render: function() {
     return (
         <div>
-            <Stage />
+          <div id="stage"></div>
             <LoginDialog/>
         </div>
     );
