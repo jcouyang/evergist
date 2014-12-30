@@ -1,6 +1,4 @@
-var GistList = require('./gist-list'),
-React = require('react')
-
+var GistList = require('./gist-list')
 
 var Stage = React.createClass({
   render: function(){

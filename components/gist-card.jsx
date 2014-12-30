@@ -1,7 +1,6 @@
 var React = require('react'),
-gist = require('../stores/gist'),
-{FloatingActionButton,Paper, FlatButton} = require('material-ui'),
-GistDetail = require('./gist-detail')
+GistDetail = require('./gist-detail'),
+{Paper,FloatingActionButton} = require('material-ui');
 var GistCard = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {
