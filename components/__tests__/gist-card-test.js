@@ -1,5 +1,7 @@
+var when = require('when');
 jest.dontMock('../gist-card');
 jest.setMock('../gist-detail', jest.genMockFunction());
+jest.setMock('../../stores/gist', when('hehe'))
 describe('gist card', function(){
   var React = require('react/addons');
 	var im = require('immutable');
@@ -26,8 +28,9 @@ describe('gist card', function(){
   	  var gistCard = TestUtils.renderIntoDocument(
           <GistCard scrollTop={20} gist={gist} selected={false} setSelect={function(){}}/>
   	  );
-  	  var paper = TestUtils.findRenderedDOMComponentWithClass(gistCard, 'mui-paper');
-      expect(paper.getDOMNode().textContent).toEqual('iam a title');
+  	  var paper = TestUtils.findRenderedDOMComponentWithClass(gistCard, 'gist-card');
+      TestUtils.Simulate.mouseOver(paper.getDOMNode());
+      expect(paper.getDOMNode().className).toContain('mui-z-depth-2');
 	  });
   });
 });
