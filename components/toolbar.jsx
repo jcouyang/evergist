@@ -12,7 +12,7 @@ var ToolbarMenu = React.createClass({
     return (
       <div>
         <Toolbar className="toolbar">
-          <ToolbarGroup key="0" float="left">
+          <ToolbarGroup key="0" float="right">
             <DropDownMenu className="filterOptions" menuItems={filterOptions} autoWidth={false} onChange={this._onFilterChange} ref="filter">
             </DropDownMenu>
           </ToolbarGroup>

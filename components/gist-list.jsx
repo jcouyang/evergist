@@ -10,13 +10,15 @@ var GistList = React.createClass({
 		return {
       loading:true,
       gists: Seq(),
+      originGists: Seq(),
       selected: null
     }
 	},
   componentDidMount: function(){
     gists().then((data)=>{
       this.setState({
-        gists:data
+        gists:data,
+        originGists:data
       })
     })
   },
@@ -37,6 +39,11 @@ var GistList = React.createClass({
       </div>
     )
   },
+  componentWillReceiveProps: function(nextProps){
+    this.setState({
+      gists:this.state.originGists.filter((gist)=>new RegExp(nextProps.filter,"ig").test(gist.get('description')))})
+  },
+
   _toggleDisplay: function(id){
     if(this.state.selected!=id){
       this.setState({
