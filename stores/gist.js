@@ -15,11 +15,12 @@ gist.delete = function(id){
 
 gist.star =function(id){
   return endpoint(id)('star')('PUT');
-}
+};
 
 gist.unstar =function(id){
   return endpoint(id)('star')('DELETE');
-}
+};
+
 gist.view = function(id){
   return jsonp({method:'GET',path:'https://gist.github.com/jcouyang/'+id+'.json'})
     .then((data)=>{
