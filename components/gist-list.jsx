@@ -1,7 +1,7 @@
 var React = require('react'),
 GistCard = require('./gist-card'),
 ToolbarMenu = require('./toolbar'),
-{Map, List} = require('immutable'),
+{Map, Seq} = require('immutable'),
 gists = require('../stores/gists')
 
 var GistList = React.createClass({
@@ -9,7 +9,7 @@ var GistList = React.createClass({
   getInitialState: function() {
 		return {
       loading:true,
-      gists: List(),
+      gists: Seq(),
       selected: null
     }
 	},
@@ -31,7 +31,7 @@ var GistList = React.createClass({
     return (
       <div className="gist-list">
         <div className="list-container">
-        <ToolbarMenu/>
+        <ToolbarMenu onFilter={this._onFilterChange}/>
         {cards.toArray()}
         </div>
       </div>
@@ -46,8 +46,11 @@ var GistList = React.createClass({
     else{
       this.setState({selected: null})
     }
-      
-
+  },
+  _onFilterChange: function(filter){
+    gists[filter]().then((data)=>{
+     this.setState({gists:data}) 
+    }).catch((error)=>console.log(error))
   }
 });
 
