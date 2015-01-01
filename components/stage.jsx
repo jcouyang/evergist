@@ -13,7 +13,7 @@ var Stage = React.createClass({
          <AppCanvas predefinedLayout={1}>
            <AppBar className="mui-dark-theme" zDepth={0} title="!gist">
              <div className="search-toolbar">
-               <Input type='search' onChange={this._onSearch} name="query"/>
+               <Input type='search' onChange={this._onSearch} name="query" placeholder="Search"/>
              </div>
            </AppBar>
            <div className="mui-app-content-canvas">
