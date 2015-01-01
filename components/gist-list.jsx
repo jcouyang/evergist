@@ -28,10 +28,22 @@ var GistList = React.createClass({
   },
   render: function(){
     var cards = this.state.gists.map((gist, index)=>{
+      var selected = this.state.selected===gist.get('id')
       return (
-        <a onClick={this._toggleDisplay.bind(this,gist.get('id'))}>
-          <GistCard scrollTop={index*111} key={gist.get('id')} gist={gist} selected={this.state.selected===gist.get('id')} setSelect={this._toggleDisplay}/>
-        </a> 
+        <div>
+          <a name={gist.get('id')} className="anchor"/>
+        <a className={'gist-item ' + (selected?'selected':'')}
+           href={'#'+gist.get('id')}
+           onClick={this._toggleDisplay.bind(this,gist.get('id'))}
+           >
+          <GistCard key={index}
+                    index={index}
+                    gist={gist}
+                    selected={selected}
+                    setSelect={this._toggleDisplay}
+                    deleteGist={this._onDeleteGist}/>
+        </a>
+        </div>
       )
     })
     return (
@@ -47,11 +59,14 @@ var GistList = React.createClass({
     this.setState({
       gists:this.state.originGists.filter((gist)=>new RegExp(nextProps.filter,"ig").test(gist.get('description')))})
   },
-
+  _onDeleteGist:function(key){
+    console.log(key)
+    this.setState({gists:this.state.originGists.delete(key)})
+  },
   _toggleDisplay: function(id){
     if(this.state.selected!=id){
       this.setState({
-      selected: id
+        selected: id
       })
     }
     else{

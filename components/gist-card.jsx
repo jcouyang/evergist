@@ -15,7 +15,11 @@ var GistCard = React.createClass({
     return (
       <Paper id={"gist-"+this.props.gist.get('id')} className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")} zDepth={this.props.selected?2:this.state.zdepth} onClick={this._onClick} onMouseOver={this._onMouseOver} onMouseOut={this._onMouseOut}>
         <div className="gist-digest">
-          <FloatingActionButton onClick={this._onDeleteGist.bind(this,this.props.gist.get('id'),this.props.gist.get('description'))}
+          <FloatingActionButton onClick={
+                                this._onDeleteGist
+                                .bind(this,this.props.gist.get('id'),
+                                      this.props.gist.get('description'))
+                                }
                                 icon="action-delete"
                                 className={this._actionButtonClass() + "action-button delete"}
                                 mini={true}/>
@@ -34,7 +38,6 @@ var GistCard = React.createClass({
     this.setState({
       zdepth:2
     })
-    document.querySelector('body').scrollTop = this.props.scrollTop
     React.render(
       <GistDetail gistId={this.props.gist.get('id')}/>,
       document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
@@ -49,8 +52,11 @@ var GistCard = React.createClass({
     e.stopPropagation();
     $E.on('dialog.confirm',(data)=>{
       $E.off('dialog.confirm')
-      if(data===id)
-        gistStore.delete(id).then(()=>this.setState({deleted:true}))
+      if(data===id){
+        gistStore.delete(id).then(()=>this.setState({deleted:true}));
+        this.props.deleteGist(this.props.index);
+      }
+      
     })
       .trigger('dialog.showConfirm', {title:'Sure You Wanna DELETE "'+ description + '"?', id:id});
   },
