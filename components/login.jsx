@@ -4,20 +4,32 @@ Dialog = mui.Dialog,
 auth = require('../stores/authenticate'),
 Stage = require('./stage');
 var LoginDialog = React.createClass({
+  actions: function(){
+    console.log(this)
+    return {
+      login:[
+        { text: 'LOGIN WITH GITHUB', onClick: this._onRedirectToAuth },
+        { text: 'ABOUT', onClick: this._onRedirectToAbout}
+      ],
+      confirm: [
+        { text: 'CONFIRM', onClick: ()=>{
+          $E.trigger('dialog.confirm', this.state.id)
+          this.refs.dialog.dismiss();
+        }},
+        { text: 'CANCEL'}
+      ]
+    }
+  },
   getInitialState: function(){
     return {
-      title: "!gist"
+      id: '',
+      title: "!gist",
+      actions: []
     }
   },
   render: function(){
-    var dialogActions = [
-      { text: 'LOGIN WITH GITHUB', onClick: this._onRedirectToAuth },
-      { text: 'ABOUT', onClick: this._onRedirectToAbout}
-    ];
-
     return (
-    	<Dialog ref="dialog" actions={dialogActions} title={this.state.title}>
-    	  igist is designed for managing Github gists.
+    	<Dialog ref="dialog" actions={this.state.actions} title={this.state.title}>
 		  </Dialog>
 	  )
   },
@@ -25,12 +37,21 @@ var LoginDialog = React.createClass({
 	  auth()
       .then(()=>React.render(<Stage/>, document.querySelector('#stage')))
       .catch((data)=>{
-        this.setState({title: data})
-        this.refs.dialog.show();
+      console.error(data);
+      this.setState({title: data, actions:this.actions().login})
+      this.refs.dialog.show();
       })
+    $E.on('dialog.showConfirm', this._onShowConfirm)
   },
   _onRedirectToAbout: function(){
     window.location.href = "/about";
+  },
+  _onConfirm: function(){
+    $E.trigger('dialog.confirm', true)
+  },
+  _onShowConfirm: function(data){
+    this.setState({actions:this.actions().confirm, title: data.title, id:data.id});
+    this.refs.dialog.show();
   },
   _onRedirectToAuth: function(){
     if (process.env.NODE_ENV == "production")

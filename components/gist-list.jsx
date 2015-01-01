@@ -2,8 +2,8 @@ var React = require('react'),
 GistCard = require('./gist-card'),
 ToolbarMenu = require('./toolbar'),
 {Map, Seq} = require('immutable'),
-gists = require('../stores/gists')
-
+gists = require('../stores/gists'),
+{Dialog} = require('material-ui')
 var GistList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {
@@ -11,7 +11,11 @@ var GistList = React.createClass({
       loading:true,
       gists: Seq(),
       originGists: Seq(),
-      selected: null
+      selected: null,
+      dialog: Map({
+        title:"",
+        actions: ()=>{}
+      })
     }
 	},
   componentDidMount: function(){

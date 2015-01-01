@@ -1,6 +1,6 @@
 var React = require('react'),
-LoginDialog = require('./login')
-
+LoginDialog = require('./login');
+$E = require('./event')
 var auth = require('../stores/authenticate')
 
 var EverGist = React.createClass({
