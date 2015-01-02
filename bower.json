@@ -1,0 +1,25 @@
+{
+  "name": "igist",
+  "version": "0.0.1",
+  "homepage": "https://github.com/asm-products/evergist",
+  "authors": [
+    "Jichao Ouyang <oyanglulu@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "private": true,
+  "directory": "javascripts/vendor",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "modernizr": "~2.8.3",
+    "codemirror": "~4.10.0"
+  }
+}
