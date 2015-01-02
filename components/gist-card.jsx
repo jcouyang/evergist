@@ -1,5 +1,6 @@
 var React = require('react'),
 GistDetail = require('./gist-detail'),
+GistEditor = require('./gist-editor'),
 gistStore = require('../stores/gist'),
 moment = require('moment'),
 {Paper,FloatingActionButton} = require('material-ui');
@@ -9,7 +10,8 @@ var GistCard = React.createClass({
 		return {
 			zdepth: 0,
       stared: false,
-      deleted: false
+      deleted: false,
+      edit:false
 		}
 	},
   render: function(){
@@ -24,7 +26,14 @@ var GistCard = React.createClass({
                                 icon="action-delete"
                                 className={this._actionButtonClass() + "action-button delete"}
                                 mini={true}/>
-          <FloatingActionButton icon="action-grade" onClick={this._onStarGist.bind(this,this.props.gist.get('id'))} className={this._actionButtonClass() + "action-button star"} mini={true}/>
+          <FloatingActionButton icon="action-grade"
+                                onClick={this._onStarGist.bind(this,this.props.gist.get('id'))}
+                                className={this._actionButtonClass() + "action-button star"}
+                                mini={true}/>
+          <FloatingActionButton icon="editor-mode-edit"
+                                onClick={this._onEditGist.bind(this,this.props.gist.get('id'))}
+                                className={this._actionButtonClass() + "action-button edit"}
+                                mini={true}/>
           <time className="mui-font-style-caption">
             {moment(this.props.gist.get('updated_at')).fromNow()}
           </time>
@@ -42,7 +51,9 @@ var GistCard = React.createClass({
       zdepth:2
     })
     React.render(
-      <GistDetail gistId={this.props.gist.get('id')}/>,
+      <GistDetail gistId={this.props.gist.get('id')}
+                  files={this.props.gist.get('files')}
+                  edit={this.state.edit}/>,
       document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
     )
   },
@@ -62,6 +73,16 @@ var GistCard = React.createClass({
       
     })
       .trigger('dialog.showConfirm', {title:'Sure You Wanna DELETE "'+ description + '"?', id:id});
+  },
+  _onEditGist: function(id, e){
+    e.stopPropagation();
+    this.setState({edit:!this.state.edit, zdepth:2})
+    React.render(
+      <GistEditor gistId={this.props.gist.get('id')}
+                  files={this.props.gist.get('files')}/>,
+      document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
+    )
+
   },
   _onStarGist: function(id, e){
     e.stopPropagation();

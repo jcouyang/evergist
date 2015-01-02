@@ -7,13 +7,7 @@ var gist = require('../stores/gist')
 var EditorToolbar = require('./edit-toolbar')
 var loadingState = {
   loading: true,
-	gist: im.fromJS({
-    description: 'untitled',
-    files: [{
-      filename: "",
-      content: "Loading"
-    }]
-  })
+  innerHtml: ''
 };
 var GistDetail = React.createClass({
   getInitialState: function() {
@@ -29,7 +23,7 @@ var GistDetail = React.createClass({
           <img width="100%" src="http://jxnblk.com/loading/loading-cylon-red.svg"/>
         </div>
         <div dangerouslySetInnerHTML={{
-            __html: this.state.gist.get('div')
+            __html: this.state.innerHtml
           }}>
         </div>
       </div>
@@ -40,14 +34,14 @@ var GistDetail = React.createClass({
     this._fetchGist(nextProps.gistId)
   },
   _fetchGist: function(id){
-    return gist.view(id).then((data)=>{
-      this.setState({
-        gist: data,
-        loading: false
+      return gist.view(id).then((data)=>{
+        console.log(data)
+        this.setState({
+          loading: false,
+          innerHtml: data.get('div')
+        })
       })
-    })
   }
-  
 });
 
 module.exports = GistDetail;

@@ -26,6 +26,14 @@ gist.view = function(id){
   return jsonp({method:'GET',path:'https://gist.github.com/'+id+'.json'})
     .then((data)=>{
       return im.fromJS(data.entity);
-    })
+    });
+};
+
+gist.raw = function(url){
+  return rest(url)
+    .then((data)=>{
+      console.log(data)
+      return data.entity;
+    });
 }
 module.exports = gist;
