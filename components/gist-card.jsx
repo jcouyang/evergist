@@ -1,6 +1,7 @@
 var React = require('react'),
 GistDetail = require('./gist-detail'),
 gistStore = require('../stores/gist'),
+moment = require('moment'),
 {Paper,FloatingActionButton} = require('material-ui');
 var GistCard = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -24,7 +25,9 @@ var GistCard = React.createClass({
                                 className={this._actionButtonClass() + "action-button delete"}
                                 mini={true}/>
           <FloatingActionButton icon="action-grade" onClick={this._onStarGist.bind(this,this.props.gist.get('id'))} className={this._actionButtonClass() + "action-button star"} mini={true}/>
-          <time className="mui-font-style-caption">{this.props.gist.get('updated_at')}</time>
+          <time className="mui-font-style-caption">
+            {moment(this.props.gist.get('updated_at')).fromNow()}
+          </time>
           <h3>{this.props.gist.get('description')}</h3>
         </div>
         <div className={'gist-detail ' + (this.props.selected?"":"hidden")}></div>
