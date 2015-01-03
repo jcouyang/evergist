@@ -32,17 +32,14 @@ var GistList = React.createClass({
       return (
         <div>
           <a name={gist.get('id')} className="anchor"/>
-        <a className={'gist-item ' + (selected?'selected':'')}
-           href={'#'+gist.get('id')}
-           onClick={this._toggleDisplay.bind(this,gist.get('id'))}
-           >
-          <GistCard key={index}
+          <GistCard className={selected?'selected':''}
+                    onTitleClick={this._toggleDisplay.bind(this,gist.get('id'))}
+                    key={index}
                     index={index}
                     gist={gist}
                     selected={selected}
                     setSelect={this._toggleDisplay}
                     deleteGist={this._onDeleteGist}/>
-        </a>
         </div>
       )
     })

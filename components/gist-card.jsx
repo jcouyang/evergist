@@ -16,8 +16,14 @@ var GistCard = React.createClass({
 	},
   render: function(){
     return (
-      <Paper id={"gist-"+this.props.gist.get('id')} className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")} zDepth={this.props.selected?2:this.state.zdepth} onClick={this._onClick} onMouseOver={this._onMouseOver} onMouseOut={this._onMouseOut}>
-        <div className="gist-digest">
+      <Paper id={"gist-"+this.props.gist.get('id')}
+             className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")}
+             zDepth={this.props.selected?2:this.state.zdepth}
+            
+             onMouseOver={this._onMouseOver}
+             onMouseOut={this._onMouseOut}>
+        <a href={'#'+this.props.gist.get('id')} className="gist-item">
+        <div className="gist-digest" onClick={this._onTitleClick}>
           <FloatingActionButton onClick={
                                 this._onDeleteGist
                                 .bind(this,this.props.gist.get('id'),
@@ -39,6 +45,7 @@ var GistCard = React.createClass({
           </time>
           <h3>{this.props.gist.get('description')}</h3>
         </div>
+        </a>
         <div className={'gist-detail ' + (this.props.selected?"":"hidden")}></div>
       </Paper>
     )
@@ -56,6 +63,11 @@ var GistCard = React.createClass({
                   edit={this.state.edit}/>,
       document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
     )
+  },
+  _onTitleClick:function(e){
+    e.stopPropagation()
+    this.props.onTitleClick()
+    this._onClick()
   },
   _onMouseOver: function(){
     this.setState({
@@ -76,6 +88,7 @@ var GistCard = React.createClass({
   },
   _onEditGist: function(id, e){
     e.stopPropagation();
+    this.props.onTitleClick()
     this.setState({edit:!this.state.edit, zdepth:2})
     React.render(
       <GistEditor gistId={this.props.gist.get('id')}
