@@ -3,8 +3,13 @@ var client = require('./client');
 var urlcat = function(paths, path){
   if(typeof path == 'undefined')
     return clientFactory({path:paths,method:'GET'});
-  if(['PUT','DELETE','POST'].indexOf(path)>=0)
+  if(['DELETE'].indexOf(path)>=0)
     return clientFactory({path:paths,method:path});
+  if(['PUT','POST'].indexOf(path)>=0)
+    return function(entity){
+      return clientFactory({path:paths,method:path,entity:entity}); 
+    };
+
   return (newpath)=>{return urlcat(paths+"/"+path, newpath);};
 };
 
