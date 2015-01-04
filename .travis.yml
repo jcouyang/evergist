@@ -2,6 +2,7 @@ sudo: false
 language: node_js
 before_install:
 - npm install -g gulp
+- npm install -g bower
 - gem install hub
 branches:
   only:
@@ -27,6 +28,7 @@ after_success:
 - git status
 - git checkout master
 - export NODE_ENV=production
+- bower install
 - gulp build
 - echo igist.io > CNAME
 - git add javascripts stylesheets CNAME -f
