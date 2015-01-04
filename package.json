@@ -37,6 +37,7 @@
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/when",
       "<rootDir>/node_modules/immutable",
+      "<rootDir>/node_modules/moment",
       "<rootDir>/node_modules/material-ui"
     ],
     "moduleFileExtensions": [

@@ -1,7 +1,7 @@
 var when = require('when');
 jest.dontMock('../gist-card');
 jest.setMock('../gist-detail', jest.genMockFunction());
-jest.setMock('../../stores/gist', when('hehe'))
+jest.setMock('../../stores/gist', when('hehe'));
 describe('gist card', function(){
   var React = require('react/addons');
 	var im = require('immutable');
