@@ -92,10 +92,14 @@ var GistCard = React.createClass({
     this.setState({edit:!this.state.edit, zdepth:2})
     React.render(
       <GistEditor gistId={this.props.gist.get('id')}
-                  files={this.props.gist.get('files')}/>,
+                  files={this.props.gist.get('files')}
+                  onSave={this._toggleEdit}/>,
       document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
     )
 
+  },
+  _toggleEdit: function(){
+    this.setState({edit:!this.state.edit})
   },
   _onStarGist: function(id, e){
     e.stopPropagation();

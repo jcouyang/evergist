@@ -9,6 +9,10 @@ var gist = function(id){
   });
 };
 
+gist.save = function(id, entity){
+  return endpoint(id)('PUT')(entity);
+};
+
 gist.delete = function(id){
   return endpoint(id)('DELETE');
 };
