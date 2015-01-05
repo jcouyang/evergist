@@ -10,7 +10,7 @@ var gist = function(id){
 };
 
 gist.save = function(id, entity){
-  return endpoint(id)('PUT')(entity);
+  return endpoint(id)('PATCH')(entity);
 };
 
 gist.delete = function(id){

@@ -5,7 +5,7 @@ var urlcat = function(paths, path){
     return clientFactory({path:paths,method:'GET'});
   if(['DELETE'].indexOf(path)>=0)
     return clientFactory({path:paths,method:path});
-  if(['PUT','POST'].indexOf(path)>=0)
+  if(['PUT','POST','PATCH'].indexOf(path)>=0)
     return function(entity){
       return clientFactory({path:paths,method:path,entity:entity}); 
     };
