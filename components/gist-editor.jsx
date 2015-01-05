@@ -68,10 +68,10 @@ var GistEditor = React.createClass({
     // this._fetchGist(nextProps.gistId)
   },
   componentDidUpdate: function(){
+    im.List(document.querySelectorAll('.CodeMirror')).forEach((cd)=>{
+      cd.remove();
+    })
     if(this.state.preview){
-      im.List(document.querySelectorAll('.CodeMirror')).forEach((cd)=>{
-        cd.remove();
-      })
     }else{
       this.codemirrors = im.List(document.querySelectorAll('#editor-'+this.props.gistId+' .gist-textarea')).map((textarea)=>{
         var language = textarea.dataset.language||''
