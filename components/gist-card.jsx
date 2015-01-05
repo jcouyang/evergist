@@ -88,7 +88,9 @@ var GistCard = React.createClass({
   },
   _onEditGist: function(id, e){
     e.stopPropagation();
-    this.props.onTitleClick()
+    if(!this.props.selected || this.state.edit){
+      this.props.onTitleClick()
+    }
     this.setState({edit:!this.state.edit, zdepth:2})
     React.render(
       <GistEditor gistId={this.props.gist.get('id')}
@@ -96,7 +98,7 @@ var GistCard = React.createClass({
                   onSave={this._toggleEdit}/>,
       document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
     )
-
+    
   },
   _toggleEdit: function(){
     this.setState({edit:!this.state.edit})
