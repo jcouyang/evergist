@@ -20,7 +20,7 @@ var GistDetail = React.createClass({
     return (
       <div>
         <div className={"loading " + (this.state.loading?"":"hidden") }>
-          <img width="100%" src="http://jxnblk.com/loading/loading-cylon-red.svg"/>
+          <img width="100%" src="assets/loading.svg"/>
         </div>
         <div dangerouslySetInnerHTML={{
             __html: this.state.innerHtml
