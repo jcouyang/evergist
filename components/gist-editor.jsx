@@ -4,14 +4,15 @@ Map= im.Map,
 {Paper, Toolbar, IconButton} = require('material-ui'),
 when = require('when');
 var Map = im.Map;
-var gist = require('../stores/gist')
+var gist = require('../stores/gist');
+var markdown = require('../stores/markdown')
 var loadingState = {
   loading: true,
 	gists: [],
   editedGist: Map(),
   preview: false,
-  markdown: '',
-  languages: im.Seq()
+  markdowns: im.List(),
+  languages: im.List()
 };
 var GistEditor = React.createClass({
   getInitialState: function() {
@@ -32,17 +33,19 @@ var GistEditor = React.createClass({
   render: function(){
     var editors;
     if(this.state.preview){
-      editors = (
-        <div dangerouslySetInnerHTML={{__html: this.state.markdown}}>
-        </div>
-      )
+      editors = this.state.markdowns.map((markdown)=>{
+        return (
+          <div dangerouslySetInnerHTML={{__html: markdown}}>
+          </div>)
+        }).toArray()
     }else{
       editors = this.props.files.toIndexedSeq().map((file, index)=>{
         var content = this.state.gists[index]
         return (
-          <textarea value={content} data-language={file.get('language')||''} data-filename={file.get('filename')}>
+          <textarea className="gist-textarea" value={content} data-language={file.get('language')||''} data-filename={file.get('filename')}>
           </textarea>)
-      }).toArray()
+      }).toArray();
+      console.log(editors)
     }
     return (
       <div>
@@ -62,23 +65,24 @@ var GistEditor = React.createClass({
   },
   componentWillReceiveProps: function(nextProps){
     this.setState(loadingState)
-    this._fetchGist(nextProps.gistId)
+    // this._fetchGist(nextProps.gistId)
   },
   componentDidUpdate: function(){
     if(this.state.preview){
-      im.Seq(document.querySelectorAll('.CodeMirror')).forEach((cd)=>{
+      im.List(document.querySelectorAll('.CodeMirror')).forEach((cd)=>{
         cd.remove();
       })
     }else{
-      im.Seq(document.querySelectorAll('#editor-'+this.props.gistId+' textarea')).forEach((textarea)=>{
+      this.codemirrors = im.List(document.querySelectorAll('#editor-'+this.props.gistId+' .gist-textarea')).map((textarea)=>{
         var language = textarea.dataset.language||''
-        CodeMirror.fromTextArea(textarea, {lineWrapping: true, mode: language.toLowerCase()})
-                  .on('change',this._handleChange.bind(this,textarea.dataset.filename))
+        var codemirror = CodeMirror.fromTextArea(textarea, {lineWrapping: true, mode: language.toLowerCase()});
+        codemirror.on('change',this._handleChange.bind(this,textarea.dataset.filename))
+        return codemirror
       })
+      console.log(this.codemirrors.toArray(),'codemirrors')
     }
   },
   _handleChange: function(filename,codemirror){
-    console.log(codemirror.getValue(),filename,this.props.setIn([filename,'content'], codemirror.getValue()))
     this.setState({editedGist: this.props.setIn([filename,'content'], codemirror.getValue())})
   },
   _fetchGist: function(id){
@@ -96,7 +100,12 @@ var GistEditor = React.createClass({
   _togglePreview: function(){
     this.setState({preview:!this.state.preview},()=>{
       if(this.state.preview){
-        this.setState({markdown:'hehe'})
+        when.all(this.codemirrors.map((codemirror)=>{
+          return markdown(JSON.stringify({text:codemirror.getValue()}))
+        }).toArray()).then((data)=>{
+          console.log(data)
+          this.setState({markdowns:im.List(data)})
+        })
       }
     })
   }
