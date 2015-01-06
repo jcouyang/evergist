@@ -14,6 +14,8 @@ var loadingState = {
   markdowns: im.List(),
   languages: im.List()
 };
+CodeMirror.modeURL = "javascripts/vendor/codemirror/mode/%N/%N.js"
+
 var GistEditor = React.createClass({
   getInitialState: function() {
 		return loadingState
@@ -23,7 +25,6 @@ var GistEditor = React.createClass({
       var language = file.get('language')
       if(language){
         language = language.toLowerCase()
-        yepnope('javascripts/vendor/codemirror/mode/'+ language+ '/'+ language +'.js')
         return language
       }
     })
@@ -73,9 +74,14 @@ var GistEditor = React.createClass({
     })
     if(this.state.preview){
     }else{
-      this.codemirrors = im.List(document.querySelectorAll('#editor-'+this.props.gistId+' .gist-textarea')).map((textarea)=>{
-        var language = textarea.dataset.language||''
-        var codemirror = CodeMirror.fromTextArea(textarea, {lineWrapping: true, mode: language.toLowerCase()});
+      this.codemirrors = im.List(document.querySelectorAll('#editor-'+this.props.gistId+' .gist-textarea')).map((textarea)=>{        
+        var codemirror = CodeMirror.fromTextArea(textarea, {lineWrapping: true});
+        var mode =CodeMirror.findModeByName(textarea.dataset.language).mode
+        if(mode){
+          console.log(mode)
+          CodeMirror.autoLoadMode(codemirror, mode)
+          codemirror.setOption('mode', mode)
+        }
         codemirror.on('change',this._handleChange.bind(this,textarea.dataset.filename))
         return codemirror
       })
