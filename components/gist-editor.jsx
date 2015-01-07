@@ -2,6 +2,7 @@ var React = require('react'),
 im = require('immutable'),
 Map= im.Map,
 {Paper, Toolbar, IconButton} = require('material-ui'),
+CodeMirrorEditor = require('./codemirror'),
 when = require('when');
 var Map = im.Map;
 var gist = require('../stores/gist');
@@ -43,10 +44,8 @@ var GistEditor = React.createClass({
       editors = this.props.files.toIndexedSeq().map((file, index)=>{
         var content = this.state.gists[index]
         return (
-          <textarea className="gist-textarea" value={content} data-language={file.get('language')||''} data-filename={file.get('filename')}>
-          </textarea>)
+          <CodeMirrorEditor value={content} mode={file.get('language')} onChange={this._handleChange} filename={file.get('filename')}/>)
       }).toArray();
-      console.log(editors)
     }
     return (
       <div>
@@ -69,27 +68,10 @@ var GistEditor = React.createClass({
     // this._fetchGist(nextProps.gistId)
   },
   componentDidUpdate: function(){
-    im.List(document.querySelectorAll('.CodeMirror')).forEach((cd)=>{
-      cd.remove();
-    })
-    if(this.state.preview){
-    }else{
-      this.codemirrors = im.List(document.querySelectorAll('#editor-'+this.props.gistId+' .gist-textarea')).map((textarea)=>{        
-        var codemirror = CodeMirror.fromTextArea(textarea, {lineWrapping: true});
-        var mode =CodeMirror.findModeByName(textarea.dataset.language).mode
-        if(mode){
-          console.log(mode)
-          CodeMirror.autoLoadMode(codemirror, mode)
-          codemirror.setOption('mode', mode)
-        }
-        codemirror.on('change',this._handleChange.bind(this,textarea.dataset.filename))
-        return codemirror
-      })
-      console.log(this.codemirrors.toArray(),'codemirrors')
-    }
   },
-  _handleChange: function(filename,codemirror){
-    this.setState({editedGist: this.props.setIn([filename,'content'], codemirror.getValue())})
+  _handleChange: function(filename, value){
+    console.debug(value)
+    this.setState({editedGist: this.props.setIn([filename,'content'], value)})
   },
   _fetchGist: function(id){
     return when.all(this.props.files.map((file)=>gist.raw(file.get('raw_url'))).toArray())
@@ -109,7 +91,6 @@ var GistEditor = React.createClass({
         when.all(this.codemirrors.map((codemirror)=>{
           return markdown(JSON.stringify({text:codemirror.getValue()}))
         }).toArray()).then((data)=>{
-          console.log(data)
           this.setState({markdowns:im.List(data)})
         })
       }
