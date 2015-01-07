@@ -32,7 +32,7 @@ var GistCard = React.createClass({
                                 icon="action-delete"
                                 className={this._actionButtonClass() + "action-button delete"}
                                 mini={true}/>
-          <FloatingActionButton icon="action-grade"
+          <FloatingActionButton icon={this.state.stared?'action-rate':'action-grade'}
                                 onClick={this._onStarGist.bind(this,this.props.gist.get('id'))}
                                 className={this._actionButtonClass() + "action-button star"}
                                 mini={true}/>
@@ -105,7 +105,7 @@ var GistCard = React.createClass({
   },
   _onStarGist: function(id, e){
     e.stopPropagation();
-    var action = this.state.stared?"star":"unstar";
+    var action = this.state.stared?"unstar":"star";
     gistStore[action](id).then(()=>this.setState({stared:!this.state.stared}));
   },
   _onMouseOut: function(){
