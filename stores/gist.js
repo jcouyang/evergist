@@ -36,7 +36,6 @@ gist.view = function(id){
 gist.raw = function(url){
   return rest(url)
     .then((data)=>{
-      console.log(data)
       return data.entity;
     });
 }
