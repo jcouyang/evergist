@@ -14,10 +14,10 @@ var NewGist = React.createClass({
   },
   render: function(){
     return (
-      <Paper>
+      <Paper className="create-gist">
         <Toolbar>
           <ToolbarGroup float="left" key={0}>
-            <Input type="text" name="file-name" onChange={this._handleInputChange} style={{height:'100%'}}/>
+            <Input type="text" name="file-name" onChange={this._handleInputChange} style={{height:'100%'}} placeholder="filename"/>
           </ToolbarGroup>
           <ToolbarGroup float="left" key={1}>
             <DropDownMenu menuItems={languages.toJS()} ref="dropdown" onChange={this._handleDropDownChange}/>
@@ -45,7 +45,7 @@ var NewGist = React.createClass({
     }
       
   },
-  _handleDropDownChange: function(e,value,payload){
+  _handleDropDownChange: function(e,_,payload){
     if(payload){
       this.setState({mode:payload.mode})
     }
