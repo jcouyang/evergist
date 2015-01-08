@@ -90,6 +90,7 @@ var GistCard = React.createClass({
     e.stopPropagation();
     if(!this.props.selected || this.state.edit){
       this.props.onTitleClick()
+      return
     }
     this.setState({edit:!this.state.edit, zdepth:2})
     React.render(
