@@ -17,7 +17,7 @@ var Stage = React.createClass({
              </div>
            </AppBar>
            <div className="mui-app-content-canvas">
-             <GistList filter={this.state.filter} showCreateGist={this._showCreateGist}/>
+             <GistList filter={this.state.filter}/>
            </div>
          </AppCanvas>
       </div>      
