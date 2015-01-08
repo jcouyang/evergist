@@ -12,18 +12,24 @@ var CodeMirrorEditor = React.createClass({
     this._renderCoderMirror()
   },
   componentDidUpdate: function() {
-    var mode =CodeMirror.findModeByName(this.props.mode||'')
-    console.log(mode,'for mode',this.props.mode)
-    if(mode){
-      CodeMirror.autoLoadMode(this.codemirror, mode.mode)
-      this.codemirror.setOption('mode', mode.mode)
+    if(this.props.forceUpdate===true){
+      this._removeOldCodemirror()
+      this._renderCoderMirror()
+    }else{
+      var mode =CodeMirror.findModeByName(this.props.mode||'')
+      console.log(mode,'for mode',this.props.mode)
+      if(mode){
+        CodeMirror.autoLoadMode(this.codemirror, mode.mode)
+        this.codemirror.setOption('mode', mode.mode)
+      }
     }
+
   },
   render: function() {
     return (
       <div ref='editorWrapper'>
         <textarea ref='editor'
-                value={this.props.value}>
+                  value={this.props.value}>
         </textarea>
       </div>
     )

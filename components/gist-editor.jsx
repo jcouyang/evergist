@@ -44,7 +44,11 @@ var GistEditor = React.createClass({
       editors = this.props.files.toIndexedSeq().map((file, index)=>{
         var content = this.state.gists[index]
         return (
-          <CodeMirrorEditor value={content} mode={file.get('language')} onChange={this._handleChange} filename={file.get('filename')}/>)
+          <CodeMirrorEditor value={content}
+                            mode={file.get('language')}
+                            onChange={this._handleChange}
+                            filename={file.get('filename')}
+                            forceUpdate={true}/>)
       }).toArray();
     }
     return (
@@ -70,8 +74,7 @@ var GistEditor = React.createClass({
   componentDidUpdate: function(){
   },
   _handleChange: function(filename, value){
-    console.debug(value)
-    this.setState({editedGist: this.props.setIn([filename,'content'], value)})
+    this.editedGist = this.props.files.setIn([filename,'content'], value)
   },
   _fetchGist: function(id){
     return when.all(this.props.files.map((file)=>gist.raw(file.get('raw_url'))).toArray())
@@ -83,7 +86,7 @@ var GistEditor = React.createClass({
                })
   },
   _saveGist:function(){
-    gist.save(this.props.gistId, this.state.editedGist.toJS()).then(this.props.onSave)
+    gist.save(this.props.gistId, this.editedGist.toJS()).then(this.props.onSave)
   },
   _togglePreview: function(){
     this.setState({preview:!this.state.preview},()=>{
