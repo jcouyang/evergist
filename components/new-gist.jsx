@@ -14,13 +14,13 @@ var NewGist = React.createClass({
   },
   render: function(){
     return (
-      <Paper className="create-gist">
+      <Paper className={this.props.className}>
         <Toolbar>
           <ToolbarGroup float="left" key={0}>
-            <Input type="text" name="file-name" onChange={this._handleInputChange} style={{height:'100%'}} placeholder="filename"/>
+            <Input type="text" name="file-name" className="gist-file-name" onChange={this._handleInputChange} style={{height:'100%'}} placeholder="filename"/>
           </ToolbarGroup>
           <ToolbarGroup float="left" key={1}>
-            <DropDownMenu menuItems={languages.toJS()} ref="dropdown" onChange={this._handleDropDownChange}/>
+            <DropDownMenu menuItems={languages.toJS()} className="language-dropdown" ref="dropdown" onChange={this._handleDropDownChange}/>
           </ToolbarGroup>
             <IconButton icon='content-save' onClick={this._handleSave}/>
         </Toolbar>

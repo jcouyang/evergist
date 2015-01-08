@@ -3,6 +3,7 @@ GistCard = require('./gist-card'),
 ToolbarMenu = require('./toolbar'),
 {Map, Seq} = require('immutable'),
 gists = require('../stores/gists'),
+NewGist = require('./new-gist'),
 {Dialog} = require('material-ui')
 var GistList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -48,13 +49,15 @@ var GistList = React.createClass({
         <div className="list-container">
         <ToolbarMenu onFilter={this._onFilterChange}/>
         {cards.toArray()}
+        <NewGist className="create-gist"/>
         </div>
       </div>
     )
   },
   componentWillReceiveProps: function(nextProps){
+    var gists = this.state.originGists.filter((gist)=>new RegExp(nextProps.filter,"ig").test(gist.get('description')))
     this.setState({
-      gists:this.state.originGists.filter((gist)=>new RegExp(nextProps.filter,"ig").test(gist.get('description')))})
+      gists:gists})
   },
   _onDeleteGist:function(key){
     console.log(key)

@@ -1,5 +1,4 @@
 var GistList = require('./gist-list'),
-NewGist = require('./new-gist'),
 React = require('react'),
 {AppBar, AppCanvas, Input} = require('material-ui');
 var Stage = React.createClass({
@@ -18,8 +17,7 @@ var Stage = React.createClass({
              </div>
            </AppBar>
            <div className="mui-app-content-canvas">
-             <NewGist/>
-             <GistList filter={this.state.filter}/>
+             <GistList filter={this.state.filter} showCreateGist={this._showCreateGist}/>
            </div>
          </AppCanvas>
       </div>      
