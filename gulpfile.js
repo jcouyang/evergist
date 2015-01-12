@@ -23,20 +23,23 @@ var getBundleName = function () {
 };
 
 gulp.task('browserify', function() {
-  return browserify({
+  var bundle = browserify({
     entries: paths.source,
     debug: true,
     extensions: ['.jsx','.js']
   })
-    .transform(['reactify',{es6:true}])
-    .transform(['envify'])
-    .bundle()
-    .pipe(source('evergist.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
+        .transform(['reactify',{es6:true}])
+        .transform(['envify'])
+        .bundle()
+        .pipe(source('evergist.js'))
+        .pipe(buffer());
+  if(process.env.NODE_ENV==='production'){
+    return bundle.pipe(sourcemaps.init({loadMaps: true}))
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
 	  .pipe(gulp.dest(paths.javascripts));
+  }
+  return bundle.pipe(gulp.dest(paths.javascripts));
 });
 
 gulp.task('watch', function() {
