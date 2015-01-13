@@ -33,7 +33,7 @@ after_success:
 - gulp build
 - echo igist.io > CNAME
 - RELEASE_TAG = git tag --contains $TRAVIS_COMMIT
-- echo "{'version': $RELEASE_TAG, 'commit': $TRAVIS_COMMIT}" > diagnostic.json
+- 'echo {"version": $RELEASE_TAG, "commit": $TRAVIS_COMMIT} > diagnostic.json'
 - git add javascripts stylesheets CNAME diagnostic.json -f
 - git rm .travis.yml package.json gulpfile.js deploy_key.pem.enc -f
 - git rm -r less components api_mocks stores -f
