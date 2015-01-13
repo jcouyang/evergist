@@ -47,7 +47,8 @@ var GistList = React.createClass({
     return (
       <div className="gist-list">
         <div className="list-container">
-        <ToolbarMenu onFilter={this._onFilterChange}/>
+          <ToolbarMenu onFilter={this._onFilterChange}
+                       className={this.state.gists.size===0?"hidden":""}/>
         {cards.toArray()}
         <NewGist className={(this.state.gists.size===0?"":"hidden ") + "create-gist"}/>
         </div>
