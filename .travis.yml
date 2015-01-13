@@ -13,6 +13,7 @@ script:
 - gulp build
 - npm test
 after_success:
+- env | grep TRAVIS
 - git log --graph --decorate | head -1
 - git log --graph --decorate | head -1 | grep tag || exit 0
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] || exit 0'
