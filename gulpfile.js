@@ -57,7 +57,7 @@ gulp.task('build', ['browserify','less']);
 
 gulp.task('atomshell', function(cb){
     downloadatomshell({
-      version: '0.19.5',
+      version: '0.20.5',
       outputDir: 'bin'
     }, cb);
 });
