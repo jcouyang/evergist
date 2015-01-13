@@ -1,10 +1,12 @@
 var React = require('react'),
 CodeMirrorEditor = require('./codemirror'),
 im = require('immutable'),
-{DropDownMenu,Toolbar,Input,IconButton,Paper,ToolbarGroup} = require('material-ui'),
-languages = im.fromJS(CodeMirror.modeInfo).map((language)=>language.set('payload',language.get('mode')).set('text',language.get('name')))
+{DropDownMenu,Toolbar,Input,IconButton,Paper,ToolbarGroup,Toggle} = require('material-ui'),
+languages = im.fromJS(CodeMirror.modeInfo).map((language)=>language.set('payload',language.get('mode')).set('text',language.get('name'))),
+gist = require('../stores/gist')
 
 var NewGist = React.createClass({
+  public: false,
   getInitialState: function(){
     return {
       value: '',
@@ -25,6 +27,10 @@ var NewGist = React.createClass({
                           className="language-dropdown"
                           ref="dropdown"
                           onChange={this._handleDropDownChange}/>
+            
+          </ToolbarGroup>
+          <ToolbarGroup float="right" key={2}>
+            <Toggle onToggle={this._handleToggle}/> public
           </ToolbarGroup>
             <IconButton icon='content-save' onClick={this._handleSave}/>
         </Toolbar>
@@ -57,8 +63,20 @@ var NewGist = React.createClass({
   _handleEditorChange: function(filename, value){
     this.value=value;
   },
+  _handleToggle: function(e, value){
+    this.public=value
+  },
   _handleSave: function(){
     console.debug(this.filename,this.value)
+    var files = {}
+    files[this.filename] = {
+      content: this.value
+    }
+    gist.create(JSON.stringify({
+      description: this.props.description,
+      public: this.public,
+      files: files
+    }))
   }
 })
 module.exports = NewGist

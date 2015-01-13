@@ -25,6 +25,9 @@ gist.unstar =function(id){
   return endpoint(id)('star')('DELETE');
 };
 
+gist.create = function(entity){
+  return endpoint('POST')(entity);
+}
 
 gist.view = function(id){
   return jsonp({method:'GET',path:'https://gist.github.com/'+id+'.json'})
