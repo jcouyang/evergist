@@ -42,14 +42,12 @@ var CodeMirrorEditor = React.createClass({
   _renderCoderMirror: function(){
     var codemirror = CodeMirror.fromTextArea(this.refs.editor.getDOMNode(), this.props);
     this.codemirror = codemirror
-    console.debug(this.props.mode,'mode')
     var mode =CodeMirror.findModeByName(this.props.mode||'')
     console.log(mode,'for mode',this.props.mode)
     if(mode){
       CodeMirror.autoLoadMode(codemirror, mode.mode)
       codemirror.setOption('mode', mode.mode)
     }
-    console.debug(codemirror)
     codemirror.on('change',(codemirror)=>{
       this.props.onChange(this.props.filename,codemirror.getValue())
     })
