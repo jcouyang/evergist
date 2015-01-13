@@ -20,7 +20,11 @@ var NewGist = React.createClass({
             <Input type="text" name="file-name" className="gist-file-name" onChange={this._handleInputChange} style={{height:'100%'}} placeholder="filename"/>
           </ToolbarGroup>
           <ToolbarGroup float="left" key={1}>
-            <DropDownMenu menuItems={languages.toJS()} className="language-dropdown" ref="dropdown" onChange={this._handleDropDownChange}/>
+            <DropDownMenu menuItems={languages.toJS()}
+                          autoWidth={false}
+                          className="language-dropdown"
+                          ref="dropdown"
+                          onChange={this._handleDropDownChange}/>
           </ToolbarGroup>
             <IconButton icon='content-save' onClick={this._handleSave}/>
         </Toolbar>
