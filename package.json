@@ -15,17 +15,18 @@
     "moment": "^2.8.4"
   },
   "devDependencies": {
-    "jest-cli": "^0.2.0",
+    "browserify": "^7.0.0",
+    "codemirror": "^4.11.0",
+    "envify": "^3.2.0",
     "gulp": "^3.8.10",
     "gulp-download-atom-shell": "0.0.4",
-    "reactify": "^0.17.1",
     "gulp-less": "^2.0.1",
-    "browserify": "^7.0.0",
-    "vinyl-source-stream": "^1.0.0",
-    "vinyl-buffer": "^1.0.0",
-    "gulp-uglify": "^1.0.2",
     "gulp-sourcemaps": "^1.2.8",
-    "envify": "^3.2.0"
+    "gulp-uglify": "^1.0.2",
+    "jest-cli": "^0.2.0",
+    "reactify": "^0.17.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0"
   },
   "scripts": {
     "test": "jest",
