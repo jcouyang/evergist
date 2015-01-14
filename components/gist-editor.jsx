@@ -86,8 +86,9 @@ var GistEditor = React.createClass({
                })
   },
   _saveGist:function(){
-    if(this.editedGist)
-      gist.save(this.props.gistId, JSON.stringify(this.editedGist.toJS())).then(this.props.onSave)
+    var updatedGist = this.editedGist
+    if(updatedGist)
+      gist.save(this.props.gistId, JSON.stringify({files:updatedGist.toJS()}))
   },
   _togglePreview: function(){
     this.setState({preview:!this.state.preview},()=>{
