@@ -46,28 +46,26 @@ var GistCard = React.createClass({
           <h3>{this.props.gist.get('description')}</h3>
         </div>
         </a>
-        <div className={'gist-detail ' + (this.props.selected?"":"hidden")}></div>
+        <div className="gist-detail">
+          <GistDetail gistId={this.props.gist.get('id')}
+                      files={this.props.gist.get('files')}
+                      display={this.props.selected&&!this.state.edit}/>
+          <GistEditor gistId={this.props.gist.get('id')}
+                      files={this.props.gist.get('files')}
+                      onSave={this._toggleEdit}
+                      display={this.props.selected&&this.state.edit}/>
+        </div>
       </Paper>
-    )
-  },
-  componentWillReceiveProps: function(nextProps){
-    this.setState({zdepth:nextProps.selected?2:0})
-  },
-  _onClick: function(){
-    this.setState({
-      zdepth:2
-    })
-    React.render(
-      <GistDetail gistId={this.props.gist.get('id')}
-                  files={this.props.gist.get('files')}
-                  edit={this.state.edit}/>,
-      document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
     )
   },
   _onTitleClick:function(e){
     e.stopPropagation()
-    this.props.onTitleClick()
-    this._onClick()
+    if(!this.props.selected){
+      this.setState({
+        zdepth:2
+      })
+    }
+    this.props.checkItem()
   },
   _onMouseOver: function(){
     this.setState({
@@ -88,21 +86,10 @@ var GistCard = React.createClass({
   },
   _onEditGist: function(id, e){
     e.stopPropagation();
-    if(!this.props.selected || this.state.edit){
-      this.props.onTitleClick()
-      return
-    }
-    this.setState({edit:!this.state.edit, zdepth:2})
-    React.render(
-      <GistEditor gistId={this.props.gist.get('id')}
-                  files={this.props.gist.get('files')}
-                  onSave={this._toggleEdit}/>,
-      document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
-    )
-    
-  },
-  _toggleEdit: function(){
-    this.setState({edit:!this.state.edit})
+    if(!this.props.selected)
+      this.props.checkItem()
+    this.setState({zdepth:2,edit:!this.state.edit})
+
   },
   _onStarGist: function(id, e){
     e.stopPropagation();

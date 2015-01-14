@@ -13,12 +13,9 @@ var GistDetail = React.createClass({
   getInitialState: function() {
 		return loadingState
 	},
-  componentDidMount: function(){
-    this._fetchGist(this.props.gistId)
-  },
   render: function(){
     return (
-      <div>
+      <div className={this.props.display?'':'hidden'}>
         <div className={"loading " + (this.state.loading?"":"hidden") }>
           <img width="100%" src="assets/loading.svg"/>
         </div>
@@ -30,10 +27,11 @@ var GistDetail = React.createClass({
     )
   },
   componentWillReceiveProps: function(nextProps){
-    this.setState(loadingState)
-    this._fetchGist(nextProps.gistId)
+    if(nextProps.display!==this.props.display&& nextProps.display)
+      this._fetchGist(this.props.gistId)
   },
   _fetchGist: function(id){
+    this.setState(loadingState)
       return gist.view(id).then((data)=>{
         console.log(data)
         this.setState({
