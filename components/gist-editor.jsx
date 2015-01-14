@@ -30,7 +30,6 @@ var GistEditor = React.createClass({
       }
     })
     this.setState({languages:languages})
-    this._fetchGist(this.props.gistId)
   },
   render: function(){
     var editors;
@@ -52,7 +51,7 @@ var GistEditor = React.createClass({
       }).toArray();
     }
     return (
-      <div>
+      <div className={this.props.display?'':'hidden'}>
         <div className={"loading " + (this.state.loading?"":"hidden") }>
           <img width="100%" src="assets/loading.svg"/>
         </div>
@@ -68,8 +67,10 @@ var GistEditor = React.createClass({
     )
   },
   componentWillReceiveProps: function(nextProps){
-    this.setState(loadingState)
-    // this._fetchGist(nextProps.gistId)
+    if(nextProps.display!==this.props.display&& nextProps.display){
+      this.setState(loadingState)
+      this._fetchGist(this.props.gistId)
+    }
   },
   componentDidUpdate: function(){
   },

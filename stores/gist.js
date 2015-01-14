@@ -18,7 +18,7 @@ gist.delete = function(id){
 };
 
 gist.star =function(id){
-  return endpoint(id)('star')('PUT');
+  return endpoint(id)('star')('PUT')('');
 };
 
 gist.unstar =function(id){

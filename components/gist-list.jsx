@@ -34,7 +34,7 @@ var GistList = React.createClass({
         <div>
           <a name={gist.get('id')} className="anchor"/>
           <GistCard className={selected?'selected':''}
-                    onTitleClick={this._toggleDisplay.bind(this,gist.get('id'))}
+                    checkItem={this._toggleDisplay.bind(this,gist.get('id'))}
                     key={index}
                     index={index}
                     gist={gist}
@@ -49,8 +49,8 @@ var GistList = React.createClass({
         <div className="list-container">
           <ToolbarMenu onFilter={this._onFilterChange}
                        className={this.state.gists.size===0?"hidden":""}/>
-        {cards.toArray()}
-        <NewGist className={(this.state.gists.size===0?"":"hidden ") + "create-gist"}/>
+          {cards.toArray()}
+          <NewGist className={(this.state.gists.size===0?"":"hidden ") + "create-gist"}/>
         </div>
       </div>
     )

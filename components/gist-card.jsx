@@ -32,11 +32,11 @@ var GistCard = React.createClass({
                                 icon="action-delete"
                                 className={this._actionButtonClass() + "action-button delete"}
                                 mini={true}/>
-          <FloatingActionButton icon={this.state.stared?'action-rate':'action-grade'}
+          <FloatingActionButton icon={this.state.stared?'navigation-close':'action-grade'}
                                 onClick={this._onStarGist.bind(this,this.props.gist.get('id'))}
                                 className={this._actionButtonClass() + "action-button star"}
                                 mini={true}/>
-          <FloatingActionButton icon="editor-mode-edit"
+          <FloatingActionButton icon={this.state.edit?'navigation-close':'editor-mode-edit'}
                                 onClick={this._onEditGist.bind(this,this.props.gist.get('id'))}
                                 className={this._actionButtonClass() + "action-button edit"}
                                 mini={true}/>
@@ -46,28 +46,26 @@ var GistCard = React.createClass({
           <h3>{this.props.gist.get('description')}</h3>
         </div>
         </a>
-        <div className={'gist-detail ' + (this.props.selected?"":"hidden")}></div>
+        <div className="gist-detail">
+          <GistDetail gistId={this.props.gist.get('id')}
+                      files={this.props.gist.get('files')}
+                      display={this.props.selected&&!this.state.edit}/>
+          <GistEditor gistId={this.props.gist.get('id')}
+                      files={this.props.gist.get('files')}
+                      onSave={this._toggleEdit}
+                      display={this.props.selected&&this.state.edit}/>
+        </div>
       </Paper>
-    )
-  },
-  componentWillReceiveProps: function(nextProps){
-    this.setState({zdepth:nextProps.selected?2:0})
-  },
-  _onClick: function(){
-    this.setState({
-      zdepth:2
-    })
-    React.render(
-      <GistDetail gistId={this.props.gist.get('id')}
-                  files={this.props.gist.get('files')}
-                  edit={this.state.edit}/>,
-      document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
     )
   },
   _onTitleClick:function(e){
     e.stopPropagation()
-    this.props.onTitleClick()
-    this._onClick()
+    if(!this.props.selected){
+      this.setState({
+        zdepth:2
+      })
+    }
+    this.props.checkItem()
   },
   _onMouseOver: function(){
     this.setState({
@@ -88,26 +86,17 @@ var GistCard = React.createClass({
   },
   _onEditGist: function(id, e){
     e.stopPropagation();
-    if(!this.props.selected || this.state.edit){
-      this.props.onTitleClick()
-      return
+    this.setState({zdepth:2,edit:!this.state.edit})
+    if(!this.props.selected){
+      this.setState({edit:true})
+      this.props.checkItem()
     }
-    this.setState({edit:!this.state.edit, zdepth:2})
-    React.render(
-      <GistEditor gistId={this.props.gist.get('id')}
-                  files={this.props.gist.get('files')}
-                  onSave={this._toggleEdit}/>,
-      document.querySelector('#gist-'+this.props.gist.get('id')+ " .gist-detail")
-    )
-    
-  },
-  _toggleEdit: function(){
-    this.setState({edit:!this.state.edit})
+      
   },
   _onStarGist: function(id, e){
     e.stopPropagation();
-    var action = this.state.stared?"unstar":"star";
-    gistStore[action](id).then(()=>this.setState({stared:!this.state.stared}));
+    var starUnstarGist = this.state.stared?gistStore.unstar:gistStore.star;
+    starUnstarGist(id).then(()=>this.setState({stared:!this.state.stared}));
   },
   _onMouseOut: function(){
     if(!this.props.selected){
