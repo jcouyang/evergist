@@ -68,6 +68,7 @@ var NewGist = React.createClass({
   },
   _handleSave: function(){
     console.debug(this.filename,this.value)
+    if(!this.value)return
     var files = {}
     files[this.filename] = {
       content: this.value
