@@ -1,7 +1,14 @@
 var React = require('react'),
 CodeMirrorEditor = require('./codemirror'),
 im = require('immutable'),
-{DropDownMenu,Toolbar,Input,IconButton,Paper,ToolbarGroup,Toggle} = require('material-ui'),
+{DropDownMenu,
+ Toolbar,
+ Input,
+ IconButton,
+ Paper,
+ ToolbarGroup,
+ Toggle,
+ Snackbar} = require('material-ui'),
 languages = im.fromJS(CodeMirror.modeInfo).map((language)=>language.set('payload',language.get('mode')).set('text',language.get('name'))),
 gist = require('../stores/gist')
 
@@ -35,6 +42,7 @@ var NewGist = React.createClass({
             <IconButton icon='content-save' onClick={this._handleSave}/>
         </Toolbar>
         <CodeMirrorEditor mode={this.state.mode} filename={this.state.filename} onChange={this._handleEditorChange}></CodeMirrorEditor>
+        <Snackbar ref="snackbar" message="saved!"/>
       </Paper>
     )
   },
@@ -77,7 +85,9 @@ var NewGist = React.createClass({
       description: this.props.description,
       public: this.public,
       files: files
-    }))
+    })).then(()=>{
+      setTimeout(this.refs.snackbar.dismiss,2000)
+      this.refs.snackbar.show()})
   }
 })
 module.exports = NewGist
