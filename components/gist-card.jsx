@@ -32,11 +32,11 @@ var GistCard = React.createClass({
                                 icon="action-delete"
                                 className={this._actionButtonClass() + "action-button delete"}
                                 mini={true}/>
-          <FloatingActionButton icon={this.state.stared?'action-rate':'action-grade'}
+          <FloatingActionButton icon={this.state.stared?'navigation-close':'action-grade'}
                                 onClick={this._onStarGist.bind(this,this.props.gist.get('id'))}
                                 className={this._actionButtonClass() + "action-button star"}
                                 mini={true}/>
-          <FloatingActionButton icon="editor-mode-edit"
+          <FloatingActionButton icon={this.state.edit?'navigation-close':'editor-mode-edit'}
                                 onClick={this._onEditGist.bind(this,this.props.gist.get('id'))}
                                 className={this._actionButtonClass() + "action-button edit"}
                                 mini={true}/>
@@ -86,15 +86,17 @@ var GistCard = React.createClass({
   },
   _onEditGist: function(id, e){
     e.stopPropagation();
-    if(!this.props.selected)
-      this.props.checkItem()
     this.setState({zdepth:2,edit:!this.state.edit})
-
+    if(!this.props.selected){
+      this.setState({edit:true})
+      this.props.checkItem()
+    }
+      
   },
   _onStarGist: function(id, e){
     e.stopPropagation();
-    var action = this.state.stared?"unstar":"star";
-    gistStore[action](id).then(()=>this.setState({stared:!this.state.stared}));
+    var starUnstarGist = this.state.stared?gistStore.unstar:gistStore.star;
+    starUnstarGist(id).then(()=>this.setState({stared:!this.state.stared}));
   },
   _onMouseOut: function(){
     if(!this.props.selected){

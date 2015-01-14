@@ -30,7 +30,6 @@ var GistEditor = React.createClass({
       }
     })
     this.setState({languages:languages})
-    
   },
   render: function(){
     var editors;
@@ -68,9 +67,10 @@ var GistEditor = React.createClass({
     )
   },
   componentWillReceiveProps: function(nextProps){
-    if(nextProps.display!==this.props.display&& nextProps.display)
+    if(nextProps.display!==this.props.display&& nextProps.display){
       this.setState(loadingState)
       this._fetchGist(this.props.gistId)
+    }
   },
   componentDidUpdate: function(){
   },
