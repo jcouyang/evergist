@@ -7,13 +7,16 @@ var Stage = React.createClass({
       filter: /.*/
     }
   },
+  componentDidMount: function(){
+    this.refs.search.focus()
+  },
   render: function(){
     return (
       <div className="stage">
          <AppCanvas predefinedLayout={1}>
            <AppBar className="mui-dark-theme" zDepth={0} title="!gist">
              <div className="search-toolbar">
-               <Input type='search' onChange={this._onSearch} name="query" placeholder="Search"/>
+               <Input type='search' ref="search" onChange={this._onSearch} name="query" placeholder="Search"/>
              </div>
            </AppBar>
            <div className="mui-app-content-canvas">
