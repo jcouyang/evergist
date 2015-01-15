@@ -1,6 +1,8 @@
 var GistList = require('./gist-list'),
 React = require('react'),
+AppLeftNav = require('./left-nav'),
 {AppBar, AppCanvas, Input} = require('material-ui');
+
 var Stage = React.createClass({
   getInitialState: function(){
     return {
@@ -14,11 +16,12 @@ var Stage = React.createClass({
     return (
       <div className="stage">
          <AppCanvas predefinedLayout={1}>
-           <AppBar className="mui-dark-theme" zDepth={0} title="!gist">
+           <AppBar className="mui-dark-theme" zDepth={0} title="!gist" onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}>
              <div className="search-toolbar">
                <Input type='search' ref="search" onChange={this._onSearch} name="query" placeholder="Search"/>
              </div>
            </AppBar>
+           <AppLeftNav ref="leftNav" />
            <div className="mui-app-content-canvas">
              <GistList filter={this.state.filter}/>
            </div>
@@ -31,7 +34,11 @@ var Stage = React.createClass({
 		var creteria = e.currentTarget.value;
 		this.setState({filter:creteria});
 		return false;
+  },
+  _onMenuIconButtonTouchTap: function() {
+    this.refs.leftNav.toggle();
   }
+  
 })
 
 module.exports = Stage;
