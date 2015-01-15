@@ -1,7 +1,8 @@
 var React = require('react'),
 LoginDialog = require('./login');
-$E = require('./event')
-var auth = require('../stores/authenticate')
+$E = require('./event');
+var {Router} = require('director'),
+auth = require('../stores/authenticate')
 
 var EverGist = React.createClass({
 
@@ -19,6 +20,25 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 
 injectTapEventPlugin();
 
-React.render(
-	<EverGist/>, document.querySelector('#evergist')
-)
+var routes = {
+  
+};
+
+var router = Router({
+  '/': function(){
+    console.log('home page')
+    React.render(
+       <EverGist/>, document.querySelector('#evergist')
+    )
+  },
+  '/login': function(){
+    React.render(
+      <LoginDialog/>, document.querySelector('#evergist')
+    )
+  },
+  '/settings': function(){
+    
+  }
+});
+
+router.configure().init('/');
