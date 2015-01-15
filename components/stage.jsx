@@ -4,7 +4,7 @@ React = require('react'),
 var Stage = React.createClass({
   getInitialState: function(){
     return {
-      filter: /.*/
+      filter: ''
     }
   },
   componentDidMount: function(){

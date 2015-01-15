@@ -48,9 +48,9 @@ var GistList = React.createClass({
       <div className="gist-list">
         <div className="list-container">
           <ToolbarMenu onFilter={this._onFilterChange}
-                       className={this.state.gists.size===0?"hidden":""}/>
+                       className={this._display()?'hidden':''}/>
           {cards.toArray()}
-          <NewGist className={(this.state.gists.size===0?"":"hidden ") + "create-gist"} description={this.props.filter}/>
+          <NewGist className={(this._display()?"":"hidden ") + "create-gist"} description={this.props.filter}/>
         </div>
       </div>
     )
@@ -59,6 +59,9 @@ var GistList = React.createClass({
     var gists = this.state.originGists.filter((gist)=>new RegExp(nextProps.filter,"ig").test(gist.get('description')))
     this.setState({
       gists:gists})
+  },
+  _display: function(){
+    return this.props.filter&&this.state.gists.size===0
   },
   _onDeleteGist:function(key){
     console.log(key)
