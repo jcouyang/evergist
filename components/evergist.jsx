@@ -2,6 +2,7 @@ var React = require('react'),
 LoginDialog = require('./login');
 $E = require('./event');
 var {Router} = require('director'),
+Settings = require('./settings'),
 auth = require('../stores/authenticate')
 
 var EverGist = React.createClass({
@@ -23,21 +24,23 @@ injectTapEventPlugin();
 var routes = {
   
 };
-
+var igist = document.querySelector('#evergist')
 var router = Router({
   '/': function(){
     console.log('home page')
     React.render(
-       <EverGist/>, document.querySelector('#evergist')
+       <EverGist/>, igist
     )
   },
   '/login': function(){
     React.render(
-      <LoginDialog/>, document.querySelector('#evergist')
+      <LoginDialog/>, igist
     )
   },
   '/settings': function(){
-    
+    React.render(
+      <Settings/>, igist
+    )
   }
 });
 
