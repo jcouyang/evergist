@@ -1,10 +1,12 @@
 var React = require('react'),
 GistCard = require('./gist-card'),
 ToolbarMenu = require('./toolbar'),
-{Map, Seq} = require('immutable'),
+im=require('immutable'),
+{Map, Seq} = im,
 gists = require('../stores/gists'),
 NewGist = require('./new-gist'),
-{Dialog} = require('material-ui')
+{Dialog} = require('material-ui'),
+db = require('../stores/db')
 var GistList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {
@@ -20,10 +22,25 @@ var GistList = React.createClass({
     }
 	},
   componentDidMount: function(){
-    gists().then((data)=>{
+    this._updateGists()
+    db.gist.hook('updating', (mods, primKey, obj)=>{
+      console.debug('updating', mods,obj)
+    })
+    db.gist.hook('creating', (primKey, obj)=>{
+      console.debug('createing', obj)
+    })
+
+    gists().then(()=>{
+      console.debug('transaction completed')
+      this._updateGists()
+    })
+  },
+  _updateGists: function(){
+    var gists = db.gist.toArray().then((gists)=>{
+      console.debug('fetching gists from db and update state')
       this.setState({
-        gists:data,
-        originGists:data
+        gists: im.fromJS(gists),
+        originGists: im.fromJS(gists)
       })
     })
   },

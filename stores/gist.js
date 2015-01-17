@@ -3,9 +3,10 @@ var api = require('./api');
 var endpoint = api('gists');
 var jsonp = require('rest/client/jsonp');
 var rest = require('rest');
+var db = require('./db');
 var gist = function(id){
   return endpoint(id)('GET').then((data)=>{
-    return im.fromJS(data.entity);
+    return db.gist.put(data.entity);
   });
 };
 

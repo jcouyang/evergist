@@ -3,9 +3,15 @@ var api = require('./api');
 var user = require('./user');
 var endpoint = api('gists');
 var jsonp = require('rest/client/jsonp');
+var db =require('./db');
 gists = function(){
   return endpoint().then((data)=>{
-    return im.fromJS(data.entity);
+    return db.transaction('rw', db.gist, ()=>{
+      data.entity.forEach((entity)=>{
+        console.debug('puting object' + entity.id);
+        db.gist.put(entity);
+      });
+    });
   },(error)=>console.log);
 };
 
@@ -15,8 +21,7 @@ gists.starred = function(){
   return user()
     .then((user)=>jsonp({method:'GET',path:'http://gist.github.com.ru/jcouyang/f8e99c5c12f3f4d19107?username='+ user.login})
           .then((data)=>{
-            console.log(data);
-            return im.fromJS(data.entity.result);
+            return db.gist.put(data.entity.result);
           }))
 ;
 };
