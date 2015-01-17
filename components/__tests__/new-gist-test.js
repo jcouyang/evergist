@@ -1,4 +1,5 @@
-jest.dontMock('../new-gist')
+jest.dontMock('../new-gist');
+jest.setMock('../../stores/gist',jest.genMockFunction());
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 CodeMirror =  jest.genMockFromModule('codemirror')
