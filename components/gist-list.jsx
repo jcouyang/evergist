@@ -22,14 +22,14 @@ var GistList = React.createClass({
     }
 	},
   componentDidMount: function(){
-    this._updateGists()
+
     db.gist.hook('updating', (mods, primKey, obj)=>{
       console.debug('updating', mods,obj)
     })
     db.gist.hook('creating', (primKey, obj)=>{
       console.debug('createing', obj)
     })
-
+    this._updateGists()
     gists().then(()=>{
       console.debug('transaction completed')
       this._updateGists()

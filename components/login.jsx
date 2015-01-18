@@ -1,4 +1,5 @@
 var React = require('react'),
+$E = require('./event'),
 mui = require('material-ui'),
 Dialog = mui.Dialog,
 auth = require('../stores/authenticate'),
@@ -34,13 +35,6 @@ var LoginDialog = React.createClass({
 	  )
   },
   componentDidMount: function(){
-	  auth()
-      .then(()=>React.render(<Stage/>, document.querySelector('#stage')))
-      .catch((data)=>{
-      console.error(data);
-      this.setState({title: data, actions:this.actions().login})
-      this.refs.dialog.show();
-      })
     $E.on('dialog.showConfirm', this._onShowConfirm)
   },
   _onRedirectToAbout: function(){
