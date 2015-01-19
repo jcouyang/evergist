@@ -9,8 +9,14 @@ var client =
       rest.wrap(mime)
       .wrap(errorCode, { code: 500 })
       .wrap(pathPrefix, { prefix: api_remote })
-      .wrap(defaultRequest, { headers: { 'Authorization': 'token '+ sessionStorage.access_token } });
-module.exports = client
+if(localStorage.currentUser)
+
+  client = client.wrap(defaultRequest, { headers: { 'Authorization': 'token '+ localStorage.currentUser.token } });
+module.exports = client;
+
+
+
+
 
 
 
