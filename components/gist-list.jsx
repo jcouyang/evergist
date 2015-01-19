@@ -5,6 +5,7 @@ im=require('immutable'),
 {Map, Seq} = im,
 gists = require('../stores/gists'),
 NewGist = require('./new-gist'),
+Stage = require('./stage'),
 {Dialog} = require('material-ui'),
 db = require('../stores/db')
 var GistList = React.createClass({
@@ -29,7 +30,6 @@ var GistList = React.createClass({
     db.gist.hook('creating', (primKey, obj)=>{
       console.debug('createing', obj)
     })
-
     gists().then(()=>{
       console.debug('transaction completed')
       this._updateGists()
@@ -62,23 +62,25 @@ var GistList = React.createClass({
       )
     })
     return (
-      <div className="gist-list">
-        <div className="list-container">
-          <ToolbarMenu onFilter={this._onFilterChange}
-                       className={this._display()?'hidden':''}/>
-          {cards.toArray()}
-          <NewGist className={(this._display()?"":"hidden ") + "create-gist"} description={this.props.filter}/>
+      <Stage displaySearch={true} onSearch={this._handleSearch}>
+        <div className="gist-list">
+          <div className="list-container">
+            <ToolbarMenu onFilter={this._onFilterChange}
+                         className={this._display()?'hidden':''}/>
+            {cards.toArray()}
+            <NewGist className={(this._display()?"":"hidden ") + "create-gist"} description={this.state.filter}/>
+          </div>
         </div>
-      </div>
+      </Stage>
     )
   },
-  componentWillReceiveProps: function(nextProps){
-    var gists = this.state.originGists.filter((gist)=>new RegExp(nextProps.filter,"ig").test(gist.get('description')))
+  _handleSearch: function(creteria){
+    var gists = this.state.originGists.filter((gist)=>new RegExp(creteria,"ig").test(gist.get('description')))
     this.setState({
       gists:gists})
   },
   _display: function(){
-    return this.props.filter&&this.state.gists.size===0
+    return this.state.gists.size===0
   },
   _onDeleteGist:function(key){
     console.log(key)

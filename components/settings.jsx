@@ -1,5 +1,6 @@
 var React = require('react'),
 AppLeftNav = require('./left-nav'),
+Stage = require('./stage'),
 db = require('../stores/db'),
 {Input,Checkbox,RaisedButton,AppBar, AppCanvas, Paper} = require('material-ui');
 
@@ -11,36 +12,28 @@ var Settings = React.createClass({
   },
   render: function(){
     return (
-      <div className="stage">
-        <AppCanvas predefinedLayout={1}>
-          <AppBar className="mui-dark-theme" zDepth={0} title="!gist" onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}>
-          </AppBar>
-          <AppLeftNav ref="leftNav" />
-          <div className="mui-app-content-canvas">
-            <Paper className="settings">
-              <div  className="setting-form">
-              <form>
-                <h2>Settings</h2>
-                <Input ref="apiUrl" defaultValue="https://api.github.com" description="your api path if you'r using enterprice github" onChange={this._saveSettings}/>
-                <Checkbox ref="keepLogin" name="keep-me-login" checked={true} label="Keep Me Login" onClick={this._saveSettings}/>
-              </form>
-              </div>
-            </Paper>
+      <Stage onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}
+             icon="hardware-keyboard-backspace">
+        <Paper className="settings">
+          <div  className="setting-form">
+            <form>
+              <h2>Settings</h2>
+              <Input defaultValue="https://api.github.com" description="your api path if you'r using enterprice github" onChange={this._saveSettings.bind(this, 'apiUrl')}/>
+              <Checkbox name="keep-me-login" checked={true} label="Keep Me Login" onClick={this._saveSettings.bind(this,'rememberMe')}/> <span>remember me</span>
+            </form>
           </div>
-        </AppCanvas>
-      </div>      
+        </Paper>
+      </Stage>
     )
   },
-  _saveSettings: function(e, payload){
-    console.log(this.refs.keepLogin.state.checked,this.refs.apiUrl.getValue())
-    var [checked, url] = [this.refs.keepLogin.state.checked,this.refs.apiUrl.getValue()]
-    db.settings.put({
-      id:1,
-      remember_me: checked,
-      api_url: url
-    }).then((data)=>{
-      console.log('saved',data)
-    }).catch((data)=>console.log.bind(window))
+  _saveSettings: function(key, e, payload){
+    var settings = localStorage.settings || '{}'
+    settings = JSON.parse(settings)
+    settings[key] = payload
+    localStorage.settings = JSON.stringify(settings);
+  },
+  _onMenuIconButtonTouchTap: function(){
+    window.location.hash = '/'
   }
 })
 

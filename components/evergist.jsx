@@ -3,6 +3,7 @@ LoginDialog = require('./login');
 $E = require('./event');
 var {Router} = require('director'),
 Settings = require('./settings'),
+GistList = require('./gist-list'),
 auth = require('../stores/authenticate')
 
 var EverGist = React.createClass({
@@ -29,7 +30,7 @@ var router = Router({
   '/': function(){
     console.log('home page')
     React.render(
-       <EverGist/>, igist
+       <GistList/>, igist
     )
   },
   '/login': function(){
