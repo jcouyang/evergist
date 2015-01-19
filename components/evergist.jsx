@@ -4,6 +4,7 @@ var {Router} = require('director'),
 Settings = require('./settings'),
 Stage = require('./stage'),
 LoginDialog =require('./login'),
+userStore = require('../stores/user'),
 auth = require('../stores/authenticate')
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -15,8 +16,7 @@ var igist = document.querySelector('#evergist')
 var router = Router({
   '/': function(){
     console.log('home page')
-    homepage()
-    
+    homepage();
   },
   '/login': function(){
     React.render(
@@ -32,9 +32,10 @@ var router = Router({
 
 function homepage(){
   auth()
+  .then((token)=>userStore(token.access_token))
            .then(()=>React.render(<Stage/>, igist))
-           .catch((data)=>{
-    console.error('auth error', data);
+           .catch(()=>{
+    console.error('auth error');
     router.setRoute('/login')
            })  
 }
