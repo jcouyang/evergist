@@ -3,7 +3,7 @@ var db = new Dexie('IgistDB');
 
 db.version(1).stores({
 		gist: 'id, description'
-	});
+});
 
 
 	// Open the database

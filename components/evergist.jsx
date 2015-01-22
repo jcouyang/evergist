@@ -32,11 +32,13 @@ var router = Router({
 
 function homepage(){
   auth()
-  .then((token)=>userStore(token.access_token))
-           .then(()=>React.render(<Stage/>, igist))
-           .catch(()=>{
-    console.error('auth error');
+  .then(userStore)
+  .then(()=>{
+    React.render(<Stage/>, igist)
+  })
+  .catch((msg)=>{
+    console.error('auth error',msg);
     router.setRoute('/login')
-           })  
+  })  
 }
 router.configure().init('/');

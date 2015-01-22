@@ -1,12 +1,13 @@
 var React = require('react'),
 mui = require('material-ui'),
-{Menu, MenuItem, LeftNav, Icon,DropDownMenu} = mui
+{Menu, MenuItem, LeftNav, Icon,DropDownMenu} = mui,
+{Map} = require('immutable')
 
 
 var NavMenu = React.createClass({
   getInitialState: function(){
     return {
-      avatar: JSON.parse(localStorage.user)[0].avatar_url
+      avatar: JSON.parse(localStorage.currentuser).avatar_url
     }
   },
   menuItems: [
@@ -14,9 +15,9 @@ var NavMenu = React.createClass({
     { payload: '/logout', text: 'LOGOUT', icon: 'action-exit-to-app' }
   ],
   _getUsers: function(){
-    return JSON.parse(localStorage.user).map((user)=>{
+    return Map(JSON.parse(localStorage.users)).map((user)=>{
       return {payload: user, text: user.login}
-    })
+    }).toArray()
   },
   render: function() {
     var header = (
@@ -44,7 +45,7 @@ var NavMenu = React.createClass({
   _handleUserChange: function(e, _, item){
     console.log(item.payload)
     this.setState({avatar:item.payload.avatar_url})
-    localStorage.currentUser = item.payload
+    localStorage.currentuser = item.payload
   },
   _handleClick: function(e, item, value) {
     window.location.hash=value.payload

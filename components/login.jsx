@@ -1,7 +1,7 @@
 var React = require('react'),
 $E = require('./event'),
 mui = require('material-ui'),
-Dialog = mui.Dialog,
+{Dialog, RaisedButton} = mui,
 auth = require('../stores/authenticate'),
 Stage = require('./stage');
 var LoginDialog = React.createClass({
@@ -30,8 +30,14 @@ var LoginDialog = React.createClass({
   },
   render: function(){
     return (
-    	<Dialog ref="dialog" actions={this.state.actions} title={this.state.title}>
-		  </Dialog>
+    	<div className="home-page-hero full-width-section">
+        <img src="assets/igist.png" />
+        <div className="tagline">
+          <h1 className="brand-name">!gist</h1>
+          <RaisedButton className="demo-button" label="Login GitHub" onTouchTap={this._onRedirectToAuth} />
+          <RaisedButton className="github-button" label="Login GitHub Enterpise" linkButton={true} href="https://github.com/callemall/material-ui" />
+        </div>
+      </div>
 	  )
   },
   componentDidMount: function(){

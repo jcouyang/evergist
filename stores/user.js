@@ -2,14 +2,17 @@ var api = require('./api');
 var endpoint = api('user');
 var when = require('when');
 var user = function(token){
-  if(localStorage.user) return when(JSON.parse(localStorage.user));
+  if(localStorage.currentuser) 
+    return JSON.parse(localStorage.currentuser);
   return api('user?token='+token)().then((data)=>{
-    data.entity.token = token;
-    var localUser = localStorage.user || "[]";
-    var user = JSON.parse(localUser).concat(data.entity);
-    localStorage.user = JSON.stringify(user);
+    var user = data.entity;
+    user.token = token;
+    var localUser = JSON.parse(localStorage.users || '{}');
+    localUser[user.email] = user;
+    localStorage.users = JSON.stringify(localUser);
     localStorage.currentuser = JSON.stringify(user);
-    return localStorage.user;
+    window.location.href = '/';
+    return user;
   });
 };
 module.exports=user;
