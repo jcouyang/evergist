@@ -2,10 +2,8 @@ var Dexie = require('dexie');
 var db = new Dexie('IgistDB');
 
 db.version(1).stores({
-		gist: 'id, description, public',
-    tokidoki: 'user'
-	});
-
+		gist: 'id, description'
+});
 
 	// Open the database
 db.open()

@@ -19,16 +19,15 @@ var auth = function(){
       .then((data) => {
         var oauth =  data.entity.query.results.token.OAuth;
         if(oauth.error) throw oauth.error_description;
-        var token = oauth.access_token;
-        store.set({"access_token": token}, ()=>window.location.href='/');
+        return oauth.access_token;
       });
   }else{
     var token_got = when.defer();
     store.get('access_token', function(data){
-      if(typeof(data) != 'undefined' && data.access_token){
+      if(typeof(data) != 'undefined' && data){
         token_got.resolve(data);
       }else{
-        token_got.reject('no token found');
+        token_got.reject('please login');
       }
     });
     return token_got.promise;  
@@ -36,8 +35,3 @@ var auth = function(){
 };
 
 module.exports = auth;
-
-
-
-
-

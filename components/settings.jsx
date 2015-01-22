@@ -1,15 +1,9 @@
 var React = require('react'),
 AppLeftNav = require('./left-nav'),
-Stage = require('./stage'),
-db = require('../stores/db'),
+
 {Input,Checkbox,RaisedButton,AppBar, AppCanvas, Paper} = require('material-ui');
 
 var Settings = React.createClass({
-  componentDidMount: function(){
-    db.settings.hook("updating",function(mods, primKey, obj, trans){
-      console.log(mods, primKey, obj, trans)
-    })
-  },
   render: function(){
     return (
       <Stage onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}
@@ -26,14 +20,7 @@ var Settings = React.createClass({
       </Stage>
     )
   },
-  _saveSettings: function(key, e, payload){
-    var settings = localStorage.settings || '{}'
-    settings = JSON.parse(settings)
-    settings[key] = payload
-    localStorage.settings = JSON.stringify(settings);
-  },
-  _onMenuIconButtonTouchTap: function(){
-    window.location.hash = '/'
+  _saveSettings: function(e, payload){
   }
 })
 
