@@ -4,9 +4,13 @@ AppLeftNav = require('./left-nav'),
 
 var Stage = React.createClass({
   componentDidMount: function(){
-    this.refs.search.focus()
+    if(this.refs.search)
+      this.refs.search.focus()
   },
   render: function(){
+    var leftNav;
+    if(this.props.displayLeftNav)
+      leftNav = <AppLeftNav ref="leftNav" />
     return (
       <div className="stage">
          <AppCanvas predefinedLayout={1}>
@@ -19,7 +23,7 @@ var Stage = React.createClass({
                <Input type='search' ref="search" onChange={this._onSearch} name="query" placeholder="Search"/>
              </div>
            </AppBar>
-           <AppLeftNav ref="leftNav" />
+           {leftNav}
            <div className="mui-app-content-canvas">
              {this.props.children}
            </div>

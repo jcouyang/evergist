@@ -23,7 +23,12 @@
     color: @purple-200;
     position: absolute;
 }
+.brand-name {
 
+}
+.brand-logo {
+    width: 300px;
+}
 .mui-app-bar .mui-app-bar-title {
     font-family: Lobster;
     font-size: 3em;
@@ -73,13 +78,38 @@
     }
 }
 
-.create-gist, .settings {
+.create-gist, .settings, .tagline {
     margin-left: auto;
     margin-right: auto;
     max-width:700px;
     .setting-form {
         padding: 15px;
     }
+}
+
+.home-page-hero {
+    padding-top: 40px;
+    background-image: url(/assets/igist-flip.png);
+    background-size: 100%;
+    height: 100vh;
+    .tagline {
+        text-align: center;
+        h1 {
+            font-size: 90px;
+        }
+        .brand-name {
+            padding: 50px;
+            font-family: Lobster;
+            color: white;
+        }
+    }
+    .button-group {
+        padding: 30px 0;
+        .mui-raised-button {
+            margin:5px;
+        }
+    }
+
 }
 .gist-list {
     margin-left: auto;
