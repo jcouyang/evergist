@@ -23,8 +23,8 @@ var GistCard = React.createClass({
              onMouseOver={this._onMouseOver}
              onMouseOut={this._onMouseOut}>
         <a href={'#'+this.props.gist.get('id')} className="gist-item">
-        <div className="gist-digest" onClick={this._onTitleClick}>
-          <FloatingActionButton onClick={
+        <div className="gist-digest" onTouchTap={this._onTitleClick}>
+          <FloatingActionButton onTouchTap={
                                 this._onDeleteGist
                                 .bind(this,this.props.gist.get('id'),
                                       this.props.gist.get('description'))
@@ -33,11 +33,11 @@ var GistCard = React.createClass({
                                 className={this._actionButtonClass() + "action-button delete"}
                                 mini={true}/>
           <FloatingActionButton icon={this.state.stared?'navigation-close':'action-grade'}
-                                onClick={this._onStarGist.bind(this,this.props.gist.get('id'))}
+                                onTouchTap={this._onStarGist.bind(this,this.props.gist.get('id'))}
                                 className={this._actionButtonClass() + "action-button star"}
                                 mini={true}/>
           <FloatingActionButton icon={this.state.edit?'image-remove-red-eye':'editor-mode-edit'}
-                                onClick={this._onEditGist.bind(this,this.props.gist.get('id'))}
+                                onTouchTap={this._onEditGist.bind(this,this.props.gist.get('id'))}
                                 className={this._actionButtonClass() + "action-button edit"}
                                 mini={true}/>
           <time className="mui-font-style-caption">
