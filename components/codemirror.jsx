@@ -17,7 +17,6 @@ var CodeMirrorEditor = React.createClass({
       this._renderCoderMirror()
     }else{
       var mode =CodeMirror.findModeByName(this.props.mode||'')
-      console.log(mode,'for mode',this.props.mode)
       if(mode){
         CodeMirror.autoLoadMode(this.codemirror, mode.mode)
         this.codemirror.setOption('mode', mode.mode)
@@ -43,7 +42,6 @@ var CodeMirrorEditor = React.createClass({
     var codemirror = CodeMirror.fromTextArea(this.refs.editor.getDOMNode(), this.props);
     this.codemirror = codemirror
     var mode =CodeMirror.findModeByName(this.props.mode||'')
-    console.log(mode,'for mode',this.props.mode)
     if(mode){
       CodeMirror.autoLoadMode(codemirror, mode.mode)
       codemirror.setOption('mode', mode.mode)
