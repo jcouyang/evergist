@@ -18,7 +18,7 @@ var Stage = React.createClass({
                    zDepth={0}
                    title="!gist"
                    onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}
-                   icon={this.props.icon}>
+                   icon={this.props.displayLeftNav?this.props.icon:''} >
              <div className={(this.props.displaySearch?"":"hidden ") + "search-toolbar"}>
                <Input type='search' ref="search" onChange={this._onSearch} name="query" placeholder="Search"/>
              </div>

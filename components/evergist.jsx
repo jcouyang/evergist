@@ -27,6 +27,9 @@ var router = Router({
     React.render(
       <Settings/>, igist
     )
+  },
+  '/logout': function(){
+    localStorage.removeItem('currentuser')
   }
 });
 
@@ -36,8 +39,8 @@ function homepage(){
   .then(()=>{
     React.render(<GistList/>, igist)
   })
-  .catch((msg)=>{
-    console.error('auth error',msg);
+  .catch((error)=>{
+    console.error('auth error',error.message, error.stack);
     router.setRoute('/login')
   })  
 }

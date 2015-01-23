@@ -33,12 +33,13 @@ var LoginDialog = React.createClass({
     	  <div className="home-page-hero full-width-section">
           <div className="tagline">
             <h1 className="brand-name">!gist != gist</h1>
-            <h2 className="brand-name">it's for anything you wanna keep</h2> 
+            <h2 className="brand-name">it's for anything you wanna keep</h2>   
             <div className="button-group">
             <RaisedButton label="Login GitHub" onTouchTap={this._onRedirectToAuth} />
             <RaisedButton label="Login GitHub Enterpise" />
             </div>
           </div>
+          
         </div>
 	  )
   },

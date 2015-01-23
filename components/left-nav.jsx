@@ -7,7 +7,7 @@ mui = require('material-ui'),
 var NavMenu = React.createClass({
   getInitialState: function(){
     return {
-      avatar: JSON.parse(localStorage.currentuser).avatar_url
+      currentuser: JSON.parse(localStorage.currentuser)
     }
   },
   menuItems: [
@@ -17,13 +17,18 @@ var NavMenu = React.createClass({
   _getUsers: function(){
     return Map(JSON.parse(localStorage.users)).map((user)=>{
       return {payload: user, text: user.login}
-    }).toArray()
+    })
+  },
+  _getCurrentUserIndex: function(){
+    return Map(JSON.parse(localStorage.users)).keys().toArray();
   },
   render: function() {
+    var users = this._getUsers()
     var header = (
       <div>
-        <img className="logo" src={this.state.avatar} width="60px"/>
-        <DropDownMenu menuItems={this._getUsers()} onChange={this._handleUserChange}/>
+        <img className="logo" src={this.state.currentuser.avatar_url} width="60px"/>
+        <DropDownMenu menuItems={users.toArray()} onChange={this._handleUserChange}
+                      selectedIndex={users.toIndexedSeq().findIndex((user)=>user.text===this.state.currentuser.login)}/>
       </div>
     )
     return (
@@ -45,7 +50,8 @@ var NavMenu = React.createClass({
   _handleUserChange: function(e, _, item){
     console.log(item.payload)
     this.setState({avatar:item.payload.avatar_url})
-    localStorage.currentuser = item.payload
+    localStorage.currentuser = JSON.stringify(item.payload)
+    window.location.href='/';
   },
   _handleClick: function(e, item, value) {
     window.location.hash=value.payload

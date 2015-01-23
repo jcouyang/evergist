@@ -64,7 +64,7 @@ var GistList = React.createClass({
       )
     })
     return (
-      <Stage displaySearch={true} onSearch={this._handleSearch}>
+      <Stage displaySearch={true} onSearch={this._handleSearch} displayLeftNav={true}>
         <div className="gist-list">
           <div className="list-container">
             <ToolbarMenu onFilter={this._onFilterChange}
