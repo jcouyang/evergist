@@ -1,6 +1,6 @@
 var React = require('react'),
 AppLeftNav = require('./left-nav'),
-
+Stage = require('./stage'),
 {Input,Checkbox,RaisedButton,AppBar, AppCanvas, Paper} = require('material-ui');
 
 var Settings = React.createClass({

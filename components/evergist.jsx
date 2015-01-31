@@ -30,6 +30,7 @@ var router = Router({
   },
   '/logout': function(){
     localStorage.removeItem('currentuser')
+    window.location.ref='/'
   }
 });
 
