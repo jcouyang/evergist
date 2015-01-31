@@ -12,12 +12,6 @@
   src: local('Lobster'), local('Lobster-Regular'), url(/assets/lobster.woff2) format('woff2'), url(/lobster.woff) format('woff');
 }
 
-&:focus, &.mui-is-not-empty, &:disabled[value]:not([value=""]) {
-                                 &~.mui-input-placeholder {
-                                     color: @purple-200;
-      }
-                             }
-
 .mui-input .mui-input-description {
     display: none;
     color: @purple-200;
@@ -92,7 +86,6 @@
     background-image: url(/assets/igist-long-reverse.svg);
     background-repeat-y: initial;
     background-size: 100%;
-    height: 100vh;
     .tagline {
         text-align: center;
         h1 {
@@ -103,15 +96,23 @@
             font-family: Lobster;
             color: white;
         }
-    }
-    .button-group {
-        padding: 30px 0;
-        .mui-raised-button {
-            margin:5px;
+        .form-group {
+            margin-left: auto;
+            margin-right: auto;
+            padding: 30px 0;
+            .mui-raised-button {
+                margin:5px;
+            }
+            .enterprise {
+                width: 300px;
+                text-align: initial;
+                margin-left: auto;
+                margin-right: auto;
+            }
         }
     }
-
 }
+
 .gist-list {
     margin-left: auto;
     margin-right: auto;
