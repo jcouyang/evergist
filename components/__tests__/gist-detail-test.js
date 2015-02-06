@@ -1,5 +1,6 @@
 jest.dontMock('../gist-detail')
-  .dontMock('../extend');
+  .dontMock('../extend')
+  .dontMock('../hidable');
 var when = require('when');
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
