@@ -33,7 +33,7 @@ gist.create = function(entity){
 gist.view = function(id){
   return jsonp({method:'GET',path:'https://gist.github.com/'+id+'.json'})
     .then((data)=>{
-      return im.fromJS(data.entity);
+      return toClj(data.entity);
     });
 };
 

@@ -16,7 +16,3 @@ describe('GistDetail', function(){
     expect(gistDetail.getDOMNode().textContent).toEqual('gist html');
 	});
 });
-
-
-
-
