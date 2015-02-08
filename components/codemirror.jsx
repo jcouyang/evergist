@@ -1,6 +1,7 @@
 var React = require('react');
 var Types = React.PropTypes;
 var im = require('immutable');
+CodeMirror.modeURL = "javascripts/vendor/codemirror/mode/%N/%N.js";
 var CodeMirrorEditor = React.createClass({
   propTypes: {
     mode: Types.string,
