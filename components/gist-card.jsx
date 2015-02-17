@@ -1,17 +1,22 @@
 var React = require('react'),
 GistDetail = require('./gist-detail'),
 GistEditor = require('./gist-editor'),
+GistDigest = require('./gist-digest'),
 gistStore = require('../stores/gist'),
 moment = require('moment'),
 {Paper,FloatingActionButton} = require('material-ui');
+
+var FLOAT_DEPTH = 1;
+var FLAT_DEPTH = 0;
 var GistCard = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {
 		return {
-			zdepth: 0,
+			zdepth: FLAT_DEPTH,
       stared: false,
       deleted: false,
-      edit:false
+      edit:false,
+      gistDetail: ''
 		}
 	},
   render: function(){
@@ -19,40 +24,14 @@ var GistCard = React.createClass({
       <Paper id={"gist-"+this.props.gist.get('id')}
              className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")}
              zDepth={this.props.selected?2:this.state.zdepth}
-            
              onMouseOver={this._onMouseOver}
              onMouseOut={this._onMouseOut}>
-        <a href={'#'+this.props.gist.get('id')} className="gist-item">
-        <div className="gist-digest" onTouchTap={this._onTitleClick}>
-          <FloatingActionButton onTouchTap={
-                                this._onDeleteGist
-                                .bind(this,this.props.gist.get('id'),
-                                      this.props.gist.get('description'))
-                                }
-                                icon="action-delete"
-                                className={this._actionButtonClass() + "action-button delete"}
-                                mini={true}/>
-          <FloatingActionButton icon={this.state.stared?'navigation-close':'action-grade'}
-                                onTouchTap={this._onStarGist.bind(this,this.props.gist.get('id'))}
-                                className={this._actionButtonClass() + "action-button star"}
-                                mini={true}/>
-          <FloatingActionButton icon={this.state.edit?'image-remove-red-eye':'editor-mode-edit'}
-                                onTouchTap={this._onEditGist.bind(this,this.props.gist.get('id'))}
-                                className={this._actionButtonClass() + "action-button edit"}
-                                mini={true}/>
-          <time className="mui-font-style-caption">
-            {moment(this.props.gist.get('updated_at')).fromNow()}
-          </time>
-          <h3>{this.props.gist.get('description')}</h3>
-        </div>
-        </a>
+        <GistDigest gist={this.props.gist} onClick={this._onTitleClick}/>
         <div className="gist-detail">
-          <GistDetail gistId={this.props.gist.get('id')}
-                      files={this.props.gist.get('files')}
-                      display={this.props.selected&&!this.state.edit}/>
+          <GistDetail display={this.props.selected&&!this.state.edit}
+                      gistHtml={this.state.gistDetail}/>
           <GistEditor gistId={this.props.gist.get('id')}
                       files={this.props.gist.get('files')}
-                      onSave={this._toggleEdit}
                       display={this.props.selected&&this.state.edit}/>
         </div>
       </Paper>
@@ -62,41 +41,26 @@ var GistCard = React.createClass({
     e.stopPropagation()
     if(!this.props.selected){
       this.setState({
-        zdepth:2
+        zdepth: FLOAT_DEPTH
       })
     }
+    gistStore.view(this.props.gist.get('id'))
+             .then(data=>this.setState({gistDetail: get(data,'div')}))
     this.props.checkItem()
   },
   _onMouseOver: function(){
     this.setState({
-      zdepth: 2
+      zdepth: FLOAT_DEPTH
     })
-  },
-  _onDeleteGist: function(id,description,e){
-    e.stopPropagation();
-    $E.on('dialog.confirm',(data)=>{
-      $E.off('dialog.confirm')
-      if(data===id){
-        gistStore.delete(id).then(()=>this.setState({deleted:true}));
-        this.props.deleteGist(this.props.index);
-      }
-      
-    })
-      .trigger('dialog.showConfirm', {title:'Sure You Wanna DELETE "'+ description + '"?', id:id});
   },
   _onEditGist: function(id, e){
     e.stopPropagation();
-    this.setState({zdepth:2,edit:!this.state.edit})
+    this.setState({zdepth:FLOAT_DEPTH,edit:!this.state.edit})
     if(!this.props.selected){
       this.setState({edit:true})
       this.props.checkItem()
     }
-      
-  },
-  _onStarGist: function(id, e){
-    e.stopPropagation();
-    var starUnstarGist = this.state.stared?gistStore.unstar:gistStore.star;
-    starUnstarGist(id).then(()=>this.setState({stared:!this.state.stared}));
+
   },
   _onMouseOut: function(){
     if(!this.props.selected){
