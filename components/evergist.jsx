@@ -4,14 +4,18 @@ var {Router} = require('director'),
 Settings = require('./settings'),
 GistList = require('./gist-list'),
 LoginDialog =require('./login'),
-userStore = require('../stores/user'),
-auth = require('../stores/authenticate')
+getUserInfo = require('../stores/user'),
+auth = require('../stores/authenticate'),
+mori = require('mori'),
+extend = require('./extend');
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 
 injectTapEventPlugin();
 
 var igist = document.querySelector('#evergist')
+
+extend(window, mori)
 
 var router = Router({
   '/': function(){
@@ -36,7 +40,7 @@ var router = Router({
 
 function homepage(){
   auth()
-  .then(userStore)
+  .then(getUserInfo)
   .then(()=>{
     React.render(<GistList/>, igist)
   })
