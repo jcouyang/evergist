@@ -23,7 +23,9 @@ var CodeMirrorEditor = React.createClass({
         this.codemirror.setOption('mode', mode.mode)
       }
     }
-
+  },
+  getEditor: function(){
+    return this.codemirror;
   },
   render: function() {
     return (

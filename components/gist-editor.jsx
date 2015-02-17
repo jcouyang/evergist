@@ -8,19 +8,21 @@ CodeMirrorEditor = require('./codemirror'),
 when = require('when');
 var markdown = require('../stores/markdown');
 var loadingState = {
-  loading: true,
-	preview: false,
-  files: []
 };
 
 var GistEditor = React.createClass({
+  mixins: [React.addons.PureRenderMixin],
   propTypes: {
     gistId: React.PropTypes.string.isRequired,
     files: React.PropTypes.object.isRequired,
-    display: React.PropTypes.bool    
+    display: React.PropTypes.bool
   },
   getInitialState: function() {
-		return loadingState;
+		return {
+      loading: true,
+	    preview: false,
+      files: vector()
+    };
 	},
   componentDidMount: function() {
     when.all(intoArray(map(file=>gist.raw(get(file,'raw_url')), this.props.files)))
@@ -36,13 +38,13 @@ var GistEditor = React.createClass({
       } else {
         content = <CodeMirrorEditor value={file.content}
                                     mode={get(file, 'language')}
-                                    onChange={this._handleChange}
                                     filename={get(file, 'filename')}
                                     forceUpdate={true}
-                                    lineWrapping={true}/>;
+                                    lineWrapping={true}
+                                    ref={"codemirror"+get(file,'filename')}/>;
       }
       return (
-        <div id={'editor-'+this.props.gistId}>    
+        <div id={'editor-'+this.props.gistId}>
           {content}
         </div>
       );
@@ -64,6 +66,11 @@ var GistEditor = React.createClass({
   },
   _togglePreview: function(){
     this.setState({preview:!this.state.preview});
+  },
+  _saveGist: function(){
+    var updatedGists = map(file=>assoc(file,'content', this.refs['codemirror'+get(file,'filename')].getEditor().getValue()),
+                           this.state.files);
+    gist.save(this.props.gistId, JSON.stringify({files:toJs(updatedGists)}));
   }
 });
 

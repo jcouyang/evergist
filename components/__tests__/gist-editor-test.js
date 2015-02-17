@@ -9,34 +9,41 @@ var extend = require('../extend');
 var gist = require('../../stores/gist');
 
 CodeMirror = jest.genMockFunction();
-var CodeMirrorEditor = require('../codemirror');
 var Markdown = require('../markdown-preview');
-TestUtils.mockComponent(CodeMirrorEditor);
-
 extend(window, require('mori'));
+var files =  toClj([
+  {
+    "filename": "config.json",
+    "type": "application/json",
+    "language": "JSON",
+    "raw_url": "https://hehe",
+    "size": 17063
+  },
+  {
+    "filename": "config.md",
+    "type": "application/markdown",
+    "language": "Markdown",
+    "raw_url": "https://hehe2",
+    "size": 17063
+  }
+
+]);
+var CodeMirrorEditor;
+var markdown;
+var GistEditor;
+
+CodeMirrorEditor = require('../codemirror');
+GistEditor = require('../gist-editor');
+markdown = require('../../stores/markdown');
+
 
 describe('GistEditor', function(){
-  var markdown = require('../../stores/markdown');
-  markdown.mockReturnValue(when('<h1>markdown</h1>'));
-  
-  var GistEditor = require('../gist-editor');
-  var files =  toClj([
-    {
-      "filename": "config.json",
-      "type": "application/json",
-      "language": "JSON",
-      "raw_url": "https://hehe",
-      "size": 17063
-    },
-    {
-      "filename": "config.md",
-      "type": "application/markdown",
-      "language": "Markdown",
-      "raw_url": "https://hehe2",
-      "size": 17063
-    }
 
-  ]);
+  beforeEach(function(){
+    TestUtils.mockComponent(CodeMirrorEditor);
+    markdown.mockReturnValue(when('<h1>markdown</h1>'));
+  });
+
 	it('render gist editor', function(){
     var files_expected =  toClj([
       {
@@ -77,25 +84,52 @@ describe('GistEditor', function(){
     TestUtils.Simulate.click(button[0]);
     jest.runAllTicks();
     expect(gistEditor.state.preview).toEqual(true);
-    var preview = TestUtils.findRenderedComponentWithType(gistEditor, Markdown);    
-    
+    var preview = TestUtils.findRenderedComponentWithType(gistEditor, Markdown);
+
     expect(preview.getDOMNode().innerHTML).toEqual('<h1>markdown</h1>');
   });
+
+  it('save gist when click save', function(){
+    var gistEditor = TestUtils.renderIntoDocument(
+        <GistEditor gistId="1234" files={files} display={true}/>
+    );
+    var editor = {
+      getEditor:function(){
+        return {
+          getValue: function(){
+            return 'the very content';
+          }
+        };
+      }
+    };
+    jest.runAllTicks();
+    gistEditor.refs={
+      'codemirrorconfig.json': editor,
+      'codemirrorconfig.md': editor
+    };
+    var button = TestUtils.scryRenderedDOMComponentsWithTag(gistEditor, 'button');
+    TestUtils.Simulate.click(button[1]);
+    jest.runAllTicks();
+    expect(gist.save)
+      .toBeCalledWith('1234',
+                      JSON.stringify({
+                        files: [
+                          {
+                            "filename": "config.json",
+                            "type": "application/json",
+                            "language": "JSON",
+                            "raw_url": "https://hehe",
+                            "size": 17063,
+                            "content": 'the very content'
+                          },
+                          {
+                            "filename": "config.md",
+                            "type": "application/markdown",
+                            "language": "Markdown",
+                            "raw_url": "https://hehe2",
+                            "size": 17063,
+                            "content": 'the very content'
+                          }
+                        ]}));
+  })
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
