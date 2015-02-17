@@ -1,11 +1,12 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
+var babelify = require("babelify");
 var downloadatomshell = require('gulp-download-atom-shell');
 var less = require('gulp-less');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 var paths = {
   source: './components/evergist.jsx',
@@ -16,28 +17,21 @@ var paths = {
 	tests: ['__tests__/**/*.jsx']
 };
 
-var getBundleName = function () {
-  var version = require('./package.json').version;
-  var name = require('./package.json').name;
-  return version + '.' + name + '.' + 'min';
-};
-
 gulp.task('browserify', function() {
   var bundle = browserify({
     entries: paths.source,
     debug: true,
     extensions: ['.jsx','.js']
   })
-        .transform(['reactify',{es6:true}])
+        .transform(babelify)
         .transform(['envify'])
         .bundle()
         .pipe(source('evergist.js'))
         .pipe(buffer());
   if(process.env.NODE_ENV==='production'){
-    return bundle.pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify())
-    .pipe(sourcemaps.write('./'))
-	  .pipe(gulp.dest(paths.javascripts));
+    bundle = bundle.pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(uglify())
+      .pipe(sourcemaps.write('./'));
   }
   return bundle.pipe(gulp.dest(paths.javascripts));
 });
