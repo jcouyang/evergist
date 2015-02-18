@@ -4,7 +4,7 @@ var user = require('./user');
 var endpoint = api('gists');
 var jsonp = require('rest/client/jsonp');
 var db =require('./db');
-gists = function(){
+var gists = function(){
   return endpoint().then((data)=>{
     return db.transaction('rw', db.gist, ()=>{
       data.entity.forEach((entity)=>{
@@ -27,13 +27,3 @@ gists.starred = function(){
 };
 
 module.exports = gists
-
-
-
-
-
-
-
-
-
-

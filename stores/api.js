@@ -7,7 +7,7 @@ var urlcat = function(paths, path){
     return clientFactory({path:paths,method:path});
   if(['PUT','POST','PATCH'].indexOf(path)>=0)
     return function(entity){
-      return clientFactory({path:paths,method:path,entity:entity}); 
+      return clientFactory({path:paths,method:path,entity:entity});
     };
 
   return (newpath)=>{return urlcat(paths+"/"+path, newpath);};
@@ -16,29 +16,8 @@ var urlcat = function(paths, path){
 var clientFactory =function(config){
   return client(config);
 };
-var API = function(user, token){
-  this.user = user;
-  this.token = token;
-  return (path)=>urlcat("",path);
+var API = function(){
+  return path=>urlcat("",path);
 };
 
 module.exports = API();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
