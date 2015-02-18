@@ -1,8 +1,6 @@
 var React = require('react'),
 GistCard = require('./gist-card'),
 ToolbarMenu = require('./toolbar'),
-im=require('immutable'),
-{Map, Seq} = im,
 gists = require('../stores/gists'),
 NewGist = require('./new-gist'),
 Stage = require('./stage'),
@@ -13,13 +11,10 @@ var GistList = React.createClass({
   getInitialState: function() {
 		return {
       loading:true,
-      gists: Seq(),
-      originGists: Seq(),
+      gists: [],
+      originGists: [],
       selected: null,
-      dialog: Map({
-        title:"",
-        actions: ()=>{}
-      })
+      dialog: ''
     }
 	},
   componentDidMount: function(){
@@ -32,28 +27,28 @@ var GistList = React.createClass({
     })
     this._updateGists()
 
-    gists().then(()=>{
-      console.debug('transaction completed')
-      this._updateGists()
-    })
+    // gists().then(()=>{
+    //   console.debug('transaction completed')
+    //   this._updateGists()
+    // })
   },
   _updateGists: function(){
     var gists = db.gist.toArray().then((gists)=>{
-      console.debug('fetching gists from db and update state')
+      console.debug('fetching gists from db and update state',toClj(gists))
       this.setState({
-        gists: im.fromJS(gists),
-        originGists: im.fromJS(gists)
+        gists:toClj(gists),
+        originGists: toClj(gists)
       })
     })
   },
   render: function(){
-    var cards = this.state.gists.map((gist, index)=>{
-      var selected = this.state.selected===gist.get('id')
+    var cards = map((gist,index)=>{
+      var selected = this.state.selected===get(gist,'id')
       return (
         <div>
-          <a name={gist.get('id')} className="anchor"/>
+          <a name={get(gist,'id')} className="anchor"/>
           <GistCard className={selected?'selected':''}
-                    checkItem={this._toggleDisplay.bind(this,gist.get('id'))}
+                    checkItem={this._toggleDisplay.bind(this,get(gist,'id'))}
                     key={index}
                     index={index}
                     gist={gist}
@@ -62,14 +57,15 @@ var GistList = React.createClass({
                     deleteGist={this._onDeleteGist}/>
         </div>
       )
-    })
+    }, this.state.gists)
+    console.log(cards, toJs(cards))
     return (
       <Stage displaySearch={true} onSearch={this._handleSearch} displayLeftNav={true}>
         <div className="gist-list">
           <div className="list-container">
             <ToolbarMenu onFilter={this._onFilterChange}
                          className={this._display()?'hidden':''}/>
-            {cards.toArray()}
+            {toJs(cards)}
             <NewGist className={(this._display()?"":"hidden ") + "create-gist"} description={this.state.filter}/>
           </div>
         </div>
@@ -77,9 +73,9 @@ var GistList = React.createClass({
     )
   },
   _handleSearch: function(creteria){
-    var gists = this.state.originGists.filter((gist)=>new RegExp(creteria,"ig").test(gist.get('description')))
-    this.setState({
-      gists:gists})
+  //   var gists = this.state.originGists.filter((gist)=>new RegExp(creteria,"ig").test(gist.get('description')))
+  //   this.setState({
+  //     gists:gists})
   },
   _display: function(){
     return this.state.gists.size===0
@@ -100,7 +96,7 @@ var GistList = React.createClass({
   },
   _onFilterChange: function(filter){
     gists[filter]().then((data)=>{
-     this.setState({gists:data}) 
+     this.setState({gists:data})
     }).catch((error)=>console.log(error))
   }
 });
