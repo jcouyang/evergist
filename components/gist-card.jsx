@@ -3,12 +3,15 @@ GistDetail = require('./gist-detail'),
 GistEditor = require('./gist-editor'),
 GistDigest = require('./gist-digest'),
 gistStore = require('../stores/gist'),
-moment = require('moment'),
 {Paper,FloatingActionButton} = require('material-ui');
 
 var FLOAT_DEPTH = 1;
 var FLAT_DEPTH = 0;
 var GistCard = React.createClass({
+  propTypes: {
+    selected: React.PropTypes.bool.isRequired,
+    gist: React.PropTypes.object.isRequired
+  },
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {
 		return {
@@ -21,7 +24,7 @@ var GistCard = React.createClass({
 	},
   render: function(){
     return (
-      <Paper id={"gist-"+this.props.gist.get('id')}
+      <Paper id={"gist-"+get(this.props.gist, 'id')}
              className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")}
              zDepth={this.props.selected?2:this.state.zdepth}
              onMouseOver={this._onMouseOver}
@@ -30,8 +33,8 @@ var GistCard = React.createClass({
         <div className="gist-detail">
           <GistDetail display={this.props.selected&&!this.state.edit}
                       gistHtml={this.state.gistDetail}/>
-          <GistEditor gistId={this.props.gist.get('id')}
-                      files={this.props.gist.get('files')}
+          <GistEditor gistId={get(this.props.gist,'id')}
+                      files={get(this.props.gist,'files')}
                       display={this.props.selected&&this.state.edit}/>
         </div>
       </Paper>
@@ -44,8 +47,9 @@ var GistCard = React.createClass({
         zdepth: FLOAT_DEPTH
       })
     }
-    gistStore.view(this.props.gist.get('id'))
+    gistStore.view(get(this.props.gist,'id'))
              .then(data=>this.setState({gistDetail: get(data,'div')}))
+
     this.props.checkItem()
   },
   _onMouseOver: function(){
