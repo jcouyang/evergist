@@ -20,10 +20,10 @@ var GistList = React.createClass({
   componentDidMount: function(){
 
     this._updateGists()
-    // gists().then(()=>{
-    //   console.debug('transaction completed')
-    //   this._updateGists()
-    // })
+     gists().then(()=>{
+       console.debug('transaction completed')
+       this._updateGists()
+     })
   },
   _updateGists: function(){
     db.gist.toArray().then((gists)=>{
