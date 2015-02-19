@@ -7,8 +7,8 @@ extend(window, mori);
 var {Router} = require('director'),
 Settings = require('./settings'),
 GistList = require('./gist-list'),
-// LoginDialog =require('./login'),
-getUserInfo = require('../stores/user'),
+LoginDialog =require('./login'),
+user = require('../stores/user'),
 auth = require('../stores/authenticate');
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -42,13 +42,13 @@ var router = Router({
 
 function homepage(){
   auth()
-  .then(getUserInfo)
+  .then(user)
   .then(()=>{
     React.render(<GistList/>, igist)
   })
   .catch((error)=>{
     console.error('auth error',error.message, error.stack);
     router.setRoute('/login')
-  })  
+  })
 }
 router.configure().init('/');

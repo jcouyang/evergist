@@ -64,9 +64,9 @@ var GistList = React.createClass({
     )
   },
   _handleSearch: function(creteria){
-  //   var gists = this.state.originGists.filter((gist)=>new RegExp(creteria,"ig").test(gist.get('description')))
-  //   this.setState({
-  //     gists:gists})
+    db.gist.where("keywords").anyOf(creteria).distinct().toArray((gists)=>{
+      this.setState({gists:toClj(gists)})
+    })
   },
   _display: function(){
     return count(this.state.gists)===0
