@@ -1,6 +1,5 @@
 var React = require('react'),
 CodeMirrorEditor = require('./codemirror'),
-im = require('immutable'),
 {DropDownMenu,
  Toolbar,
  Input,
@@ -9,9 +8,14 @@ im = require('immutable'),
  ToolbarGroup,
  Toggle,
  Snackbar} = require('material-ui'),
-languages = im.fromJS(CodeMirror.modeInfo).map((language)=>language.set('payload',language.get('mode')).set('text',language.get('name'))),
-gist = require('../stores/gist')
-
+gist = require('../stores/gist');
+var languages = map(language=>{
+  return pipeline(
+    language,
+    curry(conj, hashMap('payload', get(language, 'mode'))),
+    curry(conj, hashMap('text', get(language,'name')))
+  )
+}, toClj(CodeMirror.modeInfo))
 var NewGist = React.createClass({
   public: false,
   getInitialState: function(){
@@ -29,12 +33,12 @@ var NewGist = React.createClass({
             <Input type="text" name="file-name" className="gist-file-name" onChange={this._handleInputChange} style={{height:'100%'}} placeholder="filename"/>
           </ToolbarGroup>
           <ToolbarGroup float="left" key={1}>
-            <DropDownMenu menuItems={languages.toJS()}
+            <DropDownMenu menuItems={toJs(languages)}
                           autoWidth={false}
                           className="language-dropdown"
                           ref="dropdown"
                           onChange={this._handleDropDownChange}/>
-            
+
           </ToolbarGroup>
           <ToolbarGroup float="right" key={2}>
             <Toggle onToggle={this._handleToggle}/> public
@@ -61,7 +65,7 @@ var NewGist = React.createClass({
         console.debug(this.refs.dropdown.state)
       }
     }
-      
+
   },
   _handleDropDownChange: function(e,_,payload){
     if(payload){

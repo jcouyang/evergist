@@ -1,5 +1,8 @@
-jest.dontMock('../new-gist');
+jest.dontMock('../new-gist')
+  .dontMock('../extend');
 jest.setMock('../../stores/gist',jest.genMockFunction());
+var extend = require('../extend');
+extend(window, require('mori'));
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 CodeMirror =  jest.genMockFromModule('codemirror')
@@ -14,18 +17,15 @@ CodeMirror.modeInfo = [
 ]
 var CodeMirrorEditor = require('../codemirror');
 TestUtils.mockComponent(CodeMirrorEditor,'div');
+var NewGist = require('../new-gist');
 
 describe('new gist', function(){
-
-	var im = require('immutable');
   var {DropDownMenu} = require('material-ui');
-  var NewGist = require('../new-gist');
   var newgist = TestUtils.renderIntoDocument(
       <NewGist/>
   );
-
 	it('render a dropdown menu', function(){
-  	var title = TestUtils.findRenderedComponentWithType(newgist, DropDownMenu);
+	  var title = TestUtils.findRenderedComponentWithType(newgist, DropDownMenu);
     expect(title.getDOMNode().textContent).toEqual('APLAPLAsteriskCC++Cobol');
 	});
 
@@ -34,13 +34,3 @@ describe('new gist', function(){
     expect(title).toBeDefined();
   });
 });
-
-
-
-
-
-
-
-
-
-
