@@ -39,7 +39,7 @@
     "start": "gulp build && python -m SimpleHTTPServer"
   },
   "jest": {
-    "scriptPreprocessor": "<rootDir>/preprocessor.js",
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/when",
