@@ -1,13 +1,15 @@
 var React = require('react'),
-$E = require('./event');
+$E = require('./event'),
+mori = require('mori'),
+extend = require('./extend');
+extend(window, mori);
+
 var {Router} = require('director'),
 Settings = require('./settings'),
 GistList = require('./gist-list'),
-LoginDialog =require('./login'),
+// LoginDialog =require('./login'),
 getUserInfo = require('../stores/user'),
-auth = require('../stores/authenticate'),
-mori = require('mori'),
-extend = require('./extend');
+auth = require('../stores/authenticate');
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 
@@ -15,7 +17,7 @@ injectTapEventPlugin();
 
 var igist = document.querySelector('#evergist')
 
-extend(window, mori)
+
 
 var router = Router({
   '/': function(){

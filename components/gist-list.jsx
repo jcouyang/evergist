@@ -19,22 +19,14 @@ var GistList = React.createClass({
 	},
   componentDidMount: function(){
 
-    db.gist.hook('updating', (mods, primKey, obj)=>{
-      console.debug('updating', mods,obj)
-    })
-    db.gist.hook('creating', (primKey, obj)=>{
-      console.debug('createing', obj)
-    })
     this._updateGists()
-
     // gists().then(()=>{
     //   console.debug('transaction completed')
     //   this._updateGists()
     // })
   },
   _updateGists: function(){
-    var gists = db.gist.toArray().then((gists)=>{
-      console.debug('fetching gists from db and update state',toClj(gists))
+    db.gist.toArray().then((gists)=>{
       this.setState({
         gists:toClj(gists),
         originGists: toClj(gists)
@@ -58,7 +50,6 @@ var GistList = React.createClass({
         </div>
       )
     }, this.state.gists)
-    console.log(cards, toJs(cards))
     return (
       <Stage displaySearch={true} onSearch={this._handleSearch} displayLeftNav={true}>
         <div className="gist-list">
@@ -78,7 +69,7 @@ var GistList = React.createClass({
   //     gists:gists})
   },
   _display: function(){
-    return this.state.gists.size===0
+    return count(this.state.gists)===0
   },
   _onDeleteGist:function(key){
     console.log(key)
