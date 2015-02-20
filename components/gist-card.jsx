@@ -36,9 +36,9 @@ var GistCard = React.createClass({
                     onEdit={this._onEditGist.bind(this,id)}
                     className={this._actionButtonClass()}/>
         <div className="gist-detail">
-          <Loading loading={this.state.loading}/>
           <GistDetail display={this.props.selected&&!this.state.edit}
-                      gistHtml={this.state.gistDetail}/>
+                      gistHtml={this.state.gistDetail}
+                      loading={this.state.loading}/>
           <GistEditor gistId={id}
                       ref='gistEditor'
                       files={get(this.props.gist,'files')}
@@ -51,15 +51,15 @@ var GistCard = React.createClass({
     e.stopPropagation()
     if(!this.props.selected){
       this.setState({
-        zdepth: FLOAT_DEPTH,
-        loading: true
+        zdepth: FLOAT_DEPTH
       })
     }
-    gistStore.view(get(this.props.gist,'id'))
-             .then(data=>this.setState({gistDetail: get(data,'div'),
-                                        loading:false}))
-
     this.props.checkItem()
+    this.setState({loading:true},()=>{
+      gistStore.view(get(this.props.gist,'id'))
+               .then(data=>this.setState({gistDetail: get(data,'div'),
+                                          loading:false}))
+    })
   },
   _onMouseOver: function(){
     this.setState({
