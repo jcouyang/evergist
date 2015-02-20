@@ -1,6 +1,6 @@
 var React = require('react'),
 AppLeftNav = require('./left-nav'),
-{AppBar, AppCanvas, Input} = require('material-ui');
+{AppBar, AppCanvas, TextField} = require('material-ui');
 
 var Stage = React.createClass({
   componentDidMount: function(){
@@ -20,7 +20,7 @@ var Stage = React.createClass({
                    onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}
                    icon={this.props.displayLeftNav?this.props.icon:''} >
              <div className={(this.props.displaySearch?"":"hidden ") + "search-toolbar"}>
-               <Input type='search' ref="search" onChange={this._onSearch} name="query" placeholder="Search"/>
+               <TextField type='search' ref="search" onChange={this._onSearch} name="query" hintText="Search"/>
              </div>
            </AppBar>
            {leftNav}
@@ -28,7 +28,7 @@ var Stage = React.createClass({
              {this.props.children}
            </div>
          </AppCanvas>
-      </div>      
+      </div>
     )
   },
   _onSearch: function(e){
@@ -43,7 +43,7 @@ var Stage = React.createClass({
     else
       this.refs.leftNav.toggle();
   }
-  
+
 })
 
 module.exports = Stage;

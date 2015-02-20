@@ -3,6 +3,7 @@ GistDetail = require('./gist-detail'),
 GistEditor = require('./gist-editor'),
 GistDigest = require('./gist-digest'),
 gistStore = require('../stores/gist'),
+Loading = require('./loading'),
 {Paper,FloatingActionButton} = require('material-ui');
 
 var FLOAT_DEPTH = 1;
@@ -19,18 +20,19 @@ var GistCard = React.createClass({
       stared: false,
       deleted: false,
       edit:false,
-      gistDetail: ''
+      gistDetail: '',
+      loading: false
 		}
 	},
   render: function(){
     return (
-      <Paper id={"gist-"+get(this.props.gist, 'id')}
-             className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")}
+      <Paper className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")}
              zDepth={this.props.selected?2:this.state.zdepth}
              onMouseOver={this._onMouseOver}
              onMouseOut={this._onMouseOut}>
         <GistDigest gist={this.props.gist} onClick={this._onTitleClick}/>
         <div className="gist-detail">
+          <Loading loading={this.state.loading}/>
           <GistDetail display={this.props.selected&&!this.state.edit}
                       gistHtml={this.state.gistDetail}/>
           <GistEditor gistId={get(this.props.gist,'id')}
@@ -44,11 +46,13 @@ var GistCard = React.createClass({
     e.stopPropagation()
     if(!this.props.selected){
       this.setState({
-        zdepth: FLOAT_DEPTH
+        zdepth: FLOAT_DEPTH,
+        loading: true
       })
     }
     gistStore.view(get(this.props.gist,'id'))
-             .then(data=>this.setState({gistDetail: get(data,'div')}))
+             .then(data=>this.setState({gistDetail: get(data,'div'),
+                                        loading:false}))
 
     this.props.checkItem()
   },

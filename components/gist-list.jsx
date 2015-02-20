@@ -1,6 +1,7 @@
 var React = require('react'),
 GistCard = require('./gist-card'),
 ToolbarMenu = require('./toolbar'),
+Loading = require('./loading'),
 gists = require('../stores/gists'),
 NewGist = require('./new-gist'),
 Stage = require('./stage'),
@@ -12,24 +13,21 @@ var GistList = React.createClass({
 		return {
       loading:true,
       gists: [],
-      originGists: [],
       selected: null,
       dialog: ''
     }
 	},
   componentDidMount: function(){
-
     this._updateGists()
-     gists().then(()=>{
-       console.debug('transaction completed')
-       this._updateGists()
-     })
+    gists().then(()=>{
+      this._updateGists()
+    })
   },
   _updateGists: function(){
     db.gist.toArray().then((gists)=>{
       this.setState({
         gists:toClj(gists),
-        originGists: toClj(gists)
+        loading: false
       })
     })
   },
@@ -53,9 +51,8 @@ var GistList = React.createClass({
     return (
       <Stage displaySearch={true} onSearch={this._handleSearch} displayLeftNav={true}>
         <div className="gist-list">
+          <Loading loading={this.state.loading}/>
           <div className="list-container">
-            <ToolbarMenu onFilter={this._onFilterChange}
-                         className={this._display()?'hidden':''}/>
             {toJs(cards)}
             <NewGist className={(this._display()?"":"hidden ") + "create-gist"} description={this.state.filter}/>
           </div>
@@ -64,9 +61,15 @@ var GistList = React.createClass({
     )
   },
   _handleSearch: function(creteria){
-    db.gist.where("keywords").anyOf(creteria).distinct().toArray((gists)=>{
-      this.setState({gists:toClj(gists)})
-    })
+    if(creteria){
+      db.gist.where("keywords").anyOf(creteria).distinct().toArray((gists)=>{
+        this.setState({gists:toClj(gists)})
+      })
+    }else{
+      db.gist.toArray((gists)=>{
+        this.setState({gists:toClj(gists)})
+      })
+    }
   },
   _display: function(){
     return count(this.state.gists)===0
@@ -84,11 +87,6 @@ var GistList = React.createClass({
     else{
       this.setState({selected: null})
     }
-  },
-  _onFilterChange: function(filter){
-    gists[filter]().then((data)=>{
-     this.setState({gists:data})
-    }).catch((error)=>console.log(error))
   }
 });
 

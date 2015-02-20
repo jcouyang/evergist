@@ -7,7 +7,7 @@ var React = require('react/addons');
 CodeMirror = require('codemirror');
 var GistCard;
 var GistList;
-var db;
+var db,gists;
 var TestUtils = React.addons.TestUtils;
 var LeftNav = require('../left-nav');
 var Stage = require('../stage');
@@ -29,15 +29,15 @@ describe('gist list', function(){
         }
       ]);
     };
+    gists = require('../../stores/gists');
+    gists.mockReturnValue(db.gist.toArray());
     GistCard = require('../gist-card');
     TestUtils.mockComponent(GistCard);
     GistList = require('../gist-list');
     gistList = TestUtils.renderIntoDocument(
         <GistList/>
     );
-
   });
-
   it('list 2 gist item', function(){
     jest.runAllTicks();
     var gistCard = TestUtils.scryRenderedComponentsWithType(gistList, GistCard);
