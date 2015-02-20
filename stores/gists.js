@@ -3,13 +3,15 @@ var api = require('./api');
 var user = require('./user');
 var endpoint = api('gists');
 var jsonp = require('rest/client/jsonp');
+var _ = require('mori');
 var db =require('./db');
 var gists = function(){
   return endpoint().then((data)=>{
     return db.transaction('rw', db.gist, ()=>{
       data.entity.forEach((entity)=>{
         console.debug('puting object' + entity.id);
-        db.gist.put(entity);
+        entity = _.updateIn(_.toClj(entity), ['files'], _.vals);
+        db.gist.put(_.toJs(entity));
       });
     });
   },(error)=>console.log);

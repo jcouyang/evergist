@@ -24,19 +24,21 @@ var GistEditor = React.createClass({
       files: vector()
     };
 	},
-  componentDidMount: function() {
+  fetchRawContent: function() {
     when.all(intoArray(map(file=>gist.raw(get(file,'raw_url')), this.props.files)))
         .then(partial(map,content=>hashMap('content', content)))
         .then(partial(map, merge, this.props.files))
-        .then(data=>this.setState({files:data}));
+        .then(data=>this.setState({files:data,
+                                   loading: false}));
   },
   render: function(){
     var editors = map((file)=>{
       var content;
+      console.log(get(file,'language'),'--------------')
       if(this.state.preview && get(file,'language').match(/markdown/ig)){
         content = <Markdown markdown={file.content}/>;
       } else {
-        content = <CodeMirrorEditor value={file.content}
+        content = <CodeMirrorEditor value={get(file, 'content')}
                                     mode={get(file, 'language')}
                                     filename={get(file, 'filename')}
                                     forceUpdate={true}

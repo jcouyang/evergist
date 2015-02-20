@@ -4,7 +4,7 @@ GistEditor = require('./gist-editor'),
 GistDigest = require('./gist-digest'),
 gistStore = require('../stores/gist'),
 Loading = require('./loading'),
-{Paper,FloatingActionButton} = require('material-ui');
+{Paper} = require('material-ui');
 
 var FLOAT_DEPTH = 1;
 var FLAT_DEPTH = 0;
@@ -25,17 +25,22 @@ var GistCard = React.createClass({
 		}
 	},
   render: function(){
+    var id = get(this.props.gist, 'id');
     return (
       <Paper className={(this.props.selected?"selected":'')+" gist-card"+ (this.state.deleted?' hidden':"")}
              zDepth={this.props.selected?2:this.state.zdepth}
              onMouseOver={this._onMouseOver}
              onMouseOut={this._onMouseOut}>
-        <GistDigest gist={this.props.gist} onClick={this._onTitleClick}/>
+        <GistDigest gist={this.props.gist}
+                    onClick={this._onTitleClick}
+                    onEdit={this._onEditGist.bind(this,id)}
+                    className={this._actionButtonClass()}/>
         <div className="gist-detail">
           <Loading loading={this.state.loading}/>
           <GistDetail display={this.props.selected&&!this.state.edit}
                       gistHtml={this.state.gistDetail}/>
-          <GistEditor gistId={get(this.props.gist,'id')}
+          <GistEditor gistId={id}
+                      ref='gistEditor'
                       files={get(this.props.gist,'files')}
                       display={this.props.selected&&this.state.edit}/>
         </div>
@@ -66,6 +71,7 @@ var GistCard = React.createClass({
     this.setState({zdepth:FLOAT_DEPTH,edit:!this.state.edit})
     if(!this.props.selected){
       this.setState({edit:true})
+      this.refs.gistEditor.fetchRawContent()
       this.props.checkItem()
     }
 

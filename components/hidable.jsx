@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react/addons');
 var cx = React.addons.classSet;
 module.exports = React.createClass({
   propTypes: {

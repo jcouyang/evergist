@@ -69,6 +69,7 @@ describe('GistEditor', function(){
     var gistEditor = TestUtils.renderIntoDocument(
         <GistEditor gistId="1234" files={files} display={true}/>
     );
+    gistEditor.fetchRawContent();
     jest.runAllTicks();
     var codeMirror = TestUtils.scryRenderedComponentsWithType(gistEditor, CodeMirrorEditor);
     expect(codeMirror.length).toEqual(2);
@@ -79,6 +80,7 @@ describe('GistEditor', function(){
     var gistEditor = TestUtils.renderIntoDocument(
         <GistEditor gistId="1234" files={files} display={true}/>
     );
+    gistEditor.fetchRawContent();
     jest.runAllTicks();
     var button = TestUtils.scryRenderedDOMComponentsWithTag(gistEditor, 'button');
     TestUtils.Simulate.click(button[0]);
@@ -93,6 +95,7 @@ describe('GistEditor', function(){
     var gistEditor = TestUtils.renderIntoDocument(
         <GistEditor gistId="1234" files={files} display={true}/>
     );
+    gistEditor.fetchRawContent();
     var editor = {
       getEditor:function(){
         return {
@@ -107,6 +110,7 @@ describe('GistEditor', function(){
       'codemirrorconfig.json': editor,
       'codemirrorconfig.md': editor
     };
+    jest.runAllTicks();
     var button = TestUtils.scryRenderedDOMComponentsWithTag(gistEditor, 'button');
     TestUtils.Simulate.click(button[1]);
     jest.runAllTicks();
