@@ -60,10 +60,15 @@ var GistList = React.createClass({
       </Stage>
     )
   },
-  _handleSearch: function(creteria){
-    if(creteria){
-      db.gist.where("keywords").anyOf(creteria).distinct().toArray((gists)=>{
-        this.setState({gists:toClj(gists)})
+  _handleSearch: function(creterias){
+    if(creterias){
+      db.gist.toArray((gists)=>{
+        gists = filter(
+          gist=>every(
+            creteria=>RegExp(creteria,'ig').test(gist.content),
+            creterias.split(' ')),
+          gists);
+        this.setState({gists:toClj(gists)});
       })
     }else{
       db.gist.toArray((gists)=>{

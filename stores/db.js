@@ -3,16 +3,14 @@ var db = new Dexie('IgistDB');
 var tokenizer = require('./tokenizer');
 var _ = require('mori');
 var getKeywords = function(gist){
-  return []
-    .concat(tokenizer(gist.description))
-    .concat(
-      _.toJs(_.map(tokenizer,_.keys(_.toClj(gist.files)))));
+  return [gist.description, gist.files.map(file=>tokenizer(file.filename)).join(' ')].join(' ');
+
 };
 db.version(2).stores({
-  gist: 'id, description,*keywords'
+  gist: 'id, description, content'
 }).upgrade(function(trans){
   trans.gist.toCollection().modify(function(gist){
-    gist.keywords = getKeywords(gist);
+    gist.content = getKeywords(gist);
   });
 });
 
@@ -23,7 +21,7 @@ db.version(1).stores({
 
 db.gist.hook("creating", function (primKey, obj, trans) {
   console.log('-----creating----')
-  obj.keywords = getKeywords(obj);
+  obj.content = getKeywords(obj);
 });
 db.gist.hook("updating", function (mods, primKey, obj, trans) {
   console.log(obj,mods,'-------updating----------')
@@ -31,12 +29,12 @@ db.gist.hook("updating", function (mods, primKey, obj, trans) {
     // "message" property is being updated
     if (mods.description && typeof mods.description == 'string'){
       console.log('---------updating-------',mods.description)
-      return { keywords: getKeywords(mods) };
+      return { content: getKeywords(mods) };
     }
     // "message" property was updated to another valid value. Re-index messageWords:
 
   }
-  return { keywords: getKeywords(obj) };
+  return { content: getKeywords(obj) };
 
 });
 
