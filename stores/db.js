@@ -25,15 +25,10 @@ db.gist.hook("creating", function (primKey, obj, trans) {
 });
 db.gist.hook("updating", function (mods, primKey, obj, trans) {
   console.log(obj,mods,'-------updating----------')
-  if (mods.hasOwnProperty("description")) {
-    // "message" property is being updated
-    if (mods.description && typeof mods.description == 'string'){
+    if (mods && mods.description && typeof mods.description == 'string'){
       console.log('---------updating-------',mods.description)
       return { content: getKeywords(mods) };
     }
-    // "message" property was updated to another valid value. Re-index messageWords:
-
-  }
   return { content: getKeywords(obj) };
 
 });

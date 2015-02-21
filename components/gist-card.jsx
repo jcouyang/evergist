@@ -70,13 +70,10 @@ var GistCard = React.createClass({
   },
   _onEditGist: function(id, e){
     e.stopPropagation();
-    this.setState({zdepth:FLOAT_DEPTH,edit:!this.state.edit})
-    if(!this.props.selected){
-      this.setState({edit:true})
-      this.refs.gistEditor.fetchRawContent()
-      this.props.checkItem()
-    }
-
+    this.setState({zdepth:FLOAT_DEPTH,edit:!this.state.edit},()=>{
+      if(this.state.edit)
+        this.refs.gistEditor.fetchRawContent()
+    })
   },
   _onMouseOut: function(){
     if(!this.props.selected){
