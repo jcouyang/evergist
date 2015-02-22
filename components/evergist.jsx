@@ -1,8 +1,8 @@
 var React = require('react'),
-$E = require('./event'),
 mori = require('mori'),
 extend = require('./extend');
 extend(window, mori);
+window.$E = require('./event');
 
 var {Router} = require('director'),
 Settings = require('./settings'),
