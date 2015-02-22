@@ -17,6 +17,9 @@ module.exports = React.createClass({
           <IconButton iconClassName={iconClasses}
                       className={classes}
                       onTouchTap={this.props.onEdit}/>
+          <IconButton iconClassName="fa fa-times"
+                      onTouchTap={this.props.onDelete}/>
+
         </div>
 
         <div className="gist-digest" onClick={this.props.onClick}>

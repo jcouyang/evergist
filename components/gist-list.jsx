@@ -79,9 +79,8 @@ var GistList = React.createClass({
   _display: function(){
     return count(this.state.gists)===0
   },
-  _onDeleteGist:function(key){
-    console.log(key)
-    this.setState({gists:this.state.originGists.delete(key)})
+  _onDeleteGist:function(id){
+    db.gist.delete(id).then(this._updateGists);
   },
   _toggleDisplay: function(id){
     if(this.state.selected!=id){

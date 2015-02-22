@@ -34,6 +34,9 @@ var GistCard = React.createClass({
         <GistDigest gist={this.props.gist}
                     onClick={this._onTitleClick}
                     onEdit={this._onEditGist.bind(this,id)}
+                    onDelete={this._onDeleteGist.bind(this,
+                      get(this.props.gist,'id'),
+                      get(this.props.gist,'description'))}
                     className={this._actionButtonClass()}
                     edit={this.state.edit}
                     display={this.props.selected}/>
@@ -75,6 +78,20 @@ var GistCard = React.createClass({
         this.refs.gistEditor.fetchRawContent()
     })
   },
+  _onDeleteGist: function(id,description,e){
+    e.stopPropagation();
+    $E.on('dialog.confirm',(data)=>{
+      $E.off('dialog.confirm')
+      if(data===id){
+        gistStore.delete(id)
+                 .then(()=>this.setState({deleted:true}))
+                 .then(()=>this.props.deleteGist(id));
+      }
+
+    })
+      .trigger('dialog.showConfirm', {title:'Sure You Wanna DELETE "'+ description + '"?', id:id});
+  },
+
   _onMouseOut: function(){
     if(!this.props.selected){
       this.setState({
