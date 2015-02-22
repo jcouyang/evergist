@@ -36,9 +36,11 @@ var GistCard = React.createClass({
                     onEdit={this._onEditGist.bind(this,id)}
                     onDelete={this._onDeleteGist.bind(this,
                       get(this.props.gist,'id'),
-                      get(this.props.gist,'description'))}
+                    get(this.props.gist,'description'))}
+                    onStar={this._onStarGist.bind(this,get(this.props.gist,'id'))}
                     className={this._actionButtonClass()}
                     edit={this.state.edit}
+                    starred={this.state.stared}
                     display={this.props.selected}/>
         <div className="gist-detail">
           <GistDetail display={this.props.selected&&!this.state.edit}
@@ -78,6 +80,11 @@ var GistCard = React.createClass({
         this.refs.gistEditor.fetchRawContent()
     })
   },
+  _onStarGist: function(id, e){
+    e.stopPropagation();
+    var starUnstarGist = get(this.gist.stared,'stared')?gistStore.unstar:gistStore.star;
+    starUnstarGist(id).then(()=>this.setState({stared:!this.props.stared}));
+  },
   _onDeleteGist: function(id,description,e){
     e.stopPropagation();
     $E.on('dialog.confirm',(data)=>{
@@ -91,7 +98,6 @@ var GistCard = React.createClass({
     })
       .trigger('dialog.showConfirm', {title:'Sure You Wanna DELETE "'+ description + '"?', id:id});
   },
-
   _onMouseOut: function(){
     if(!this.props.selected){
       this.setState({
