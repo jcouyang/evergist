@@ -58,7 +58,7 @@ var GistEditor = React.createClass({
               <ToolbarGroup float="right" key={1}>
                 <IconButton iconClassName={this.state.preview?'fa fa-pencil':'fa fa-eye'}
                             onClick={this._togglePreview}
-                            className={isEmpty(filter(file=>fnil((x)=>RegExp('markdown','ig').test(x), '')(get(file,'language')),this.props.files))?'':'hidden'}/>
+                            className={isEmpty(filter(file=>fnil((x)=>RegExp('markdown','ig').test(x), '')(get(file,'language')),this.props.files))?'hidden':''}/>
                 <IconButton iconClassName='fa fa-floppy-o' onClick={this._saveGist}/>
               </ToolbarGroup>
             </Toolbar>
