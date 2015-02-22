@@ -10,6 +10,7 @@ var markdown = require('../stores/markdown');
 var loadingState = {
 };
 
+var isMarkdown = fnil((x)=>RegExp('markdown','ig').test(x), '');
 var GistEditor = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   propTypes: {
@@ -34,8 +35,7 @@ var GistEditor = React.createClass({
   render: function(){
     var editors = map((file)=>{
       var content;
-      console.log(get(file,'language'),'--------------')
-      if(this.state.preview && get(file,'language').match(/markdown/ig)){
+      if(this.state.preview && isMarkdown(get(file,'language'))){
         content = <Markdown markdown={file.content}/>;
       } else {
         content = <CodeMirrorEditor value={get(file, 'content')}
@@ -58,7 +58,7 @@ var GistEditor = React.createClass({
               <ToolbarGroup float="right" key={1}>
                 <IconButton iconClassName={this.state.preview?'fa fa-pencil':'fa fa-eye'}
                             onClick={this._togglePreview}
-                            className={isEmpty(filter(file=>fnil((x)=>RegExp('markdown','ig').test(x), '')(get(file,'language')),this.props.files))?'hidden':''}/>
+                            className={isEmpty(filter(file=>isMarkdown(get(file, 'language')),this.props.files))?'hidden':''}/>
                 <IconButton iconClassName='fa fa-floppy-o' onClick={this._saveGist}/>
               </ToolbarGroup>
             </Toolbar>
