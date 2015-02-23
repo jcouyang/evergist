@@ -6,6 +6,10 @@ var getKeywords = function(gist){
   return [gist.description, gist.files.map(file=>tokenizer(file.filename)).join(' ')].join(' ');
 
 };
+db.version(3).stores({
+  gist: 'id, description, content, updated_at'
+});
+
 db.version(2).stores({
   gist: 'id, description, content'
 }).upgrade(function(trans){

@@ -24,7 +24,7 @@ var GistList = React.createClass({
     })
   },
   _updateGists: function(){
-    db.gist.toArray().then((gists)=>{
+    db.gist.orderBy('updated_at').desc().toArray().then((gists)=>{
       this.setState({
         gists:toClj(gists),
         loading: false
