@@ -7,6 +7,7 @@ window.$E = require('./event');
 var {Router} = require('director'),
 Settings = require('./settings'),
 GistList = require('./gist-list'),
+NewGistPage = require('./new-gist-page'),
 LoginDialog =require('./login'),
 user = require('../stores/user'),
 auth = require('../stores/authenticate');
@@ -23,6 +24,11 @@ var router = Router({
   '/': function(){
     console.log('home page')
     homepage();
+  },
+  '/new': function(){
+    React.render(
+      <NewGistPage/>, igist
+    )
   },
   '/login': function(){
     React.render(

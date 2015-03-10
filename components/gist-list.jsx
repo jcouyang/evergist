@@ -5,7 +5,7 @@ Loading = require('./loading'),
 gists = require('../stores/gists'),
 NewGist = require('./new-gist'),
 Stage = require('./stage'),
-{Dialog} = require('material-ui'),
+{Dialog, FloatingActionButton} = require('material-ui'),
 db = require('../stores/db')
 var GistList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -57,6 +57,9 @@ var GistList = React.createClass({
             <NewGist className={(this._display()?"":"hidden ") + "create-gist"} description={this.state.filter}/>
           </div>
         </div>
+        <a href="#/new">
+          <FloatingActionButton iconClassName="fa fa-plus" className="action-new" secondary={true}/>
+        </a>
       </Stage>
     )
   },
