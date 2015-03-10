@@ -24,6 +24,7 @@
     "browserify": "^7.0.0",
     "codemirror": "^4.11.0",
     "envify": "^3.2.0",
+    "reactify": "^1.0.0",
     "gulp": "^3.8.10",
     "gulp-download-atom-shell": "0.0.4",
     "gulp-less": "^2.0.1",
