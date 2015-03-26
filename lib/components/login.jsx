@@ -1,5 +1,5 @@
 var React = require('react'),
-$E = require('./event'),
+$E = require('../event'),
 mui = require('material-ui'),
 {Input, Dialog, RaisedButton} = mui,
 auth = require('../stores/authenticate'),
@@ -29,7 +29,7 @@ var LoginDialog = React.createClass({
       enterprise: false
     }
   },
-  
+
   render: function(){
     return (
     	  <div className="home-page-hero full-width-section">
@@ -47,7 +47,7 @@ var LoginDialog = React.createClass({
             <RaisedButton label="Login GitHub Enterpise" onTouchTap={this._handleEnterpriseLogin}/>
             </div>
           </div>
-          
+
         </div>
 	  )
   },

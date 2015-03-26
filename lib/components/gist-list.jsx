@@ -6,7 +6,7 @@ gists = require('../stores/gists'),
 NewGist = require('./new-gist'),
 Stage = require('./stage'),
 {Dialog, FloatingActionButton} = require('material-ui'),
-db = require('../stores/db')
+db = require('../stores/db');
 var GistList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {
@@ -18,7 +18,7 @@ var GistList = React.createClass({
     }
 	},
   componentDidMount: function(){
-    this._updateGists()
+    this._updateGists();
     gists().then(()=>{
       this._updateGists()
     })
@@ -35,17 +35,17 @@ var GistList = React.createClass({
     var cards = map((gist,index)=>{
       var selected = this.state.selected===get(gist,'id')
       return (
-        <div>
-          <a name={get(gist,'id')} className="anchor"/>
-          <GistCard className={selected?'selected':''}
-                    checkItem={this._toggleDisplay.bind(this,get(gist,'id'))}
-                    key={index}
-                    index={index}
-                    gist={gist}
-                    selected={selected}
-                    setSelect={this._toggleDisplay}
-                    deleteGist={this._onDeleteGist}/>
-        </div>
+              <div>
+		      <a name={get(gist,'id')} className="anchor"/>
+		      <GistCard className={selected?'selected':''}
+			      checkItem={this._toggleDisplay.bind(this,get(gist,'id'))}
+			      key={index}
+			      index={index}
+			      gist={gist}
+			      selected={selected}
+			      setSelect={this._toggleDisplay}
+			      deleteGist={this._onDeleteGist}/>
+             </div>
       )
     }, this.state.gists)
     return (

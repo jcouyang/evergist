@@ -7,17 +7,24 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var del = require('del');
+var connect = require('gulp-connect');
+var port = process.env.PORT || 8080;
+var reloadPort = process.env.RELOAD_PORT || 35729;
 
 var paths = {
-  source: './components/evergist.jsx',
+  source: './lib/app.jsx',
   less: ['less/*.less'],
-	jsx: ['components/*.jsx', "stores/*"],
-  javascripts: 'javascripts',
+	javascripts: 'javascripts',
   stylesheets: 'stylesheets',
 	tests: ['__tests__/**/*.jsx']
 };
 
-gulp.task('browserify', function() {
+gulp.task('clean', function () {
+  del(['javascripts']);
+});
+
+gulp.task('build', function() {
   var bundle = browserify({
     entries: paths.source,
     debug: true,
@@ -26,7 +33,7 @@ gulp.task('browserify', function() {
         .transform(babelify)
         .transform(['envify'])
         .bundle()
-        .pipe(source('evergist.js'))
+        .pipe(source('app.js'))
         .pipe(buffer());
   if(process.env.NODE_ENV==='production'){
     bundle = bundle.pipe(sourcemaps.init({loadMaps: true}))
@@ -36,9 +43,18 @@ gulp.task('browserify', function() {
   return bundle.pipe(gulp.dest(paths.javascripts));
 });
 
-gulp.task('watch', function() {
-  gulp.watch(paths.jsx, ['browserify']);
-  gulp.watch(paths.less, ['less']);
+gulp.task('serve', ['build'], function () {
+  connect.server({
+    port: port,
+    livereload: {
+      port: reloadPort
+    }
+  });
+});
+
+gulp.task('reload-js', function () {
+  return gulp.src(paths.source)
+    .pipe(connect.reload());
 });
 
 gulp.task('less', function() {
@@ -47,7 +63,12 @@ gulp.task('less', function() {
     .pipe(gulp.dest(paths.stylesheets));
 });
 
-gulp.task('build', ['browserify','less']);
+gulp.task('watch', function () {
+  gulp.watch(['./lib/**/*.jsx'], ['build', 'reload-js']);
+  gulp.watch([paths.less], ['less', 'reload-js']);
+});
+
+gulp.task('default', ['build', 'serve', 'watch']);
 
 gulp.task('atomshell', function(cb){
     downloadatomshell({

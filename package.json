@@ -23,20 +23,22 @@
     "babelify": "^5.0.3",
     "browserify": "^7.0.0",
     "codemirror": "^4.11.0",
+    "del": "^1.1.1",
     "envify": "^3.2.0",
-    "reactify": "^1.0.0",
     "gulp": "^3.8.10",
+    "gulp-connect": "^2.2.0",
     "gulp-download-atom-shell": "0.0.4",
     "gulp-less": "^2.0.1",
     "gulp-sourcemaps": "^1.2.8",
     "gulp-uglify": "^1.0.2",
     "jest-cli": "^0.2.0",
+    "reactify": "^1.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0"
   },
   "scripts": {
     "test": "jest",
-    "start": "gulp build && python -m SimpleHTTPServer"
+    "start": "gulp build"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",

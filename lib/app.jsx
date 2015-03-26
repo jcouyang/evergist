@@ -5,12 +5,12 @@ extend(window, mori);
 window.$E = require('./event');
 
 var {Router} = require('director'),
-Settings = require('./settings'),
-GistList = require('./gist-list'),
-NewGistPage = require('./new-gist-page'),
-LoginDialog =require('./login'),
-user = require('../stores/user'),
-auth = require('../stores/authenticate');
+Settings = require('./components/settings'),
+GistList = require('./components/gist-list'),
+NewGistPage = require('./components/new-gist-page'),
+LoginDialog =require('./components/login'),
+user = require('./stores/user'),
+auth = require('./stores/authenticate');
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 
