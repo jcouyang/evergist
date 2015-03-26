@@ -8,14 +8,14 @@ module.exports = React.createClass({
       'fa fa-eye': this.props.edit,
       'fa fa-pencil': !this.props.edit
     })
-    var classes = cx({
+      var classes = cx({
       'hidden': !this.props.display,
       'right': true
     })
     return (
       <a href={'#'+get(this.props.gist,'id')} className="gist-item">
         <div className={classes} >
-          <IconButton iconClassName="fa fa-times"
+          <IconButton iconClassName="fa fa-times red"
                       className={classes}
                       onTouchTap={this.props.onDelete}/>
           <IconButton iconClassName={iconClasses}
