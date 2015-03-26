@@ -36,6 +36,7 @@ var Stage = React.createClass({
     var leftNav;
     if(this.props.displayLeftNav)
       leftNav = <AppLeftNav ref="leftNav" />
+    var icon = <i className="fa fa-bars" onClick={this._onMenuIconButtonTouchTap}></i>
     return (
       <div className="stage">
         <Dialog ref="dialog" title={this.state.dialog.title} actions={this.state.dialog.actions}/>
@@ -43,8 +44,8 @@ var Stage = React.createClass({
            <AppBar className="mui-dark-theme"
                    zDepth={0}
                    title="!gist"
-                   onMenuIconButtonTouchTap={this._onMenuIconButtonTouchTap}
-                   icon={this.props.displayLeftNav?this.props.icon:''} >
+                   showMenuIconButton={true}
+                   iconElementLeft={this.props.leftIcon||icon} >
              <div className={(this.props.displaySearch?"":"hidden ") + "search-toolbar"}>
                <TextField type='search' ref="search" onChange={this._onSearch} name="query" hintText="Search"/>
              </div>
