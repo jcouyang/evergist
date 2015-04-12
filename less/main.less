@@ -35,11 +35,6 @@
 .brand-logo {
     width: 300px;
 }
-.mui-app-bar .mui-app-bar-title {
-    font-family: Lobster;
-    font-size: 3em;
-}
-
 .gist-file-name {
     width: 190px;
 }
@@ -68,12 +63,21 @@
     height: 100%;
 }
 
+.mui-open {
+    z-index: 999;
+}
 .mui-app-bar {
     background-color: rgba(255, 255, 255, 0.79);
     .mui-app-bar-navigation-icon-button, .mui-app-bar-title{
+        font-family: Lobster;
         color: @primary-1-color;
         font-size: 2em;
         line-height: 2em;
+
+    }
+    .mui-app-bar-title {
+        line-height: 1.6em;
+        font-size: 2.5em;
     }
 }
 .mui-menu {

@@ -2,7 +2,7 @@ var React = require('react'),
 CodeMirrorEditor = require('./codemirror'),
 {DropDownMenu,
  Toolbar,
- Input,
+ TextField,
  IconButton,
  Paper,
  ToolbarGroup,
@@ -15,22 +15,28 @@ var languages = map(language=>{
     curry(conj, hashMap('payload', get(language, 'mode'))),
     curry(conj, hashMap('text', get(language,'name')))
   )
-}, toClj(CodeMirror.modeInfo))
+}, toClj(CodeMirror.modeInfo));
 var NewGist = React.createClass({
+  propTypes: {
+    file: React.PropTypes.object.isRequired
+  },
   public: false,
   getInitialState: function(){
+    var filename = get(this.props.file, 'filename');
     return {
-      value: '',
-      filaname: '',
-      mode:''
+      filename: filename,
+      mode: this._findModeByFilename(filename)
     }
+  },
+  componentDidMount: function() {
+    this._changeDropDownValueByMode(this.state.mode);
   },
   render: function(){
     return (
-      <Paper className={this.props.className}>
+      <div className={this.props.className}>
         <Toolbar>
           <ToolbarGroup float="left" key={0}>
-            <Input type="text" name="file-name" className="gist-file-name" onChange={this._handleInputChange} style={{height:'100%'}} placeholder="filename"/>
+            <TextField defaultValue={this.state.filename} name="file-name" className="gist-file-name" onChange={this._handleInputChange} style={{height:'100%'}} placeholder="filename"/>
           </ToolbarGroup>
           <ToolbarGroup float="left" key={1}>
             <DropDownMenu menuItems={toJs(languages)}
@@ -38,60 +44,41 @@ var NewGist = React.createClass({
                           className="language-dropdown"
                           ref="dropdown"
                           onChange={this._handleDropDownChange}/>
-
           </ToolbarGroup>
-          <ToolbarGroup float="right" key={2}>
-            <Toggle onToggle={this._handleToggle}/> public
-          </ToolbarGroup>
-            <IconButton icon='content-save' onClick={this._handleSave}/>
         </Toolbar>
-        <CodeMirrorEditor mode={this.state.mode} filename={this.state.filename} onChange={this._handleEditorChange}></CodeMirrorEditor>
-        <Snackbar ref="snackbar" message="saved!"/>
-      </Paper>
+        <CodeMirrorEditor mode={this.state.mode}
+                          value={get(this.props.file, 'content')||""}
+                          filename={this.state.filename}
+                          onChange={this.props.handleEditorChange}
+                          forceUpdate={true}
+                          autofocus={false}>
+        </CodeMirrorEditor>
+      </div>
     )
   },
-  _handleInputChange: function(e,value){
-    console.debug(value,e)
-    this.filename = value
-    var ext = value.split('.').pop()
-    console.debug(ext,CodeMirror.findModeByExtension(ext))
-    if(ext && CodeMirror.findModeByExtension(ext)){
-      var mode = CodeMirror.findModeByExtension(ext)
-      var index = CodeMirror.modeInfo.indexOf(mode)
-      console.debug(index)
-      if(mode.mode){
-        this.setState({mode:mode.mode})
-        this.refs.dropdown.setState({selectedIndex:index})
-        console.debug(this.refs.dropdown.state)
-      }
+  _handleInputChange: function(e){
+    let value = e.currentTarget.value
+    this.setState({filename:value});
+    let ext = value.split('.').pop();
+    if(ext){
+      this._changeDropDownValueByMode(CodeMirror.findModeByExtension(ext))
     }
-
+  },
+  _changeDropDownValueByMode: function(mode) {
+    if(mode){
+      var index = CodeMirror.modeInfo.indexOf(mode);
+      this.setState({mode:mode});
+      this.refs.dropdown.setState({selectedIndex:index});
+    }
   },
   _handleDropDownChange: function(e,_,payload){
     if(payload){
       this.setState({mode:payload.mode})
     }
   },
-  _handleEditorChange: function(filename, value){
-    this.value=value;
-  },
-  _handleToggle: function(e, value){
-    this.public=value
-  },
-  _handleSave: function(){
-    console.debug(this.filename,this.value)
-    if(!this.value)return
-    var files = {}
-    files[this.filename] = {
-      content: this.value
-    }
-    gist.create(JSON.stringify({
-      description: this.props.description,
-      public: this.public,
-      files: files
-    })).then(()=>{
-      setTimeout(this.refs.snackbar.dismiss,2000)
-      this.refs.snackbar.show()})
+  _findModeByFilename: function(filename){
+    var ext = filename&&filename.split('.').pop();
+    return ext && CodeMirror.findModeByExtension(ext)
   }
 })
 module.exports = NewGist

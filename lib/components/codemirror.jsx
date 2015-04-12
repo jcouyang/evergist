@@ -1,28 +1,23 @@
-var React = require('react');
+var React = require('react/addons');
+var PureRenderMixin = React.addons.PureRenderMixin;
 var Types = React.PropTypes;
 var im = require('immutable');
 CodeMirror.modeURL = "javascripts/vendor/codemirror/mode/%N/%N.js";
 var CodeMirrorEditor = React.createClass({
+  mixins: [PureRenderMixin],
   propTypes: {
     mode: Types.string,
-    value: Types.string,
     readOnly: Types.bool,
     onChange: Types.func
   },
   componentDidMount: function(){
-    this._renderCoderMirror()
+    this._renderCoderMirror();
   },
-  componentDidUpdate: function() {
+  componentDidUpdate: function(newProps) {
     if(this.props.forceUpdate===true){
       this._removeOldCodemirror()
-      this._renderCoderMirror()
-    }else{
-      var mode =CodeMirror.findModeByName(this.props.mode||'')
-      if(mode){
-        CodeMirror.autoLoadMode(this.codemirror, mode.mode)
-        this.codemirror.setOption('mode', mode.mode)
-      }
     }
+    this._renderCoderMirror();
   },
   getEditor: function(){
     return this.codemirror;
@@ -30,28 +25,28 @@ var CodeMirrorEditor = React.createClass({
   render: function() {
     return (
       <div ref='editorWrapper'>
-        <textarea ref='editor'
-                  value={this.props.value}>
+        <textarea ref='editor'>
+          {this.props.value}
         </textarea>
       </div>
     )
   },
   _removeOldCodemirror: function(){
-    im.List(this.refs.editorWrapper.getDOMNode().querySelectorAll('.CodeMirror')).forEach((cd)=>{
+    im.List(this.refs.editorWrapper.getDOMNode().querySelectorAll('.CodeMirror')).forEach(cd=>{
       cd.remove();
     })
   },
   _renderCoderMirror: function(){
-    var codemirror = CodeMirror.fromTextArea(this.refs.editor.getDOMNode(), this.props);
-    this.codemirror = codemirror
-    var mode =CodeMirror.findModeByName(this.props.mode||'')
+    let codemirror = CodeMirror.fromTextArea(this.refs.editor.getDOMNode(), this.props);
+    let mode = this.props.mode;
     if(mode){
-      CodeMirror.autoLoadMode(codemirror, mode.mode)
-      codemirror.setOption('mode', mode.mode)
+      codemirror.setOption('mode', mode.mode);
+      CodeMirror.autoLoadMode(codemirror, mode);
     }
-    codemirror.on('change',(codemirror)=>{
+    codemirror.on('change',codemirror=>{
       this.props.onChange(this.props.filename,codemirror.getValue())
     })
+    return codemirror;
   }
 });
 module.exports = CodeMirrorEditor;

@@ -6,7 +6,7 @@ gists = require('../stores/gists'),
 NewGist = require('./new-gist'),
 Stage = require('./stage'),
 {Dialog, FloatingActionButton} = require('material-ui'),
-db = require('../stores/db');
+    db = require('../stores/db');
 var GistList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
   getInitialState: function() {

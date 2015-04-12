@@ -4,14 +4,13 @@ Loading = require('./loading'),
 Markdown = require('./markdown-preview'),
 gist = require('../stores/gist'),
 {Snackbar, Paper, Toolbar, IconButton, ToolbarGroup} = require('material-ui'),
-CodeMirrorEditor = require('./codemirror'),
+NewGist = require('./new-gist'),
 when = require('when');
 var markdown = require('../stores/markdown');
-var loadingState = {
-};
 
 var isMarkdown = fnil((x)=>RegExp('markdown','ig').test(x), '');
 var GistEditor = React.createClass({
+  files: {},
   mixins: [React.addons.PureRenderMixin],
   propTypes: {
     gistId: React.PropTypes.string.isRequired,
@@ -38,12 +37,11 @@ var GistEditor = React.createClass({
       if(this.state.preview && isMarkdown(get(file,'language'))){
         content = <Markdown markdown={file.content}/>;
       } else {
-        content = <CodeMirrorEditor value={get(file, 'content')}
-                                    mode={get(file, 'language')}
-                                    filename={get(file, 'filename')}
-                                    forceUpdate={true}
-                                    lineWrapping={true}
-                                    ref={"codemirror"+get(file,'filename')}/>;
+        content = <NewGist file={file}
+                           forceUpdate={true}
+                           lineWrapping={true}
+                           handleEditorChange={this._handleEditorChange}
+                           ref={"codemirror"+get(file,'filename')}/>;
       }
       return (
         <div id={'editor-'+this.props.gistId}>
@@ -55,14 +53,13 @@ var GistEditor = React.createClass({
       <Hidable display={this.props.display}>
         <Loading loading={this.state.loading}/>
         <Toolbar>
-              <ToolbarGroup float="right" key={1}>
-                <IconButton iconClassName={this.state.preview?'fa fa-pencil':'fa fa-eye'}
-                            onClick={this._togglePreview}
-                            className={isEmpty(filter(file=>isMarkdown(get(file, 'language')),this.props.files))?'hidden':''}/>
-                <IconButton iconClassName='fa fa-floppy-o' onClick={this._saveGist}/>
-              </ToolbarGroup>
-            </Toolbar>
+            <IconButton iconClassName={this.state.preview?'fa fa-pencil':'fa fa-eye'}
+                        onClick={this._togglePreview}
+                        className={isEmpty(filter(file=>isMarkdown(get(file, 'language')),this.props.files))?'hidden':''}/>
+            <IconButton iconClassName='fa fa-floppy-o' onClick={this._saveGist}/>
+        </Toolbar>
         {intoArray(editors)}
+        <Snackbar ref="snackbar" message="saved!"/>
       </Hidable>
     )
   },
@@ -70,9 +67,14 @@ var GistEditor = React.createClass({
     this.setState({preview:!this.state.preview});
   },
   _saveGist: function(){
-    var updatedGists = map(file=>assoc(file,'content', this.refs['codemirror'+get(file,'filename')].getEditor().getValue()),
-                           this.state.files);
-    gist.save(this.props.gistId, JSON.stringify({files:toJs(updatedGists)}));
+    gist.save(this.props.gistId, JSON.stringify({files:this.files}))
+      .then(this.refs.snackbar.show);
+  },
+  _handleEditorChange: function(filename, value) {
+    this.files[filename] = {
+      filename: filename,
+      content: value
+    }
   }
 });
 
