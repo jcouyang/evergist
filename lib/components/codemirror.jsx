@@ -1,7 +1,6 @@
 var React = require('react/addons');
 var PureRenderMixin = React.addons.PureRenderMixin;
 var Types = React.PropTypes;
-var im = require('immutable');
 CodeMirror.modeURL = "javascripts/vendor/codemirror/mode/%N/%N.js";
 var CodeMirrorEditor = React.createClass({
   mixins: [PureRenderMixin],
@@ -32,7 +31,7 @@ var CodeMirrorEditor = React.createClass({
     )
   },
   _removeOldCodemirror: function(){
-    im.List(this.refs.editorWrapper.getDOMNode().querySelectorAll('.CodeMirror')).forEach(cd=>{
+    each(this.refs.editorWrapper.getDOMNode().querySelectorAll('.CodeMirror'), cd=>{
       cd.remove();
     })
   },

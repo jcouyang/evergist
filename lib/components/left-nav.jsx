@@ -3,7 +3,6 @@ mui = require('material-ui'),
 {Menu, MenuItem, LeftNav, Icon,DropDownMenu} = mui,
 {Map} = require('immutable')
 
-
 var NavMenu = React.createClass({
   getInitialState: function(){
     return {
@@ -34,7 +33,7 @@ var NavMenu = React.createClass({
     return (
       <div className="left-nav hide-for-small-only medium-1 large-2 columns">
 
-        <LeftNav 
+        <LeftNav
         ref="leftNav"
         docked={false}
         isInitiallyOpen={false}
